@@ -1,0 +1,9 @@
+[tool.poetry]
+name = "awesome"
+version = "0.1.0"
+description = ""
+authors = ["Mateus Favarin Costa", "Robson Zagre Junior", "Wesly Carmesini Ataide"]
+
+[tool.poetry.dependencies]
+ply = "3.11"
+
