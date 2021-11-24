@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "awesome"
+name = "draguilator"
 version = "0.1.0"
-description = ""
+description = "A dragons compiler implementation"
 authors = ["Mateus Favarin Costa", "Robson Zagre Junior", "Wesly Carmesini Ataide"]
 
 [tool.poetry.dependencies]
