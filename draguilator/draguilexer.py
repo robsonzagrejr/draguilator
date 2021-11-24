@@ -1,3 +1,12 @@
+"""
+Implementation of a Compiler for INE5426 - UFSC
+Authors:
+    Mateus Favarin Costa (18100539)
+    Robson Zagre Junior (18102721)
+    Wesly Carmesini Ataide (18100547)
+
+"""
+
 import ply.lex as lex
 
 reserved = {
@@ -100,8 +109,8 @@ t_ignore  = ' \t'
 
 # Error handling rule
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+    #t.lexer.skip(1)
+    raise Exception(f"Illegal character '{t.value[0]}' at line {t.lexer.lineno}")
 
 
 lexer = lex.lex()
