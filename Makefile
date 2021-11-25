@@ -1,6 +1,6 @@
 file?=lcc/exemplo1.lcc
 
-install_requirements:
+install_local:
 	pip install -r requirements.txt
 
 install:
@@ -9,4 +9,7 @@ install:
 
 run:
 	poetry run python draguilator/draguilator.py $(file)
+
+run_local:
+	python3 draguilator/draguilator.py $(file)
 

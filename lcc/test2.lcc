@@ -1,0 +1,100 @@
+def howToNotTestPrimes(int n)
+{
+    string returnMessage;
+    if (n == 2)
+    {
+        returnMessage = n + " is prime!";
+        print returnMessage;
+        return;
+    }
+    else
+    {
+        if (n == 3)
+        {
+            returnMessage = n + " is prime!";
+            print returnMessage;
+            return;
+        }
+        else
+        {
+            if (n == 5)
+            {
+                returnMessage = n + " is prime!";
+                print returnMessage;
+                return;
+            }
+            else
+            {
+                if (n == 7)
+                {
+                    returnMessage = n + " is prime!";
+                    print returnMessage;
+                    return;
+                }
+                else
+                {
+                    if (n == 11)
+                    {
+                        returnMessage = n + " is prime!";
+                        print returnMessage;
+                        return;
+                    }
+                    else
+                    {
+                        if (n == 13)
+                        {
+                            returnMessage = n + " is prime!";
+                            print returnMessage;
+                            return;
+                        }
+                        else
+                        {
+                            if (n > 13)
+                            {
+                                returnMessage = n + " is probably not prime.";
+                                print returnMessage;
+                            }
+                            else
+                            {
+                                returnMessage = n + " is not prime.";
+                                print returnMessage;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+int a;
+int b;
+int c;
+int d;
+int e;
+int f;
+int g;
+int h;
+int i;
+int j;
+a = -5;
+b = -1;
+c = 0;
+d = 1;
+e = 2;
+f = 3;
+g = 4;
+h = 13;
+i = 14;
+j = 20;
+howToNotTestPrimes(a);
+howToNotTestPrimes(b);
+howToNotTestPrimes(c);
+howToNotTestPrimes(d);
+howToNotTestPrimes(e);
+howToNotTestPrimes(f);
+howToNotTestPrimes(g);
+howToNotTestPrimes(h);
+howToNotTestPrimes(i);
+howToNotTestPrimes(j);

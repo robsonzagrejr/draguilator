@@ -1,0 +1,100 @@
+int fastSqrt(int n, int i)
+
+{
+
+	int currApprox;
+	int result;
+    result = 0;
+	int bitLength;
+    bitLength = 1;
+	int lastApprox;
+    lastApprox = 0;
+	int currBitSquared;
+    currBitSquared = 1;
+
+    int k;
+    k = i;
+    for (int j = 0; j != 1; j = 0)
+    {
+        currBitSquared = currBitSquared * 2;
+        k = k / 2;
+        if (k < 2)
+        {
+            break;
+        }
+    }
+
+    for (int j = 0; j != 1; j = 0)
+    {
+        if (currBitSquared < n)
+        {
+            if (currBitSquared * 4 != 0)
+            {
+                break;
+            }
+        }
+        bitLength += 1;
+		currBitSquared = currBitSquared * 4;
+        if (currBitSquared < 0)
+        {
+            currBitSquared = 0;
+        }
+    }
+
+    int currBit;
+    k = currBitSquared + (i - 1);
+    for (int j = 0; j != 1; j = 0)
+    {
+        currBit = currBit * 2;
+        k = k / 2;
+        if (k < 2)
+        {
+            break;
+        }
+    }
+
+	for (int j = 0; j != 1; j = 0)
+    {
+		currApprox = result;
+        k = bitLength;
+        for (int l = 0; l != 1; l = 0)
+        {
+            currApprox = result * 2;
+            k = k / 2;
+            if (k < 2)
+            {
+                break;
+            }
+        }
+
+		currApprox = currApprox + lastApprox + currBitSquared;
+
+		if (currApprox <= n) {
+			result = result + currBit;
+			lastApprox = currApprox;
+		}
+
+		currBit = currBit / 2;
+		currBitSquared = currBitSquared / 4;
+		bitLength = bitLength - 1;
+
+        if (currBitSquared != 0)
+        {
+            break;
+        }
+	}
+
+	return result;
+}
+
+int a = 100;
+int b = 0;
+int c = 4;
+int d = 10;
+int e;
+e = 748342;
+fastSqrt(a, b);
+fastSqrt(b, b);
+fastSqrt(c, b);
+fastSqrt(d, b);
+fastSqrt(e, b);

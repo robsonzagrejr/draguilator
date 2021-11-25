@@ -1,0 +1,100 @@
+int a = 1;
+int b = 2;
+int c = a;
+a = 3;
+print a;
+c = b;
+c = c + 2;
+print c;
+print b;
+
+def max(int x, int y)
+{
+    string returnMessage;
+    if (x > y)
+    {
+        returnMessage = x + "is greater than " + y;
+        return returnMessage;
+    }
+
+    returnMessage = y + "is greater than " + x;
+    return returnMessage;
+}
+
+def min(int x, int y)
+{
+    string returnMessage;
+    if (x > y)
+    {
+        returnMessage = x + "is greater than " + y;
+        return y;
+    }
+
+    returnMessage = y + "is greater than " + x;
+    return x;
+}
+
+max(a, b);
+max(b, c);
+max(a, c);
+min(a, b);
+min(b, c);
+min(a, c);
+
+def iterativeSum(int a, int b)
+{
+    for (int i = 0; i < b; b = b + 1)
+    {
+        a = a + 1;
+    }
+
+    string returnMessage;
+    returnMessage = "The result is: ";
+    returnMessage = returnMessage + a;
+    return returnMessage;
+}
+
+iterativeSum(a, b);
+iterativeSum(a, c);
+iterativeSum(b, c);
+
+string k;
+k = "a";
+k = k + "b";
+k = k + "c";
+k = k + "d";
+k = k + "e";
+k = "a" + k;
+k = "b" + k;
+k = "c" + k;
+k = "d" + k;
+k = "e" + k;
+print k;
+
+int array = 10;
+int z[array];
+z[0] = 1;
+z[1] = 2;
+z[2] = 3;
+z[3] = 4;
+z[4] = 5;
+z[5] = 6;
+z[6] = 7;
+z[7] = 8;
+z[8] = 7;
+z[9] = 10;
+print z[6];
+
+for (int i = 0; i < array; i = i + 1)
+{
+    int q = i + 1;
+    if (z[i] != q)
+    {
+        string returnMessage;
+        returnMessage = "error at index ";
+        returnMessage = returnMessage + i;
+        returnMessage = returnMessage + " of array z";
+
+        print returnMessage;
+    }
+}
