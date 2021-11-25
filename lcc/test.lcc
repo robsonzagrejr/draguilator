@@ -1,0 +1,101 @@
+def factorial(int i)
+{
+    int ret;
+    ret = 1
+    if (i < 0)
+    {
+        string errorMessage;
+        errorMessage = "Invalid input to the factorial function";
+        print errorMessage;
+        return;
+    }
+    int k;
+    for (int j = 1; j < i, j = j + 1)
+    {
+        k = j + 1;
+        ret = ret * k;
+    }
+    string successMessage;
+    successMessage = "The factorial of " + i;
+    successMessage = successMessage + " is ";
+    successMessage = successMessage + k;
+    print successMessage;
+    return;
+}
+
+def getRandomNumber(int seed, int range)
+{
+    int a;
+    int b;
+    int c;
+    int d;
+    a = 1664525;
+    b = 1013904223;
+    c = 4294967296;
+    d = 1048576;
+    seed = seed * a;
+    seed = seed + b;
+    seed = seed % c;
+    int randomNumber;
+    randomNumber = seed / d;
+    randomNumber = randomNumber % range;
+    string returnMessage;
+    returnMessage = "Your random number is ";
+    returnMessage = returnMessage + randomNumber;
+    print randomNumber;
+    return;
+}
+
+def helloWorld()
+{
+    string hello;
+    hello = "Hello World!";
+    print hello;
+    return;
+}
+
+def areaCircle(float radius)
+{
+    float pi = 3.141593;
+    float area;
+    area = radius;
+    area = area * area;
+    area = area * pi;
+    string result;
+    result = "The area of your circle is ";
+    result = result + area;
+    print result;
+    return;
+}
+
+factorial();
+int s;
+s = 555555;
+int r;
+r = 24;
+getRandomNumber(s, r);
+float d;
+d = 46.478;
+float rad;
+rad = d / 2;
+areaCircle(rad);
+helloWorld();
+int size;
+size = 4;
+int z[size];
+z[0] = 2;
+z[1] = 3;
+z[2] = 5;
+z[3] = 7;
+int y;
+for (y = 0; y < size; y = y + 1)
+{
+    if (y > 0)
+    {
+        print "y is greater than zero";
+    }
+    else
+    {
+        print "y is less than zero";
+    }
+}

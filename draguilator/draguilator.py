@@ -75,6 +75,9 @@ if __name__ == '__main__':
     except IndexError as e:
         raise Exception("The lcc file most be pass as argument")
 
+    if file_path.split('.')[-1] != 'lcc':
+        raise Exception("We only acceept .lcc files")
+
     text_input = ''
     try:
         with open(file_path, 'r') as file:
