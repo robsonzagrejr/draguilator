@@ -39,7 +39,7 @@ def make_symbol_table_text(tokens):
                 symbol_table[token.value] = []
             symbol_table[token.value].append(str(token.lineno))
 
-    symbol_table = {k: ','.join(v) for k,v in symbol_table.items()}
+    symbol_table = {k: ','.join(set(v)) for k,v in symbol_table.items()}
     max_length_key = max([len(k) for k in symbol_table.keys()])
     max_length_key = max([max_length_key, len('symbol')])
     max_length_value = max([len(v) for v in symbol_table.values()])
