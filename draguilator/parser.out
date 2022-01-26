@@ -1,0 +1,202 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ASSIGN
+    BREAK
+    COMMENT
+    DEFINE
+    DIVIDE
+    ELSE
+    EQUAL_TO
+    FLOAT
+    FLOAT_CONSTANT
+    FOR
+    GREATER_EQUAL_THAN
+    GREATER_THAN
+    IF
+    INT
+    INT_CONSTANT
+    LBRACES
+    LBRACKET
+    LESS_EQUAL_THAN
+    LESS_THAN
+    MINUS
+    MODULO
+    NEW
+    NOT_EQUAL_TO
+    NULL
+    PLUS
+    PRINT
+    RBRACES
+    RBRACKET
+    READ
+    RETURN
+    SEMICOLON
+    STRING
+    STRING_CONSTANT
+    TIMES
+
+Grammar
+
+Rule 0     S' -> funccall
+Rule 1     funccall -> IDENT LPAREN paramlistcall RPAREN
+Rule 2     paramlistcall -> IDENT _paramlistcall
+Rule 3     paramlistcall -> empty
+Rule 4     _paramlistcall -> COMMA paramlistcall
+Rule 5     _paramlistcall -> empty
+Rule 6     empty -> <empty>
+
+Terminals, with rules where they appear
+
+ASSIGN               : 
+BREAK                : 
+COMMA                : 4
+COMMENT              : 
+DEFINE               : 
+DIVIDE               : 
+ELSE                 : 
+EQUAL_TO             : 
+FLOAT                : 
+FLOAT_CONSTANT       : 
+FOR                  : 
+GREATER_EQUAL_THAN   : 
+GREATER_THAN         : 
+IDENT                : 1 2
+IF                   : 
+INT                  : 
+INT_CONSTANT         : 
+LBRACES              : 
+LBRACKET             : 
+LESS_EQUAL_THAN      : 
+LESS_THAN            : 
+LPAREN               : 1
+MINUS                : 
+MODULO               : 
+NEW                  : 
+NOT_EQUAL_TO         : 
+NULL                 : 
+PLUS                 : 
+PRINT                : 
+RBRACES              : 
+RBRACKET             : 
+READ                 : 
+RETURN               : 
+RPAREN               : 1
+SEMICOLON            : 
+STRING               : 
+STRING_CONSTANT      : 
+TIMES                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+_paramlistcall       : 2
+empty                : 3 5
+funccall             : 0
+paramlistcall        : 1 4
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . funccall
+    (1) funccall -> . IDENT LPAREN paramlistcall RPAREN
+
+    IDENT           shift and go to state 2
+
+    funccall                       shift and go to state 1
+
+state 1
+
+    (0) S' -> funccall .
+
+
+
+state 2
+
+    (1) funccall -> IDENT . LPAREN paramlistcall RPAREN
+
+    LPAREN          shift and go to state 3
+
+
+state 3
+
+    (1) funccall -> IDENT LPAREN . paramlistcall RPAREN
+    (2) paramlistcall -> . IDENT _paramlistcall
+    (3) paramlistcall -> . empty
+    (6) empty -> .
+
+    IDENT           shift and go to state 4
+    RPAREN          reduce using rule 6 (empty -> .)
+
+    paramlistcall                  shift and go to state 5
+    empty                          shift and go to state 6
+
+state 4
+
+    (2) paramlistcall -> IDENT . _paramlistcall
+    (4) _paramlistcall -> . COMMA paramlistcall
+    (5) _paramlistcall -> . empty
+    (6) empty -> .
+
+    COMMA           shift and go to state 8
+    RPAREN          reduce using rule 6 (empty -> .)
+
+    _paramlistcall                 shift and go to state 7
+    empty                          shift and go to state 9
+
+state 5
+
+    (1) funccall -> IDENT LPAREN paramlistcall . RPAREN
+
+    RPAREN          shift and go to state 10
+
+
+state 6
+
+    (3) paramlistcall -> empty .
+
+    RPAREN          reduce using rule 3 (paramlistcall -> empty .)
+
+
+state 7
+
+    (2) paramlistcall -> IDENT _paramlistcall .
+
+    RPAREN          reduce using rule 2 (paramlistcall -> IDENT _paramlistcall .)
+
+
+state 8
+
+    (4) _paramlistcall -> COMMA . paramlistcall
+    (2) paramlistcall -> . IDENT _paramlistcall
+    (3) paramlistcall -> . empty
+    (6) empty -> .
+
+    IDENT           shift and go to state 4
+    RPAREN          reduce using rule 6 (empty -> .)
+
+    paramlistcall                  shift and go to state 11
+    empty                          shift and go to state 6
+
+state 9
+
+    (5) _paramlistcall -> empty .
+
+    RPAREN          reduce using rule 5 (_paramlistcall -> empty .)
+
+
+state 10
+
+    (1) funccall -> IDENT LPAREN paramlistcall RPAREN .
+
+    $end            reduce using rule 1 (funccall -> IDENT LPAREN paramlistcall RPAREN .)
+
+
+state 11
+
+    (4) _paramlistcall -> COMMA paramlistcall .
+
+    RPAREN          reduce using rule 4 (_paramlistcall -> COMMA paramlistcall .)
+
