@@ -10,6 +10,7 @@ Authors:
 from sys import argv
 
 from draguilexer import lexer
+from draguitax import parser
 
 
 def make_token_text(tokens):
@@ -101,4 +102,11 @@ if __name__ == '__main__':
 
     print(f"\n{symbol_title}")
     print(symbol_table_text)
+
+    print("=============")
+    print("=============")
+    print("=============")
+    result = parser.parse(text_input, lexer=lexer)
+    print(result)
+
 
