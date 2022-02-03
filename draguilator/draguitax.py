@@ -11,7 +11,7 @@ from draguilexer import tokens
 
 
 def p_program(p):
-    '''program: statement
+    '''program : statement
               | funclist
               | empty
     '''
@@ -19,26 +19,26 @@ def p_program(p):
 
 
 def p_funclist(p):
-    '''funclist: funcdef _funclist
+    '''funclist : funcdef _funclist
     '''
     pass
 
 
 def p__funclist(p):
-    '''_funclist: funclist
+    '''_funclist : funclist
                 | empty
     '''
     pass
 
 
 def p_funcdef(p):
-    '''funcdef: DEF IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES
+    '''funcdef : DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES
     '''
     pass
 
 
 def p_paramlist(p):
-    '''paramlist: INT IDENT _paramlist
+    '''paramlist : INT IDENT _paramlist
                 | FLOAT IDENT _paramlist
                 | STRING IDENT _paramlist
                 | empty
@@ -47,14 +47,14 @@ def p_paramlist(p):
 
 
 def p__paramlist(p):
-    '''_paramlist: COMMA paramlist
+    '''_paramlist : COMMA paramlist
                  | empty
     '''
     pass
 
 
 def p_statement(p):
-    '''statement: vardecl SEMICOLON
+    '''statement : vardecl SEMICOLON
                 | atribstat SEMICOLON
                 | printstat SEMICOLON
                 | readstat SEMICOLON
@@ -69,7 +69,7 @@ def p_statement(p):
 
 
 def p_vardecl(p):
-    '''vardecl: INT IDENT vardecl_line
+    '''vardecl : INT IDENT vardecl_line
               | FLOAT IDENT vardecl_line
               | STRING IDENT vardecl_line
     '''
@@ -77,23 +77,20 @@ def p_vardecl(p):
 
 
 def p_vardecl_line(p):
-    '''vardecl_line: LBRACKET INT_CONSTANT RBRACKET vardecl_line
+    '''vardecl_line : LBRACKET INT_CONSTANT RBRACKET vardecl_line
                    | empty
     '''
     pass
 
 
 def p_atribstat(p):
-    '''atribstat: lvalue ASSIGN _atribstat
+    '''atribstat : lvalue ASSIGN _atribstat
     '''
     pass
 
 
 def p__atribstat(p):
-    '''_atribstat: expression
-                 | allocexpression
-                 | funccall
-                 | INT_CONSTANT term_line _expression
+    '''_atribstat : INT_CONSTANT term_line _expression
                  | FLOAT_CONSTANT term_line _expression
                  | STRING_CONSTANT term_line _expression
                  | NULL term_line _expression
@@ -106,9 +103,8 @@ def p__atribstat(p):
     '''
     pass
 
-
 def p___atribstat(p):
-    '''__atribstat: lvalue_line term_line _expression
+    '''__atribstat : lvalue_line term_line _expression
                   | LPAREN paramlistcall RPAREN
     '''
     pass
@@ -136,63 +132,63 @@ def p__paramlistcall(p):
 
 
 def p_printstat(p):
-    '''printstat: PRINT expression
+    '''printstat : PRINT expression
     '''
     pass
 
 
 def p_readstat(p):
-    '''readstat: READ lvalue
+    '''readstat : READ lvalue
     '''
     pass
 
 
 def p_returnstat(p):
-    '''returnstat: RETURN
+    '''returnstat : RETURN
     '''
     pass
 
 
 def p_ifstat(p):
-    '''ifstat: IF LPAREN expression RPAREN statement _ifstat
+    '''ifstat : IF LPAREN expression RPAREN statement _ifstat
     '''
     pass
 
 
 def p__ifstat(p):
-    '''_ifstat: ELSE statement
+    '''_ifstat : ELSE statement
               | empty
     '''
     pass
 
 
 def p_forstat(p):
-    '''forstat: FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    '''forstat : FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
     '''
     pass
 
 
 def p_statelist(p):
-    '''statelist: statement _statelist
+    '''statelist : statement _statelist
     '''
     pass
 
 
 def p__statelist(p):
-    '''_statelist: statelist
+    '''_statelist : statelist
                  | empty
     '''
     pass
 
 
 def p_allocexpression(p):
-    '''allocexpression: NEW _allocexpression
+    '''allocexpression : NEW _allocexpression
     '''
     pass
 
 
 def p__allocexpression(p):
-    '''_allocexpression: INT allocexpression_line
+    '''_allocexpression : INT allocexpression_line
                        | FLOAT allocexpression_line
                        | STRING allocexpression_line
     '''
@@ -200,26 +196,26 @@ def p__allocexpression(p):
 
 
 def p_allocexpression_line(p):
-    '''allocexpression_line: LBRACKET numexpression RBRACKET _allocexpression_line
+    '''allocexpression_line : LBRACKET numexpression RBRACKET _allocexpression_line
     '''
     pass
 
 
 def p__allocexpression_line(p):
-    '''_allocexpression_line: allocexpression_line
+    '''_allocexpression_line : allocexpression_line
                             | empty
     '''
     pass
 
 
 def p_expression(p):
-    '''expression: numexpression _expression
+    '''expression : numexpression _expression
     '''
     pass
 
 
 def p__expression(p):
-    '''_expression: LESS_THAN numexpression
+    '''_expression : LESS_THAN numexpression
                   | GREATER_THAN numexpression
                   | LESS_EQUAL_THAN numexpression
                   | GREATER_EQUAL_THAN numexpression
@@ -230,7 +226,7 @@ def p__expression(p):
 
 
 def p_numexpression(p):
-    '''numexpression: factor term_line
+    '''numexpression : factor term_line
                     | PLUS _numexpression
                     | MINUS _numexpression
                     | empty
@@ -239,14 +235,14 @@ def p_numexpression(p):
 
 
 def p__numexpression(p):
-    '''_numexpression: factor term_line
+    '''_numexpression : factor term_line
                      | term numexpression_line
     '''
     pass
 
 
 def p_numexpression_line(p):
-    '''numexpression_line: PLUS term numexpression_line
+    '''numexpression_line : PLUS term numexpression_line
                          | MINUS term numexpression_line
                          | empty
     '''
@@ -254,13 +250,13 @@ def p_numexpression_line(p):
 
 
 def p_term(p):
-    '''term: unaryexpre term_line
+    '''term : unaryexpre term_line
     '''
     pass
 
 
 def p_term_line(p):
-    '''term_line: TIMES unaryexpre term_line
+    '''term_line : TIMES unaryexpre term_line
                 | DIVIDE unaryexpre term_line
                 | MODULO unaryexpre term_line
                 | empty
@@ -269,7 +265,7 @@ def p_term_line(p):
 
 
 def p_unaryexpr(p):
-    '''unaryexpre: factor
+    '''unaryexpre : factor
                  | PLUS factor
                  | MINUS factor
     '''
@@ -277,7 +273,7 @@ def p_unaryexpr(p):
 
 
 def p_factor(p):
-    '''factor: INT_CONSTANT
+    '''factor : INT_CONSTANT
              | FLOAT_CONSTANT
              | STRING_CONSTANT
              | NULL
@@ -288,20 +284,14 @@ def p_factor(p):
 
 
 def p_lvalue(p):
-    '''lvalue: ident lvalue_line
+    '''lvalue : IDENT lvalue_line
     '''
     pass
 
 
 def p_lvalue_line(p):
-    '''lvalue_line: LBRACKET numexpression RBRACKET lvalue_line
+    '''lvalue_line : LBRACKET numexpression RBRACKET lvalue_line
                   | empty
-    '''
-    pass
-
-
-def p_(p):
-    '''
     '''
     pass
 
