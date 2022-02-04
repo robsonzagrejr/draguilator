@@ -90,21 +90,33 @@ def p_atribstat(p):
 
 
 def p__atribstat(p):
-    '''_atribstat : INT_CONSTANT term_line _expression
-                 | FLOAT_CONSTANT term_line _expression
-                 | STRING_CONSTANT term_line _expression
-                 | NULL term_line _expression
-                 | IDENT __atribstat
-                 | LPAREN numexpression RPAREN term_line _expression
-                 | PLUS _numexpression _expression
-                 | MINUS _numexpression _expression
-                 | _expression
+    '''_atribstat : PLUS _atribstat_help
+                 | MINUS _atribstat_help
+                 | __atribstat
+                 | IDENT ___atribstat
                  | allocexpression
     '''
     pass
 
+
+def p__atribstat_help(p):
+    '''_atribstat_help : IDENT lvalue_line term_line numexpression_line _expression
+                      | __atribstat
+    '''
+    pass
+
+
 def p___atribstat(p):
-    '''__atribstat : lvalue_line term_line _expression
+    '''__atribstat : INT_CONSTANT term_line numexpression_line _expression
+                 | FLOAT_CONSTANT term_line numexpression_line _expression
+                 | STRING_CONSTANT term_line numexpression_line _expression
+                 | NULL term_line numexpression_line _expression
+                 | LPAREN numexpression RPAREN term_line numexpression_line _expression
+    '''
+    pass
+
+def p____atribstat(p):
+    '''___atribstat : lvalue_line term_line numexpression_line _expression
                   | LPAREN paramlistcall RPAREN
     '''
     pass
@@ -150,20 +162,20 @@ def p_returnstat(p):
 
 
 def p_ifstat(p):
-    '''ifstat : IF LPAREN expression RPAREN statement _ifstat
+    '''ifstat : IF LPAREN expression RPAREN LBRACES statement RBRACES _ifstat
     '''
     pass
 
 
 def p__ifstat(p):
-    '''_ifstat : ELSE statement
+    '''_ifstat : ELSE LBRACES statement RBRACES
               | empty
     '''
     pass
 
 
 def p_forstat(p):
-    '''forstat : FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    '''forstat : FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN LBRACES statement RBRACES
     '''
     pass
 
@@ -226,17 +238,7 @@ def p__expression(p):
 
 
 def p_numexpression(p):
-    '''numexpression : factor term_line
-                    | PLUS _numexpression
-                    | MINUS _numexpression
-                    | empty
-    '''
-    pass
-
-
-def p__numexpression(p):
-    '''_numexpression : factor term_line
-                     | term numexpression_line
+    '''numexpression : term numexpression_line
     '''
     pass
 
@@ -297,13 +299,27 @@ def p_lvalue_line(p):
 
 
 def p_empty(p):
-    '''empty : '''
+    'empty :'
     pass
 
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in input!")
+    breakpoint()
+    print(f"Syntax error in input! {p}")
+    print(parser.productions[parser.state])
+    breakpoint()
+    #raise SyntaxError
+    return p
+
+
+"""
+def p_error(p):
+    if p:
+        print("Syntax error at '%s'" % p.value)
+    else:
+        print("Syntax error at EOF")
+"""
 
 # Build the parser
 parser = yacc.yacc()

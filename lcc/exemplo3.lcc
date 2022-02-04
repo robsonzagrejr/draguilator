@@ -1,2 +1,6 @@
-func1(A, B)
+def a(){
+    int a;
+    a = 10 * 10;
+    return ;
+}
 
