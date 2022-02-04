@@ -103,10 +103,9 @@ if __name__ == '__main__':
     print(f"\n{symbol_title}")
     print(symbol_table_text)
 
-    print("=============")
-    print("=============")
-    print("=============")
+    
+    syntax_title = ("="*(max_characters//2)) + "SYNTAX CHECK" + ("="*(max_characters//2))
     result = parser.parse(text_input, lexer=lexer)
-    print(result)
-
+    if not result:
+        print('Syntax of program ok')
 
