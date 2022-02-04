@@ -39,7 +39,7 @@ Rule 29    atribstat -> lvalue ASSIGN _atribstat
 Rule 30    _atribstat -> PLUS _atribstat_help
 Rule 31    _atribstat -> MINUS _atribstat_help
 Rule 32    _atribstat -> __atribstat
-Rule 33    _atribstat -> IDENT u3atribstat
+Rule 33    _atribstat -> IDENT ___atribstat
 Rule 34    _atribstat -> allocexpression
 Rule 35    _atribstat_help -> IDENT lvalue_line term_line numexpression_line _expression
 Rule 36    _atribstat_help -> __atribstat
@@ -147,7 +147,7 @@ error                :
 
 Nonterminals, with rules where they appear
 
-___atribstat         : 
+___atribstat         : 33
 __atribstat          : 32 36
 _allocexpression     : 59
 _allocexpression_line : 63
@@ -184,8 +184,3485 @@ statelist            : 7 21 57
 statement            : 1 52 53 55 56
 term                 : 74 75 76
 term_line            : 35 37 38 39 40 41 42 78 79 80 81
-u3atribstat          : 33
 unaryexpr            : 78 79 80 81
 vardecl              : 14
 vardecl_line         : 24 25 26 27
 
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . statement
+    (2) program -> . funclist
+    (3) program -> . empty
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (4) funclist -> . funcdef _funclist
+    (95) empty -> .
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (7) funcdef -> . DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES
+    (92) lvalue -> . IDENT lvalue_line
+
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    $end            reduce using rule 95 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    DEFINE          shift and go to state 26
+    IDENT           shift and go to state 17
+
+    program                        shift and go to state 1
+    statement                      shift and go to state 2
+    funclist                       shift and go to state 3
+    empty                          shift and go to state 4
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    funcdef                        shift and go to state 15
+    lvalue                         shift and go to state 20
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> statement .
+
+    $end            reduce using rule 1 (program -> statement .)
+
+
+state 3
+
+    (2) program -> funclist .
+
+    $end            reduce using rule 2 (program -> funclist .)
+
+
+state 4
+
+    (3) program -> empty .
+
+    $end            reduce using rule 3 (program -> empty .)
+
+
+state 5
+
+    (14) statement -> vardecl . SEMICOLON
+
+    SEMICOLON       shift and go to state 27
+
+
+state 6
+
+    (23) statement -> SEMICOLON .
+
+    $end            reduce using rule 23 (statement -> SEMICOLON .)
+    LBRACES         reduce using rule 23 (statement -> SEMICOLON .)
+    BREAK           reduce using rule 23 (statement -> SEMICOLON .)
+    SEMICOLON       reduce using rule 23 (statement -> SEMICOLON .)
+    INT             reduce using rule 23 (statement -> SEMICOLON .)
+    FLOAT           reduce using rule 23 (statement -> SEMICOLON .)
+    STRING          reduce using rule 23 (statement -> SEMICOLON .)
+    PRINT           reduce using rule 23 (statement -> SEMICOLON .)
+    READ            reduce using rule 23 (statement -> SEMICOLON .)
+    RETURN          reduce using rule 23 (statement -> SEMICOLON .)
+    IF              reduce using rule 23 (statement -> SEMICOLON .)
+    FOR             reduce using rule 23 (statement -> SEMICOLON .)
+    IDENT           reduce using rule 23 (statement -> SEMICOLON .)
+    RBRACES         reduce using rule 23 (statement -> SEMICOLON .)
+    ELSE            reduce using rule 23 (statement -> SEMICOLON .)
+
+
+state 7
+
+    (15) statement -> atribstat . SEMICOLON
+
+    SEMICOLON       shift and go to state 28
+
+
+state 8
+
+    (16) statement -> printstat . SEMICOLON
+
+    SEMICOLON       shift and go to state 29
+
+
+state 9
+
+    (17) statement -> readstat . SEMICOLON
+
+    SEMICOLON       shift and go to state 30
+
+
+state 10
+
+    (18) statement -> returnstat . SEMICOLON
+
+    SEMICOLON       shift and go to state 31
+
+
+state 11
+
+    (19) statement -> ifstat .
+
+    $end            reduce using rule 19 (statement -> ifstat .)
+    LBRACES         reduce using rule 19 (statement -> ifstat .)
+    BREAK           reduce using rule 19 (statement -> ifstat .)
+    SEMICOLON       reduce using rule 19 (statement -> ifstat .)
+    INT             reduce using rule 19 (statement -> ifstat .)
+    FLOAT           reduce using rule 19 (statement -> ifstat .)
+    STRING          reduce using rule 19 (statement -> ifstat .)
+    PRINT           reduce using rule 19 (statement -> ifstat .)
+    READ            reduce using rule 19 (statement -> ifstat .)
+    RETURN          reduce using rule 19 (statement -> ifstat .)
+    IF              reduce using rule 19 (statement -> ifstat .)
+    FOR             reduce using rule 19 (statement -> ifstat .)
+    IDENT           reduce using rule 19 (statement -> ifstat .)
+    RBRACES         reduce using rule 19 (statement -> ifstat .)
+    ELSE            reduce using rule 19 (statement -> ifstat .)
+
+
+state 12
+
+    (20) statement -> forstat .
+
+    $end            reduce using rule 20 (statement -> forstat .)
+    LBRACES         reduce using rule 20 (statement -> forstat .)
+    BREAK           reduce using rule 20 (statement -> forstat .)
+    SEMICOLON       reduce using rule 20 (statement -> forstat .)
+    INT             reduce using rule 20 (statement -> forstat .)
+    FLOAT           reduce using rule 20 (statement -> forstat .)
+    STRING          reduce using rule 20 (statement -> forstat .)
+    PRINT           reduce using rule 20 (statement -> forstat .)
+    READ            reduce using rule 20 (statement -> forstat .)
+    RETURN          reduce using rule 20 (statement -> forstat .)
+    IF              reduce using rule 20 (statement -> forstat .)
+    FOR             reduce using rule 20 (statement -> forstat .)
+    IDENT           reduce using rule 20 (statement -> forstat .)
+    RBRACES         reduce using rule 20 (statement -> forstat .)
+    ELSE            reduce using rule 20 (statement -> forstat .)
+
+
+state 13
+
+    (21) statement -> LBRACES . statelist RBRACES
+    (56) statelist -> . statement _statelist
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
+
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
+
+    statelist                      shift and go to state 32
+    statement                      shift and go to state 33
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
+
+state 14
+
+    (22) statement -> BREAK . SEMICOLON
+
+    SEMICOLON       shift and go to state 34
+
+
+state 15
+
+    (4) funclist -> funcdef . _funclist
+    (5) _funclist -> . funclist
+    (6) _funclist -> . empty
+    (4) funclist -> . funcdef _funclist
+    (95) empty -> .
+    (7) funcdef -> . DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES
+
+    $end            reduce using rule 95 (empty -> .)
+    DEFINE          shift and go to state 26
+
+    funcdef                        shift and go to state 15
+    _funclist                      shift and go to state 35
+    funclist                       shift and go to state 36
+    empty                          shift and go to state 37
+
+state 16
+
+    (24) vardecl -> INT . IDENT vardecl_line
+
+    IDENT           shift and go to state 38
+
+
+state 17
+
+    (92) lvalue -> IDENT . lvalue_line
+    (93) lvalue_line -> . LBRACKET numexpression RBRACKET lvalue_line
+    (94) lvalue_line -> . empty
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 40
+    ASSIGN          reduce using rule 95 (empty -> .)
+    TIMES           reduce using rule 95 (empty -> .)
+    DIVIDE          reduce using rule 95 (empty -> .)
+    MODULO          reduce using rule 95 (empty -> .)
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    lvalue_line                    shift and go to state 39
+    empty                          shift and go to state 41
+
+state 18
+
+    (25) vardecl -> FLOAT . IDENT vardecl_line
+
+    IDENT           shift and go to state 42
+
+
+state 19
+
+    (26) vardecl -> STRING . IDENT vardecl_line
+
+    IDENT           shift and go to state 43
+
+
+state 20
+
+    (29) atribstat -> lvalue . ASSIGN _atribstat
+
+    ASSIGN          shift and go to state 44
+
+
+state 21
+
+    (49) printstat -> PRINT . expression
+    (66) expression -> . numexpression _expression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    expression                     shift and go to state 45
+    numexpression                  shift and go to state 46
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 22
+
+    (50) readstat -> READ . lvalue
+    (92) lvalue -> . IDENT lvalue_line
+
+    IDENT           shift and go to state 17
+
+    lvalue                         shift and go to state 58
+
+state 23
+
+    (51) returnstat -> RETURN .
+
+    SEMICOLON       reduce using rule 51 (returnstat -> RETURN .)
+
+
+state 24
+
+    (52) ifstat -> IF . LPAREN expression RPAREN statement _ifstat
+
+    LPAREN          shift and go to state 59
+
+
+state 25
+
+    (55) forstat -> FOR . LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+
+    LPAREN          shift and go to state 60
+
+
+state 26
+
+    (7) funcdef -> DEFINE . IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES
+
+    IDENT           shift and go to state 61
+
+
+state 27
+
+    (14) statement -> vardecl SEMICOLON .
+
+    $end            reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    LBRACES         reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    BREAK           reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    SEMICOLON       reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    INT             reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    FLOAT           reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    STRING          reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    PRINT           reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    READ            reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    RETURN          reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    IF              reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    FOR             reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    IDENT           reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    RBRACES         reduce using rule 14 (statement -> vardecl SEMICOLON .)
+    ELSE            reduce using rule 14 (statement -> vardecl SEMICOLON .)
+
+
+state 28
+
+    (15) statement -> atribstat SEMICOLON .
+
+    $end            reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    LBRACES         reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    BREAK           reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    SEMICOLON       reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    INT             reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    FLOAT           reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    STRING          reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    PRINT           reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    READ            reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    RETURN          reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    IF              reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    FOR             reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    IDENT           reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    RBRACES         reduce using rule 15 (statement -> atribstat SEMICOLON .)
+    ELSE            reduce using rule 15 (statement -> atribstat SEMICOLON .)
+
+
+state 29
+
+    (16) statement -> printstat SEMICOLON .
+
+    $end            reduce using rule 16 (statement -> printstat SEMICOLON .)
+    LBRACES         reduce using rule 16 (statement -> printstat SEMICOLON .)
+    BREAK           reduce using rule 16 (statement -> printstat SEMICOLON .)
+    SEMICOLON       reduce using rule 16 (statement -> printstat SEMICOLON .)
+    INT             reduce using rule 16 (statement -> printstat SEMICOLON .)
+    FLOAT           reduce using rule 16 (statement -> printstat SEMICOLON .)
+    STRING          reduce using rule 16 (statement -> printstat SEMICOLON .)
+    PRINT           reduce using rule 16 (statement -> printstat SEMICOLON .)
+    READ            reduce using rule 16 (statement -> printstat SEMICOLON .)
+    RETURN          reduce using rule 16 (statement -> printstat SEMICOLON .)
+    IF              reduce using rule 16 (statement -> printstat SEMICOLON .)
+    FOR             reduce using rule 16 (statement -> printstat SEMICOLON .)
+    IDENT           reduce using rule 16 (statement -> printstat SEMICOLON .)
+    RBRACES         reduce using rule 16 (statement -> printstat SEMICOLON .)
+    ELSE            reduce using rule 16 (statement -> printstat SEMICOLON .)
+
+
+state 30
+
+    (17) statement -> readstat SEMICOLON .
+
+    $end            reduce using rule 17 (statement -> readstat SEMICOLON .)
+    LBRACES         reduce using rule 17 (statement -> readstat SEMICOLON .)
+    BREAK           reduce using rule 17 (statement -> readstat SEMICOLON .)
+    SEMICOLON       reduce using rule 17 (statement -> readstat SEMICOLON .)
+    INT             reduce using rule 17 (statement -> readstat SEMICOLON .)
+    FLOAT           reduce using rule 17 (statement -> readstat SEMICOLON .)
+    STRING          reduce using rule 17 (statement -> readstat SEMICOLON .)
+    PRINT           reduce using rule 17 (statement -> readstat SEMICOLON .)
+    READ            reduce using rule 17 (statement -> readstat SEMICOLON .)
+    RETURN          reduce using rule 17 (statement -> readstat SEMICOLON .)
+    IF              reduce using rule 17 (statement -> readstat SEMICOLON .)
+    FOR             reduce using rule 17 (statement -> readstat SEMICOLON .)
+    IDENT           reduce using rule 17 (statement -> readstat SEMICOLON .)
+    RBRACES         reduce using rule 17 (statement -> readstat SEMICOLON .)
+    ELSE            reduce using rule 17 (statement -> readstat SEMICOLON .)
+
+
+state 31
+
+    (18) statement -> returnstat SEMICOLON .
+
+    $end            reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    LBRACES         reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    BREAK           reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    SEMICOLON       reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    INT             reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    FLOAT           reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    STRING          reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    PRINT           reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    READ            reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    RETURN          reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    IF              reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    FOR             reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    IDENT           reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    RBRACES         reduce using rule 18 (statement -> returnstat SEMICOLON .)
+    ELSE            reduce using rule 18 (statement -> returnstat SEMICOLON .)
+
+
+state 32
+
+    (21) statement -> LBRACES statelist . RBRACES
+
+    RBRACES         shift and go to state 62
+
+
+state 33
+
+    (56) statelist -> statement . _statelist
+    (57) _statelist -> . statelist
+    (58) _statelist -> . empty
+    (56) statelist -> . statement _statelist
+    (95) empty -> .
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
+
+    RBRACES         reduce using rule 95 (empty -> .)
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
+
+    statement                      shift and go to state 33
+    _statelist                     shift and go to state 63
+    statelist                      shift and go to state 64
+    empty                          shift and go to state 65
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
+
+state 34
+
+    (22) statement -> BREAK SEMICOLON .
+
+    $end            reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    LBRACES         reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    BREAK           reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    SEMICOLON       reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    INT             reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    FLOAT           reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    STRING          reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    PRINT           reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    READ            reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    RETURN          reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    IF              reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    FOR             reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    IDENT           reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    RBRACES         reduce using rule 22 (statement -> BREAK SEMICOLON .)
+    ELSE            reduce using rule 22 (statement -> BREAK SEMICOLON .)
+
+
+state 35
+
+    (4) funclist -> funcdef _funclist .
+
+    $end            reduce using rule 4 (funclist -> funcdef _funclist .)
+
+
+state 36
+
+    (5) _funclist -> funclist .
+
+    $end            reduce using rule 5 (_funclist -> funclist .)
+
+
+state 37
+
+    (6) _funclist -> empty .
+
+    $end            reduce using rule 6 (_funclist -> empty .)
+
+
+state 38
+
+    (24) vardecl -> INT IDENT . vardecl_line
+    (27) vardecl_line -> . LBRACKET INT_CONSTANT RBRACKET vardecl_line
+    (28) vardecl_line -> . empty
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 67
+    SEMICOLON       reduce using rule 95 (empty -> .)
+
+    vardecl_line                   shift and go to state 66
+    empty                          shift and go to state 68
+
+state 39
+
+    (92) lvalue -> IDENT lvalue_line .
+
+    ASSIGN          reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    TIMES           reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    DIVIDE          reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    MODULO          reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    PLUS            reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    MINUS           reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    LESS_THAN       reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    GREATER_THAN    reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    LESS_EQUAL_THAN reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    GREATER_EQUAL_THAN reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    EQUAL_TO        reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    NOT_EQUAL_TO    reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    SEMICOLON       reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    RBRACKET        reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+    RPAREN          reduce using rule 92 (lvalue -> IDENT lvalue_line .)
+
+
+state 40
+
+    (93) lvalue_line -> LBRACKET . numexpression RBRACKET lvalue_line
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 69
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 41
+
+    (94) lvalue_line -> empty .
+
+    ASSIGN          reduce using rule 94 (lvalue_line -> empty .)
+    TIMES           reduce using rule 94 (lvalue_line -> empty .)
+    DIVIDE          reduce using rule 94 (lvalue_line -> empty .)
+    MODULO          reduce using rule 94 (lvalue_line -> empty .)
+    PLUS            reduce using rule 94 (lvalue_line -> empty .)
+    MINUS           reduce using rule 94 (lvalue_line -> empty .)
+    LESS_THAN       reduce using rule 94 (lvalue_line -> empty .)
+    GREATER_THAN    reduce using rule 94 (lvalue_line -> empty .)
+    LESS_EQUAL_THAN reduce using rule 94 (lvalue_line -> empty .)
+    GREATER_EQUAL_THAN reduce using rule 94 (lvalue_line -> empty .)
+    EQUAL_TO        reduce using rule 94 (lvalue_line -> empty .)
+    NOT_EQUAL_TO    reduce using rule 94 (lvalue_line -> empty .)
+    SEMICOLON       reduce using rule 94 (lvalue_line -> empty .)
+    RBRACKET        reduce using rule 94 (lvalue_line -> empty .)
+    RPAREN          reduce using rule 94 (lvalue_line -> empty .)
+
+
+state 42
+
+    (25) vardecl -> FLOAT IDENT . vardecl_line
+    (27) vardecl_line -> . LBRACKET INT_CONSTANT RBRACKET vardecl_line
+    (28) vardecl_line -> . empty
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 67
+    SEMICOLON       reduce using rule 95 (empty -> .)
+
+    vardecl_line                   shift and go to state 70
+    empty                          shift and go to state 68
+
+state 43
+
+    (26) vardecl -> STRING IDENT . vardecl_line
+    (27) vardecl_line -> . LBRACKET INT_CONSTANT RBRACKET vardecl_line
+    (28) vardecl_line -> . empty
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 67
+    SEMICOLON       reduce using rule 95 (empty -> .)
+
+    vardecl_line                   shift and go to state 71
+    empty                          shift and go to state 68
+
+state 44
+
+    (29) atribstat -> lvalue ASSIGN . _atribstat
+    (30) _atribstat -> . PLUS _atribstat_help
+    (31) _atribstat -> . MINUS _atribstat_help
+    (32) _atribstat -> . __atribstat
+    (33) _atribstat -> . IDENT ___atribstat
+    (34) _atribstat -> . allocexpression
+    (37) __atribstat -> . INT_CONSTANT term_line numexpression_line _expression
+    (38) __atribstat -> . FLOAT_CONSTANT term_line numexpression_line _expression
+    (39) __atribstat -> . STRING_CONSTANT term_line numexpression_line _expression
+    (40) __atribstat -> . NULL term_line numexpression_line _expression
+    (41) __atribstat -> . LPAREN numexpression RPAREN term_line numexpression_line _expression
+    (59) allocexpression -> . NEW _allocexpression
+
+    PLUS            shift and go to state 73
+    MINUS           shift and go to state 74
+    IDENT           shift and go to state 76
+    INT_CONSTANT    shift and go to state 78
+    FLOAT_CONSTANT  shift and go to state 79
+    STRING_CONSTANT shift and go to state 80
+    NULL            shift and go to state 81
+    LPAREN          shift and go to state 82
+    NEW             shift and go to state 83
+
+    _atribstat                     shift and go to state 72
+    __atribstat                    shift and go to state 75
+    allocexpression                shift and go to state 77
+
+state 45
+
+    (49) printstat -> PRINT expression .
+
+    SEMICOLON       reduce using rule 49 (printstat -> PRINT expression .)
+
+
+state 46
+
+    (66) expression -> numexpression . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 84
+    empty                          shift and go to state 91
+
+state 47
+
+    (74) numexpression -> term . numexpression_line
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 92
+    empty                          shift and go to state 95
+
+state 48
+
+    (78) term -> unaryexpr . term_line
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 96
+    empty                          shift and go to state 100
+
+state 49
+
+    (83) unaryexpr -> factor .
+
+    TIMES           reduce using rule 83 (unaryexpr -> factor .)
+    DIVIDE          reduce using rule 83 (unaryexpr -> factor .)
+    MODULO          reduce using rule 83 (unaryexpr -> factor .)
+    PLUS            reduce using rule 83 (unaryexpr -> factor .)
+    MINUS           reduce using rule 83 (unaryexpr -> factor .)
+    LESS_THAN       reduce using rule 83 (unaryexpr -> factor .)
+    GREATER_THAN    reduce using rule 83 (unaryexpr -> factor .)
+    LESS_EQUAL_THAN reduce using rule 83 (unaryexpr -> factor .)
+    GREATER_EQUAL_THAN reduce using rule 83 (unaryexpr -> factor .)
+    EQUAL_TO        reduce using rule 83 (unaryexpr -> factor .)
+    NOT_EQUAL_TO    reduce using rule 83 (unaryexpr -> factor .)
+    SEMICOLON       reduce using rule 83 (unaryexpr -> factor .)
+    RBRACKET        reduce using rule 83 (unaryexpr -> factor .)
+    RPAREN          reduce using rule 83 (unaryexpr -> factor .)
+
+
+state 50
+
+    (84) unaryexpr -> PLUS . factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    factor                         shift and go to state 101
+    lvalue                         shift and go to state 56
+
+state 51
+
+    (85) unaryexpr -> MINUS . factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    factor                         shift and go to state 102
+    lvalue                         shift and go to state 56
+
+state 52
+
+    (86) factor -> INT_CONSTANT .
+
+    TIMES           reduce using rule 86 (factor -> INT_CONSTANT .)
+    DIVIDE          reduce using rule 86 (factor -> INT_CONSTANT .)
+    MODULO          reduce using rule 86 (factor -> INT_CONSTANT .)
+    PLUS            reduce using rule 86 (factor -> INT_CONSTANT .)
+    MINUS           reduce using rule 86 (factor -> INT_CONSTANT .)
+    LESS_THAN       reduce using rule 86 (factor -> INT_CONSTANT .)
+    GREATER_THAN    reduce using rule 86 (factor -> INT_CONSTANT .)
+    LESS_EQUAL_THAN reduce using rule 86 (factor -> INT_CONSTANT .)
+    GREATER_EQUAL_THAN reduce using rule 86 (factor -> INT_CONSTANT .)
+    EQUAL_TO        reduce using rule 86 (factor -> INT_CONSTANT .)
+    NOT_EQUAL_TO    reduce using rule 86 (factor -> INT_CONSTANT .)
+    SEMICOLON       reduce using rule 86 (factor -> INT_CONSTANT .)
+    RBRACKET        reduce using rule 86 (factor -> INT_CONSTANT .)
+    RPAREN          reduce using rule 86 (factor -> INT_CONSTANT .)
+
+
+state 53
+
+    (87) factor -> FLOAT_CONSTANT .
+
+    TIMES           reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    DIVIDE          reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    MODULO          reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    PLUS            reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    MINUS           reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    LESS_THAN       reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    GREATER_THAN    reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    LESS_EQUAL_THAN reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    GREATER_EQUAL_THAN reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    EQUAL_TO        reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    NOT_EQUAL_TO    reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    SEMICOLON       reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    RBRACKET        reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+    RPAREN          reduce using rule 87 (factor -> FLOAT_CONSTANT .)
+
+
+state 54
+
+    (88) factor -> STRING_CONSTANT .
+
+    TIMES           reduce using rule 88 (factor -> STRING_CONSTANT .)
+    DIVIDE          reduce using rule 88 (factor -> STRING_CONSTANT .)
+    MODULO          reduce using rule 88 (factor -> STRING_CONSTANT .)
+    PLUS            reduce using rule 88 (factor -> STRING_CONSTANT .)
+    MINUS           reduce using rule 88 (factor -> STRING_CONSTANT .)
+    LESS_THAN       reduce using rule 88 (factor -> STRING_CONSTANT .)
+    GREATER_THAN    reduce using rule 88 (factor -> STRING_CONSTANT .)
+    LESS_EQUAL_THAN reduce using rule 88 (factor -> STRING_CONSTANT .)
+    GREATER_EQUAL_THAN reduce using rule 88 (factor -> STRING_CONSTANT .)
+    EQUAL_TO        reduce using rule 88 (factor -> STRING_CONSTANT .)
+    NOT_EQUAL_TO    reduce using rule 88 (factor -> STRING_CONSTANT .)
+    SEMICOLON       reduce using rule 88 (factor -> STRING_CONSTANT .)
+    RBRACKET        reduce using rule 88 (factor -> STRING_CONSTANT .)
+    RPAREN          reduce using rule 88 (factor -> STRING_CONSTANT .)
+
+
+state 55
+
+    (89) factor -> NULL .
+
+    TIMES           reduce using rule 89 (factor -> NULL .)
+    DIVIDE          reduce using rule 89 (factor -> NULL .)
+    MODULO          reduce using rule 89 (factor -> NULL .)
+    PLUS            reduce using rule 89 (factor -> NULL .)
+    MINUS           reduce using rule 89 (factor -> NULL .)
+    LESS_THAN       reduce using rule 89 (factor -> NULL .)
+    GREATER_THAN    reduce using rule 89 (factor -> NULL .)
+    LESS_EQUAL_THAN reduce using rule 89 (factor -> NULL .)
+    GREATER_EQUAL_THAN reduce using rule 89 (factor -> NULL .)
+    EQUAL_TO        reduce using rule 89 (factor -> NULL .)
+    NOT_EQUAL_TO    reduce using rule 89 (factor -> NULL .)
+    SEMICOLON       reduce using rule 89 (factor -> NULL .)
+    RBRACKET        reduce using rule 89 (factor -> NULL .)
+    RPAREN          reduce using rule 89 (factor -> NULL .)
+
+
+state 56
+
+    (90) factor -> lvalue .
+
+    TIMES           reduce using rule 90 (factor -> lvalue .)
+    DIVIDE          reduce using rule 90 (factor -> lvalue .)
+    MODULO          reduce using rule 90 (factor -> lvalue .)
+    PLUS            reduce using rule 90 (factor -> lvalue .)
+    MINUS           reduce using rule 90 (factor -> lvalue .)
+    LESS_THAN       reduce using rule 90 (factor -> lvalue .)
+    GREATER_THAN    reduce using rule 90 (factor -> lvalue .)
+    LESS_EQUAL_THAN reduce using rule 90 (factor -> lvalue .)
+    GREATER_EQUAL_THAN reduce using rule 90 (factor -> lvalue .)
+    EQUAL_TO        reduce using rule 90 (factor -> lvalue .)
+    NOT_EQUAL_TO    reduce using rule 90 (factor -> lvalue .)
+    SEMICOLON       reduce using rule 90 (factor -> lvalue .)
+    RBRACKET        reduce using rule 90 (factor -> lvalue .)
+    RPAREN          reduce using rule 90 (factor -> lvalue .)
+
+
+state 57
+
+    (91) factor -> LPAREN . numexpression RPAREN
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 103
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 58
+
+    (50) readstat -> READ lvalue .
+
+    SEMICOLON       reduce using rule 50 (readstat -> READ lvalue .)
+
+
+state 59
+
+    (52) ifstat -> IF LPAREN . expression RPAREN statement _ifstat
+    (66) expression -> . numexpression _expression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    expression                     shift and go to state 104
+    numexpression                  shift and go to state 46
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 60
+
+    (55) forstat -> FOR LPAREN . atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (92) lvalue -> . IDENT lvalue_line
+
+    IDENT           shift and go to state 17
+
+    atribstat                      shift and go to state 105
+    lvalue                         shift and go to state 20
+
+state 61
+
+    (7) funcdef -> DEFINE IDENT . LPAREN paramlist RPAREN LBRACES statelist RBRACES
+
+    LPAREN          shift and go to state 106
+
+
+state 62
+
+    (21) statement -> LBRACES statelist RBRACES .
+
+    $end            reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    LBRACES         reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    BREAK           reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    SEMICOLON       reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    INT             reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    FLOAT           reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    STRING          reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    PRINT           reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    READ            reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    RETURN          reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    IF              reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    FOR             reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    IDENT           reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    RBRACES         reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+    ELSE            reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
+
+
+state 63
+
+    (56) statelist -> statement _statelist .
+
+    RBRACES         reduce using rule 56 (statelist -> statement _statelist .)
+
+
+state 64
+
+    (57) _statelist -> statelist .
+
+    RBRACES         reduce using rule 57 (_statelist -> statelist .)
+
+
+state 65
+
+    (58) _statelist -> empty .
+
+    RBRACES         reduce using rule 58 (_statelist -> empty .)
+
+
+state 66
+
+    (24) vardecl -> INT IDENT vardecl_line .
+
+    SEMICOLON       reduce using rule 24 (vardecl -> INT IDENT vardecl_line .)
+
+
+state 67
+
+    (27) vardecl_line -> LBRACKET . INT_CONSTANT RBRACKET vardecl_line
+
+    INT_CONSTANT    shift and go to state 107
+
+
+state 68
+
+    (28) vardecl_line -> empty .
+
+    SEMICOLON       reduce using rule 28 (vardecl_line -> empty .)
+
+
+state 69
+
+    (93) lvalue_line -> LBRACKET numexpression . RBRACKET lvalue_line
+
+    RBRACKET        shift and go to state 108
+
+
+state 70
+
+    (25) vardecl -> FLOAT IDENT vardecl_line .
+
+    SEMICOLON       reduce using rule 25 (vardecl -> FLOAT IDENT vardecl_line .)
+
+
+state 71
+
+    (26) vardecl -> STRING IDENT vardecl_line .
+
+    SEMICOLON       reduce using rule 26 (vardecl -> STRING IDENT vardecl_line .)
+
+
+state 72
+
+    (29) atribstat -> lvalue ASSIGN _atribstat .
+
+    SEMICOLON       reduce using rule 29 (atribstat -> lvalue ASSIGN _atribstat .)
+    RPAREN          reduce using rule 29 (atribstat -> lvalue ASSIGN _atribstat .)
+
+
+state 73
+
+    (30) _atribstat -> PLUS . _atribstat_help
+    (35) _atribstat_help -> . IDENT lvalue_line term_line numexpression_line _expression
+    (36) _atribstat_help -> . __atribstat
+    (37) __atribstat -> . INT_CONSTANT term_line numexpression_line _expression
+    (38) __atribstat -> . FLOAT_CONSTANT term_line numexpression_line _expression
+    (39) __atribstat -> . STRING_CONSTANT term_line numexpression_line _expression
+    (40) __atribstat -> . NULL term_line numexpression_line _expression
+    (41) __atribstat -> . LPAREN numexpression RPAREN term_line numexpression_line _expression
+
+    IDENT           shift and go to state 110
+    INT_CONSTANT    shift and go to state 78
+    FLOAT_CONSTANT  shift and go to state 79
+    STRING_CONSTANT shift and go to state 80
+    NULL            shift and go to state 81
+    LPAREN          shift and go to state 82
+
+    _atribstat_help                shift and go to state 109
+    __atribstat                    shift and go to state 111
+
+state 74
+
+    (31) _atribstat -> MINUS . _atribstat_help
+    (35) _atribstat_help -> . IDENT lvalue_line term_line numexpression_line _expression
+    (36) _atribstat_help -> . __atribstat
+    (37) __atribstat -> . INT_CONSTANT term_line numexpression_line _expression
+    (38) __atribstat -> . FLOAT_CONSTANT term_line numexpression_line _expression
+    (39) __atribstat -> . STRING_CONSTANT term_line numexpression_line _expression
+    (40) __atribstat -> . NULL term_line numexpression_line _expression
+    (41) __atribstat -> . LPAREN numexpression RPAREN term_line numexpression_line _expression
+
+    IDENT           shift and go to state 110
+    INT_CONSTANT    shift and go to state 78
+    FLOAT_CONSTANT  shift and go to state 79
+    STRING_CONSTANT shift and go to state 80
+    NULL            shift and go to state 81
+    LPAREN          shift and go to state 82
+
+    _atribstat_help                shift and go to state 112
+    __atribstat                    shift and go to state 111
+
+state 75
+
+    (32) _atribstat -> __atribstat .
+
+    SEMICOLON       reduce using rule 32 (_atribstat -> __atribstat .)
+    RPAREN          reduce using rule 32 (_atribstat -> __atribstat .)
+
+
+state 76
+
+    (33) _atribstat -> IDENT . ___atribstat
+    (42) ___atribstat -> . lvalue_line term_line numexpression_line _expression
+    (43) ___atribstat -> . LPAREN paramlistcall RPAREN
+    (93) lvalue_line -> . LBRACKET numexpression RBRACKET lvalue_line
+    (94) lvalue_line -> . empty
+    (95) empty -> .
+
+    LPAREN          shift and go to state 115
+    LBRACKET        shift and go to state 40
+    TIMES           reduce using rule 95 (empty -> .)
+    DIVIDE          reduce using rule 95 (empty -> .)
+    MODULO          reduce using rule 95 (empty -> .)
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    ___atribstat                   shift and go to state 113
+    lvalue_line                    shift and go to state 114
+    empty                          shift and go to state 41
+
+state 77
+
+    (34) _atribstat -> allocexpression .
+
+    SEMICOLON       reduce using rule 34 (_atribstat -> allocexpression .)
+    RPAREN          reduce using rule 34 (_atribstat -> allocexpression .)
+
+
+state 78
+
+    (37) __atribstat -> INT_CONSTANT . term_line numexpression_line _expression
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 116
+    empty                          shift and go to state 100
+
+state 79
+
+    (38) __atribstat -> FLOAT_CONSTANT . term_line numexpression_line _expression
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 117
+    empty                          shift and go to state 100
+
+state 80
+
+    (39) __atribstat -> STRING_CONSTANT . term_line numexpression_line _expression
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 118
+    empty                          shift and go to state 100
+
+state 81
+
+    (40) __atribstat -> NULL . term_line numexpression_line _expression
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 119
+    empty                          shift and go to state 100
+
+state 82
+
+    (41) __atribstat -> LPAREN . numexpression RPAREN term_line numexpression_line _expression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 120
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 83
+
+    (59) allocexpression -> NEW . _allocexpression
+    (60) _allocexpression -> . INT allocexpression_line
+    (61) _allocexpression -> . FLOAT allocexpression_line
+    (62) _allocexpression -> . STRING allocexpression_line
+
+    INT             shift and go to state 122
+    FLOAT           shift and go to state 123
+    STRING          shift and go to state 124
+
+    _allocexpression               shift and go to state 121
+
+state 84
+
+    (66) expression -> numexpression _expression .
+
+    SEMICOLON       reduce using rule 66 (expression -> numexpression _expression .)
+    RPAREN          reduce using rule 66 (expression -> numexpression _expression .)
+
+
+state 85
+
+    (67) _expression -> LESS_THAN . numexpression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 125
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 86
+
+    (68) _expression -> GREATER_THAN . numexpression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 126
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 87
+
+    (69) _expression -> LESS_EQUAL_THAN . numexpression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 127
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 88
+
+    (70) _expression -> GREATER_EQUAL_THAN . numexpression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 128
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 89
+
+    (71) _expression -> EQUAL_TO . numexpression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 129
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 90
+
+    (72) _expression -> NOT_EQUAL_TO . numexpression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 130
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 91
+
+    (73) _expression -> empty .
+
+    SEMICOLON       reduce using rule 73 (_expression -> empty .)
+    RPAREN          reduce using rule 73 (_expression -> empty .)
+
+
+state 92
+
+    (74) numexpression -> term numexpression_line .
+
+    LESS_THAN       reduce using rule 74 (numexpression -> term numexpression_line .)
+    GREATER_THAN    reduce using rule 74 (numexpression -> term numexpression_line .)
+    LESS_EQUAL_THAN reduce using rule 74 (numexpression -> term numexpression_line .)
+    GREATER_EQUAL_THAN reduce using rule 74 (numexpression -> term numexpression_line .)
+    EQUAL_TO        reduce using rule 74 (numexpression -> term numexpression_line .)
+    NOT_EQUAL_TO    reduce using rule 74 (numexpression -> term numexpression_line .)
+    SEMICOLON       reduce using rule 74 (numexpression -> term numexpression_line .)
+    RBRACKET        reduce using rule 74 (numexpression -> term numexpression_line .)
+    RPAREN          reduce using rule 74 (numexpression -> term numexpression_line .)
+
+
+state 93
+
+    (75) numexpression_line -> PLUS . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    term                           shift and go to state 131
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 94
+
+    (76) numexpression_line -> MINUS . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    term                           shift and go to state 132
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 95
+
+    (77) numexpression_line -> empty .
+
+    LESS_THAN       reduce using rule 77 (numexpression_line -> empty .)
+    GREATER_THAN    reduce using rule 77 (numexpression_line -> empty .)
+    LESS_EQUAL_THAN reduce using rule 77 (numexpression_line -> empty .)
+    GREATER_EQUAL_THAN reduce using rule 77 (numexpression_line -> empty .)
+    EQUAL_TO        reduce using rule 77 (numexpression_line -> empty .)
+    NOT_EQUAL_TO    reduce using rule 77 (numexpression_line -> empty .)
+    SEMICOLON       reduce using rule 77 (numexpression_line -> empty .)
+    RBRACKET        reduce using rule 77 (numexpression_line -> empty .)
+    RPAREN          reduce using rule 77 (numexpression_line -> empty .)
+
+
+state 96
+
+    (78) term -> unaryexpr term_line .
+
+    PLUS            reduce using rule 78 (term -> unaryexpr term_line .)
+    MINUS           reduce using rule 78 (term -> unaryexpr term_line .)
+    LESS_THAN       reduce using rule 78 (term -> unaryexpr term_line .)
+    GREATER_THAN    reduce using rule 78 (term -> unaryexpr term_line .)
+    LESS_EQUAL_THAN reduce using rule 78 (term -> unaryexpr term_line .)
+    GREATER_EQUAL_THAN reduce using rule 78 (term -> unaryexpr term_line .)
+    EQUAL_TO        reduce using rule 78 (term -> unaryexpr term_line .)
+    NOT_EQUAL_TO    reduce using rule 78 (term -> unaryexpr term_line .)
+    SEMICOLON       reduce using rule 78 (term -> unaryexpr term_line .)
+    RBRACKET        reduce using rule 78 (term -> unaryexpr term_line .)
+    RPAREN          reduce using rule 78 (term -> unaryexpr term_line .)
+
+
+state 97
+
+    (79) term_line -> TIMES . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    unaryexpr                      shift and go to state 133
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 98
+
+    (80) term_line -> DIVIDE . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    unaryexpr                      shift and go to state 134
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 99
+
+    (81) term_line -> MODULO . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    unaryexpr                      shift and go to state 135
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 100
+
+    (82) term_line -> empty .
+
+    PLUS            reduce using rule 82 (term_line -> empty .)
+    MINUS           reduce using rule 82 (term_line -> empty .)
+    LESS_THAN       reduce using rule 82 (term_line -> empty .)
+    GREATER_THAN    reduce using rule 82 (term_line -> empty .)
+    LESS_EQUAL_THAN reduce using rule 82 (term_line -> empty .)
+    GREATER_EQUAL_THAN reduce using rule 82 (term_line -> empty .)
+    EQUAL_TO        reduce using rule 82 (term_line -> empty .)
+    NOT_EQUAL_TO    reduce using rule 82 (term_line -> empty .)
+    SEMICOLON       reduce using rule 82 (term_line -> empty .)
+    RBRACKET        reduce using rule 82 (term_line -> empty .)
+    RPAREN          reduce using rule 82 (term_line -> empty .)
+
+
+state 101
+
+    (84) unaryexpr -> PLUS factor .
+
+    TIMES           reduce using rule 84 (unaryexpr -> PLUS factor .)
+    DIVIDE          reduce using rule 84 (unaryexpr -> PLUS factor .)
+    MODULO          reduce using rule 84 (unaryexpr -> PLUS factor .)
+    PLUS            reduce using rule 84 (unaryexpr -> PLUS factor .)
+    MINUS           reduce using rule 84 (unaryexpr -> PLUS factor .)
+    LESS_THAN       reduce using rule 84 (unaryexpr -> PLUS factor .)
+    GREATER_THAN    reduce using rule 84 (unaryexpr -> PLUS factor .)
+    LESS_EQUAL_THAN reduce using rule 84 (unaryexpr -> PLUS factor .)
+    GREATER_EQUAL_THAN reduce using rule 84 (unaryexpr -> PLUS factor .)
+    EQUAL_TO        reduce using rule 84 (unaryexpr -> PLUS factor .)
+    NOT_EQUAL_TO    reduce using rule 84 (unaryexpr -> PLUS factor .)
+    SEMICOLON       reduce using rule 84 (unaryexpr -> PLUS factor .)
+    RBRACKET        reduce using rule 84 (unaryexpr -> PLUS factor .)
+    RPAREN          reduce using rule 84 (unaryexpr -> PLUS factor .)
+
+
+state 102
+
+    (85) unaryexpr -> MINUS factor .
+
+    TIMES           reduce using rule 85 (unaryexpr -> MINUS factor .)
+    DIVIDE          reduce using rule 85 (unaryexpr -> MINUS factor .)
+    MODULO          reduce using rule 85 (unaryexpr -> MINUS factor .)
+    PLUS            reduce using rule 85 (unaryexpr -> MINUS factor .)
+    MINUS           reduce using rule 85 (unaryexpr -> MINUS factor .)
+    LESS_THAN       reduce using rule 85 (unaryexpr -> MINUS factor .)
+    GREATER_THAN    reduce using rule 85 (unaryexpr -> MINUS factor .)
+    LESS_EQUAL_THAN reduce using rule 85 (unaryexpr -> MINUS factor .)
+    GREATER_EQUAL_THAN reduce using rule 85 (unaryexpr -> MINUS factor .)
+    EQUAL_TO        reduce using rule 85 (unaryexpr -> MINUS factor .)
+    NOT_EQUAL_TO    reduce using rule 85 (unaryexpr -> MINUS factor .)
+    SEMICOLON       reduce using rule 85 (unaryexpr -> MINUS factor .)
+    RBRACKET        reduce using rule 85 (unaryexpr -> MINUS factor .)
+    RPAREN          reduce using rule 85 (unaryexpr -> MINUS factor .)
+
+
+state 103
+
+    (91) factor -> LPAREN numexpression . RPAREN
+
+    RPAREN          shift and go to state 136
+
+
+state 104
+
+    (52) ifstat -> IF LPAREN expression . RPAREN statement _ifstat
+
+    RPAREN          shift and go to state 137
+
+
+state 105
+
+    (55) forstat -> FOR LPAREN atribstat . SEMICOLON expression SEMICOLON atribstat RPAREN statement
+
+    SEMICOLON       shift and go to state 138
+
+
+state 106
+
+    (7) funcdef -> DEFINE IDENT LPAREN . paramlist RPAREN LBRACES statelist RBRACES
+    (8) paramlist -> . INT IDENT _paramlist
+    (9) paramlist -> . FLOAT IDENT _paramlist
+    (10) paramlist -> . STRING IDENT _paramlist
+    (11) paramlist -> . empty
+    (95) empty -> .
+
+    INT             shift and go to state 140
+    FLOAT           shift and go to state 141
+    STRING          shift and go to state 142
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    paramlist                      shift and go to state 139
+    empty                          shift and go to state 143
+
+state 107
+
+    (27) vardecl_line -> LBRACKET INT_CONSTANT . RBRACKET vardecl_line
+
+    RBRACKET        shift and go to state 144
+
+
+state 108
+
+    (93) lvalue_line -> LBRACKET numexpression RBRACKET . lvalue_line
+    (93) lvalue_line -> . LBRACKET numexpression RBRACKET lvalue_line
+    (94) lvalue_line -> . empty
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 40
+    ASSIGN          reduce using rule 95 (empty -> .)
+    TIMES           reduce using rule 95 (empty -> .)
+    DIVIDE          reduce using rule 95 (empty -> .)
+    MODULO          reduce using rule 95 (empty -> .)
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    lvalue_line                    shift and go to state 145
+    empty                          shift and go to state 41
+
+state 109
+
+    (30) _atribstat -> PLUS _atribstat_help .
+
+    SEMICOLON       reduce using rule 30 (_atribstat -> PLUS _atribstat_help .)
+    RPAREN          reduce using rule 30 (_atribstat -> PLUS _atribstat_help .)
+
+
+state 110
+
+    (35) _atribstat_help -> IDENT . lvalue_line term_line numexpression_line _expression
+    (93) lvalue_line -> . LBRACKET numexpression RBRACKET lvalue_line
+    (94) lvalue_line -> . empty
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 40
+    TIMES           reduce using rule 95 (empty -> .)
+    DIVIDE          reduce using rule 95 (empty -> .)
+    MODULO          reduce using rule 95 (empty -> .)
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    lvalue_line                    shift and go to state 146
+    empty                          shift and go to state 41
+
+state 111
+
+    (36) _atribstat_help -> __atribstat .
+
+    SEMICOLON       reduce using rule 36 (_atribstat_help -> __atribstat .)
+    RPAREN          reduce using rule 36 (_atribstat_help -> __atribstat .)
+
+
+state 112
+
+    (31) _atribstat -> MINUS _atribstat_help .
+
+    SEMICOLON       reduce using rule 31 (_atribstat -> MINUS _atribstat_help .)
+    RPAREN          reduce using rule 31 (_atribstat -> MINUS _atribstat_help .)
+
+
+state 113
+
+    (33) _atribstat -> IDENT ___atribstat .
+
+    SEMICOLON       reduce using rule 33 (_atribstat -> IDENT ___atribstat .)
+    RPAREN          reduce using rule 33 (_atribstat -> IDENT ___atribstat .)
+
+
+state 114
+
+    (42) ___atribstat -> lvalue_line . term_line numexpression_line _expression
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 147
+    empty                          shift and go to state 100
+
+state 115
+
+    (43) ___atribstat -> LPAREN . paramlistcall RPAREN
+    (45) paramlistcall -> . IDENT _paramlistcall
+    (46) paramlistcall -> . empty
+    (95) empty -> .
+
+    IDENT           shift and go to state 149
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    paramlistcall                  shift and go to state 148
+    empty                          shift and go to state 150
+
+state 116
+
+    (37) __atribstat -> INT_CONSTANT term_line . numexpression_line _expression
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 151
+    empty                          shift and go to state 95
+
+state 117
+
+    (38) __atribstat -> FLOAT_CONSTANT term_line . numexpression_line _expression
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 152
+    empty                          shift and go to state 95
+
+state 118
+
+    (39) __atribstat -> STRING_CONSTANT term_line . numexpression_line _expression
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 153
+    empty                          shift and go to state 95
+
+state 119
+
+    (40) __atribstat -> NULL term_line . numexpression_line _expression
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 154
+    empty                          shift and go to state 95
+
+state 120
+
+    (41) __atribstat -> LPAREN numexpression . RPAREN term_line numexpression_line _expression
+
+    RPAREN          shift and go to state 155
+
+
+state 121
+
+    (59) allocexpression -> NEW _allocexpression .
+
+    SEMICOLON       reduce using rule 59 (allocexpression -> NEW _allocexpression .)
+    RPAREN          reduce using rule 59 (allocexpression -> NEW _allocexpression .)
+
+
+state 122
+
+    (60) _allocexpression -> INT . allocexpression_line
+    (63) allocexpression_line -> . LBRACKET numexpression RBRACKET _allocexpression_line
+
+    LBRACKET        shift and go to state 157
+
+    allocexpression_line           shift and go to state 156
+
+state 123
+
+    (61) _allocexpression -> FLOAT . allocexpression_line
+    (63) allocexpression_line -> . LBRACKET numexpression RBRACKET _allocexpression_line
+
+    LBRACKET        shift and go to state 157
+
+    allocexpression_line           shift and go to state 158
+
+state 124
+
+    (62) _allocexpression -> STRING . allocexpression_line
+    (63) allocexpression_line -> . LBRACKET numexpression RBRACKET _allocexpression_line
+
+    LBRACKET        shift and go to state 157
+
+    allocexpression_line           shift and go to state 159
+
+state 125
+
+    (67) _expression -> LESS_THAN numexpression .
+
+    SEMICOLON       reduce using rule 67 (_expression -> LESS_THAN numexpression .)
+    RPAREN          reduce using rule 67 (_expression -> LESS_THAN numexpression .)
+
+
+state 126
+
+    (68) _expression -> GREATER_THAN numexpression .
+
+    SEMICOLON       reduce using rule 68 (_expression -> GREATER_THAN numexpression .)
+    RPAREN          reduce using rule 68 (_expression -> GREATER_THAN numexpression .)
+
+
+state 127
+
+    (69) _expression -> LESS_EQUAL_THAN numexpression .
+
+    SEMICOLON       reduce using rule 69 (_expression -> LESS_EQUAL_THAN numexpression .)
+    RPAREN          reduce using rule 69 (_expression -> LESS_EQUAL_THAN numexpression .)
+
+
+state 128
+
+    (70) _expression -> GREATER_EQUAL_THAN numexpression .
+
+    SEMICOLON       reduce using rule 70 (_expression -> GREATER_EQUAL_THAN numexpression .)
+    RPAREN          reduce using rule 70 (_expression -> GREATER_EQUAL_THAN numexpression .)
+
+
+state 129
+
+    (71) _expression -> EQUAL_TO numexpression .
+
+    SEMICOLON       reduce using rule 71 (_expression -> EQUAL_TO numexpression .)
+    RPAREN          reduce using rule 71 (_expression -> EQUAL_TO numexpression .)
+
+
+state 130
+
+    (72) _expression -> NOT_EQUAL_TO numexpression .
+
+    SEMICOLON       reduce using rule 72 (_expression -> NOT_EQUAL_TO numexpression .)
+    RPAREN          reduce using rule 72 (_expression -> NOT_EQUAL_TO numexpression .)
+
+
+state 131
+
+    (75) numexpression_line -> PLUS term . numexpression_line
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 160
+    empty                          shift and go to state 95
+
+state 132
+
+    (76) numexpression_line -> MINUS term . numexpression_line
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 161
+    empty                          shift and go to state 95
+
+state 133
+
+    (79) term_line -> TIMES unaryexpr . term_line
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 162
+    empty                          shift and go to state 100
+
+state 134
+
+    (80) term_line -> DIVIDE unaryexpr . term_line
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 163
+    empty                          shift and go to state 100
+
+state 135
+
+    (81) term_line -> MODULO unaryexpr . term_line
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RBRACKET        reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 164
+    empty                          shift and go to state 100
+
+state 136
+
+    (91) factor -> LPAREN numexpression RPAREN .
+
+    TIMES           reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    DIVIDE          reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    MODULO          reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    PLUS            reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    MINUS           reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    LESS_THAN       reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    GREATER_THAN    reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    LESS_EQUAL_THAN reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    GREATER_EQUAL_THAN reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    EQUAL_TO        reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    NOT_EQUAL_TO    reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    SEMICOLON       reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    RBRACKET        reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+    RPAREN          reduce using rule 91 (factor -> LPAREN numexpression RPAREN .)
+
+
+state 137
+
+    (52) ifstat -> IF LPAREN expression RPAREN . statement _ifstat
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
+
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
+
+    statement                      shift and go to state 165
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
+
+state 138
+
+    (55) forstat -> FOR LPAREN atribstat SEMICOLON . expression SEMICOLON atribstat RPAREN statement
+    (66) expression -> . numexpression _expression
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    expression                     shift and go to state 166
+    numexpression                  shift and go to state 46
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 139
+
+    (7) funcdef -> DEFINE IDENT LPAREN paramlist . RPAREN LBRACES statelist RBRACES
+
+    RPAREN          shift and go to state 167
+
+
+state 140
+
+    (8) paramlist -> INT . IDENT _paramlist
+
+    IDENT           shift and go to state 168
+
+
+state 141
+
+    (9) paramlist -> FLOAT . IDENT _paramlist
+
+    IDENT           shift and go to state 169
+
+
+state 142
+
+    (10) paramlist -> STRING . IDENT _paramlist
+
+    IDENT           shift and go to state 170
+
+
+state 143
+
+    (11) paramlist -> empty .
+
+    RPAREN          reduce using rule 11 (paramlist -> empty .)
+
+
+state 144
+
+    (27) vardecl_line -> LBRACKET INT_CONSTANT RBRACKET . vardecl_line
+    (27) vardecl_line -> . LBRACKET INT_CONSTANT RBRACKET vardecl_line
+    (28) vardecl_line -> . empty
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 67
+    SEMICOLON       reduce using rule 95 (empty -> .)
+
+    vardecl_line                   shift and go to state 171
+    empty                          shift and go to state 68
+
+state 145
+
+    (93) lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .
+
+    ASSIGN          reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    TIMES           reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    DIVIDE          reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    MODULO          reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    PLUS            reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    MINUS           reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    LESS_THAN       reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    GREATER_THAN    reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    LESS_EQUAL_THAN reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    GREATER_EQUAL_THAN reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    EQUAL_TO        reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    NOT_EQUAL_TO    reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    SEMICOLON       reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    RBRACKET        reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+    RPAREN          reduce using rule 93 (lvalue_line -> LBRACKET numexpression RBRACKET lvalue_line .)
+
+
+state 146
+
+    (35) _atribstat_help -> IDENT lvalue_line . term_line numexpression_line _expression
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 172
+    empty                          shift and go to state 100
+
+state 147
+
+    (42) ___atribstat -> lvalue_line term_line . numexpression_line _expression
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 173
+    empty                          shift and go to state 95
+
+state 148
+
+    (43) ___atribstat -> LPAREN paramlistcall . RPAREN
+
+    RPAREN          shift and go to state 174
+
+
+state 149
+
+    (45) paramlistcall -> IDENT . _paramlistcall
+    (47) _paramlistcall -> . COMMA paramlistcall
+    (48) _paramlistcall -> . empty
+    (95) empty -> .
+
+    COMMA           shift and go to state 176
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _paramlistcall                 shift and go to state 175
+    empty                          shift and go to state 177
+
+state 150
+
+    (46) paramlistcall -> empty .
+
+    RPAREN          reduce using rule 46 (paramlistcall -> empty .)
+
+
+state 151
+
+    (37) __atribstat -> INT_CONSTANT term_line numexpression_line . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 178
+    empty                          shift and go to state 91
+
+state 152
+
+    (38) __atribstat -> FLOAT_CONSTANT term_line numexpression_line . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 179
+    empty                          shift and go to state 91
+
+state 153
+
+    (39) __atribstat -> STRING_CONSTANT term_line numexpression_line . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 180
+    empty                          shift and go to state 91
+
+state 154
+
+    (40) __atribstat -> NULL term_line numexpression_line . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 181
+    empty                          shift and go to state 91
+
+state 155
+
+    (41) __atribstat -> LPAREN numexpression RPAREN . term_line numexpression_line _expression
+    (79) term_line -> . TIMES unaryexpr term_line
+    (80) term_line -> . DIVIDE unaryexpr term_line
+    (81) term_line -> . MODULO unaryexpr term_line
+    (82) term_line -> . empty
+    (95) empty -> .
+
+    TIMES           shift and go to state 97
+    DIVIDE          shift and go to state 98
+    MODULO          shift and go to state 99
+    PLUS            reduce using rule 95 (empty -> .)
+    MINUS           reduce using rule 95 (empty -> .)
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    term_line                      shift and go to state 182
+    empty                          shift and go to state 100
+
+state 156
+
+    (60) _allocexpression -> INT allocexpression_line .
+
+    SEMICOLON       reduce using rule 60 (_allocexpression -> INT allocexpression_line .)
+    RPAREN          reduce using rule 60 (_allocexpression -> INT allocexpression_line .)
+
+
+state 157
+
+    (63) allocexpression_line -> LBRACKET . numexpression RBRACKET _allocexpression_line
+    (74) numexpression -> . term numexpression_line
+    (78) term -> . unaryexpr term_line
+    (83) unaryexpr -> . factor
+    (84) unaryexpr -> . PLUS factor
+    (85) unaryexpr -> . MINUS factor
+    (86) factor -> . INT_CONSTANT
+    (87) factor -> . FLOAT_CONSTANT
+    (88) factor -> . STRING_CONSTANT
+    (89) factor -> . NULL
+    (90) factor -> . lvalue
+    (91) factor -> . LPAREN numexpression RPAREN
+    (92) lvalue -> . IDENT lvalue_line
+
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 51
+    INT_CONSTANT    shift and go to state 52
+    FLOAT_CONSTANT  shift and go to state 53
+    STRING_CONSTANT shift and go to state 54
+    NULL            shift and go to state 55
+    LPAREN          shift and go to state 57
+    IDENT           shift and go to state 17
+
+    numexpression                  shift and go to state 183
+    term                           shift and go to state 47
+    unaryexpr                      shift and go to state 48
+    factor                         shift and go to state 49
+    lvalue                         shift and go to state 56
+
+state 158
+
+    (61) _allocexpression -> FLOAT allocexpression_line .
+
+    SEMICOLON       reduce using rule 61 (_allocexpression -> FLOAT allocexpression_line .)
+    RPAREN          reduce using rule 61 (_allocexpression -> FLOAT allocexpression_line .)
+
+
+state 159
+
+    (62) _allocexpression -> STRING allocexpression_line .
+
+    SEMICOLON       reduce using rule 62 (_allocexpression -> STRING allocexpression_line .)
+    RPAREN          reduce using rule 62 (_allocexpression -> STRING allocexpression_line .)
+
+
+state 160
+
+    (75) numexpression_line -> PLUS term numexpression_line .
+
+    LESS_THAN       reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    GREATER_THAN    reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    LESS_EQUAL_THAN reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    GREATER_EQUAL_THAN reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    EQUAL_TO        reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    NOT_EQUAL_TO    reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    SEMICOLON       reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    RBRACKET        reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+    RPAREN          reduce using rule 75 (numexpression_line -> PLUS term numexpression_line .)
+
+
+state 161
+
+    (76) numexpression_line -> MINUS term numexpression_line .
+
+    LESS_THAN       reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    GREATER_THAN    reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    LESS_EQUAL_THAN reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    GREATER_EQUAL_THAN reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    EQUAL_TO        reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    NOT_EQUAL_TO    reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    SEMICOLON       reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    RBRACKET        reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+    RPAREN          reduce using rule 76 (numexpression_line -> MINUS term numexpression_line .)
+
+
+state 162
+
+    (79) term_line -> TIMES unaryexpr term_line .
+
+    PLUS            reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    MINUS           reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    LESS_THAN       reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    GREATER_THAN    reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    LESS_EQUAL_THAN reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    GREATER_EQUAL_THAN reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    EQUAL_TO        reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    NOT_EQUAL_TO    reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    SEMICOLON       reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    RBRACKET        reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+    RPAREN          reduce using rule 79 (term_line -> TIMES unaryexpr term_line .)
+
+
+state 163
+
+    (80) term_line -> DIVIDE unaryexpr term_line .
+
+    PLUS            reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    MINUS           reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    LESS_THAN       reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    GREATER_THAN    reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    LESS_EQUAL_THAN reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    GREATER_EQUAL_THAN reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    EQUAL_TO        reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    NOT_EQUAL_TO    reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    SEMICOLON       reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    RBRACKET        reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+    RPAREN          reduce using rule 80 (term_line -> DIVIDE unaryexpr term_line .)
+
+
+state 164
+
+    (81) term_line -> MODULO unaryexpr term_line .
+
+    PLUS            reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    MINUS           reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    LESS_THAN       reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    GREATER_THAN    reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    LESS_EQUAL_THAN reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    GREATER_EQUAL_THAN reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    EQUAL_TO        reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    NOT_EQUAL_TO    reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    SEMICOLON       reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    RBRACKET        reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+    RPAREN          reduce using rule 81 (term_line -> MODULO unaryexpr term_line .)
+
+
+state 165
+
+    (52) ifstat -> IF LPAREN expression RPAREN statement . _ifstat
+    (53) _ifstat -> . ELSE statement
+    (54) _ifstat -> . empty
+    (95) empty -> .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 185
+    $end            reduce using rule 95 (empty -> .)
+    LBRACES         reduce using rule 95 (empty -> .)
+    BREAK           reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    INT             reduce using rule 95 (empty -> .)
+    FLOAT           reduce using rule 95 (empty -> .)
+    STRING          reduce using rule 95 (empty -> .)
+    PRINT           reduce using rule 95 (empty -> .)
+    READ            reduce using rule 95 (empty -> .)
+    RETURN          reduce using rule 95 (empty -> .)
+    IF              reduce using rule 95 (empty -> .)
+    FOR             reduce using rule 95 (empty -> .)
+    IDENT           reduce using rule 95 (empty -> .)
+    RBRACES         reduce using rule 95 (empty -> .)
+
+  ! ELSE            [ reduce using rule 95 (empty -> .) ]
+
+    _ifstat                        shift and go to state 184
+    empty                          shift and go to state 186
+
+state 166
+
+    (55) forstat -> FOR LPAREN atribstat SEMICOLON expression . SEMICOLON atribstat RPAREN statement
+
+    SEMICOLON       shift and go to state 187
+
+
+state 167
+
+    (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN . LBRACES statelist RBRACES
+
+    LBRACES         shift and go to state 188
+
+
+state 168
+
+    (8) paramlist -> INT IDENT . _paramlist
+    (12) _paramlist -> . COMMA paramlist
+    (13) _paramlist -> . empty
+    (95) empty -> .
+
+    COMMA           shift and go to state 190
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _paramlist                     shift and go to state 189
+    empty                          shift and go to state 191
+
+state 169
+
+    (9) paramlist -> FLOAT IDENT . _paramlist
+    (12) _paramlist -> . COMMA paramlist
+    (13) _paramlist -> . empty
+    (95) empty -> .
+
+    COMMA           shift and go to state 190
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _paramlist                     shift and go to state 192
+    empty                          shift and go to state 191
+
+state 170
+
+    (10) paramlist -> STRING IDENT . _paramlist
+    (12) _paramlist -> . COMMA paramlist
+    (13) _paramlist -> . empty
+    (95) empty -> .
+
+    COMMA           shift and go to state 190
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _paramlist                     shift and go to state 193
+    empty                          shift and go to state 191
+
+state 171
+
+    (27) vardecl_line -> LBRACKET INT_CONSTANT RBRACKET vardecl_line .
+
+    SEMICOLON       reduce using rule 27 (vardecl_line -> LBRACKET INT_CONSTANT RBRACKET vardecl_line .)
+
+
+state 172
+
+    (35) _atribstat_help -> IDENT lvalue_line term_line . numexpression_line _expression
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 194
+    empty                          shift and go to state 95
+
+state 173
+
+    (42) ___atribstat -> lvalue_line term_line numexpression_line . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 195
+    empty                          shift and go to state 91
+
+state 174
+
+    (43) ___atribstat -> LPAREN paramlistcall RPAREN .
+
+    SEMICOLON       reduce using rule 43 (___atribstat -> LPAREN paramlistcall RPAREN .)
+    RPAREN          reduce using rule 43 (___atribstat -> LPAREN paramlistcall RPAREN .)
+
+
+state 175
+
+    (45) paramlistcall -> IDENT _paramlistcall .
+
+    RPAREN          reduce using rule 45 (paramlistcall -> IDENT _paramlistcall .)
+
+
+state 176
+
+    (47) _paramlistcall -> COMMA . paramlistcall
+    (45) paramlistcall -> . IDENT _paramlistcall
+    (46) paramlistcall -> . empty
+    (95) empty -> .
+
+    IDENT           shift and go to state 149
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    paramlistcall                  shift and go to state 196
+    empty                          shift and go to state 150
+
+state 177
+
+    (48) _paramlistcall -> empty .
+
+    RPAREN          reduce using rule 48 (_paramlistcall -> empty .)
+
+
+state 178
+
+    (37) __atribstat -> INT_CONSTANT term_line numexpression_line _expression .
+
+    SEMICOLON       reduce using rule 37 (__atribstat -> INT_CONSTANT term_line numexpression_line _expression .)
+    RPAREN          reduce using rule 37 (__atribstat -> INT_CONSTANT term_line numexpression_line _expression .)
+
+
+state 179
+
+    (38) __atribstat -> FLOAT_CONSTANT term_line numexpression_line _expression .
+
+    SEMICOLON       reduce using rule 38 (__atribstat -> FLOAT_CONSTANT term_line numexpression_line _expression .)
+    RPAREN          reduce using rule 38 (__atribstat -> FLOAT_CONSTANT term_line numexpression_line _expression .)
+
+
+state 180
+
+    (39) __atribstat -> STRING_CONSTANT term_line numexpression_line _expression .
+
+    SEMICOLON       reduce using rule 39 (__atribstat -> STRING_CONSTANT term_line numexpression_line _expression .)
+    RPAREN          reduce using rule 39 (__atribstat -> STRING_CONSTANT term_line numexpression_line _expression .)
+
+
+state 181
+
+    (40) __atribstat -> NULL term_line numexpression_line _expression .
+
+    SEMICOLON       reduce using rule 40 (__atribstat -> NULL term_line numexpression_line _expression .)
+    RPAREN          reduce using rule 40 (__atribstat -> NULL term_line numexpression_line _expression .)
+
+
+state 182
+
+    (41) __atribstat -> LPAREN numexpression RPAREN term_line . numexpression_line _expression
+    (75) numexpression_line -> . PLUS term numexpression_line
+    (76) numexpression_line -> . MINUS term numexpression_line
+    (77) numexpression_line -> . empty
+    (95) empty -> .
+
+    PLUS            shift and go to state 93
+    MINUS           shift and go to state 94
+    LESS_THAN       reduce using rule 95 (empty -> .)
+    GREATER_THAN    reduce using rule 95 (empty -> .)
+    LESS_EQUAL_THAN reduce using rule 95 (empty -> .)
+    GREATER_EQUAL_THAN reduce using rule 95 (empty -> .)
+    EQUAL_TO        reduce using rule 95 (empty -> .)
+    NOT_EQUAL_TO    reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    numexpression_line             shift and go to state 197
+    empty                          shift and go to state 95
+
+state 183
+
+    (63) allocexpression_line -> LBRACKET numexpression . RBRACKET _allocexpression_line
+
+    RBRACKET        shift and go to state 198
+
+
+state 184
+
+    (52) ifstat -> IF LPAREN expression RPAREN statement _ifstat .
+
+    $end            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    LBRACES         reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    BREAK           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    SEMICOLON       reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    INT             reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    FLOAT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    STRING          reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    PRINT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    READ            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    RETURN          reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    IF              reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    FOR             reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    IDENT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    RBRACES         reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    ELSE            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+
+
+state 185
+
+    (53) _ifstat -> ELSE . statement
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
+
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
+
+    statement                      shift and go to state 199
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
+
+state 186
+
+    (54) _ifstat -> empty .
+
+    ELSE            reduce using rule 54 (_ifstat -> empty .)
+    $end            reduce using rule 54 (_ifstat -> empty .)
+    LBRACES         reduce using rule 54 (_ifstat -> empty .)
+    BREAK           reduce using rule 54 (_ifstat -> empty .)
+    SEMICOLON       reduce using rule 54 (_ifstat -> empty .)
+    INT             reduce using rule 54 (_ifstat -> empty .)
+    FLOAT           reduce using rule 54 (_ifstat -> empty .)
+    STRING          reduce using rule 54 (_ifstat -> empty .)
+    PRINT           reduce using rule 54 (_ifstat -> empty .)
+    READ            reduce using rule 54 (_ifstat -> empty .)
+    RETURN          reduce using rule 54 (_ifstat -> empty .)
+    IF              reduce using rule 54 (_ifstat -> empty .)
+    FOR             reduce using rule 54 (_ifstat -> empty .)
+    IDENT           reduce using rule 54 (_ifstat -> empty .)
+    RBRACES         reduce using rule 54 (_ifstat -> empty .)
+
+
+state 187
+
+    (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON . atribstat RPAREN statement
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (92) lvalue -> . IDENT lvalue_line
+
+    IDENT           shift and go to state 17
+
+    atribstat                      shift and go to state 200
+    lvalue                         shift and go to state 20
+
+state 188
+
+    (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES . statelist RBRACES
+    (56) statelist -> . statement _statelist
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
+
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
+
+    statelist                      shift and go to state 201
+    statement                      shift and go to state 33
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
+
+state 189
+
+    (8) paramlist -> INT IDENT _paramlist .
+
+    RPAREN          reduce using rule 8 (paramlist -> INT IDENT _paramlist .)
+
+
+state 190
+
+    (12) _paramlist -> COMMA . paramlist
+    (8) paramlist -> . INT IDENT _paramlist
+    (9) paramlist -> . FLOAT IDENT _paramlist
+    (10) paramlist -> . STRING IDENT _paramlist
+    (11) paramlist -> . empty
+    (95) empty -> .
+
+    INT             shift and go to state 140
+    FLOAT           shift and go to state 141
+    STRING          shift and go to state 142
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    paramlist                      shift and go to state 202
+    empty                          shift and go to state 143
+
+state 191
+
+    (13) _paramlist -> empty .
+
+    RPAREN          reduce using rule 13 (_paramlist -> empty .)
+
+
+state 192
+
+    (9) paramlist -> FLOAT IDENT _paramlist .
+
+    RPAREN          reduce using rule 9 (paramlist -> FLOAT IDENT _paramlist .)
+
+
+state 193
+
+    (10) paramlist -> STRING IDENT _paramlist .
+
+    RPAREN          reduce using rule 10 (paramlist -> STRING IDENT _paramlist .)
+
+
+state 194
+
+    (35) _atribstat_help -> IDENT lvalue_line term_line numexpression_line . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 203
+    empty                          shift and go to state 91
+
+state 195
+
+    (42) ___atribstat -> lvalue_line term_line numexpression_line _expression .
+
+    SEMICOLON       reduce using rule 42 (___atribstat -> lvalue_line term_line numexpression_line _expression .)
+    RPAREN          reduce using rule 42 (___atribstat -> lvalue_line term_line numexpression_line _expression .)
+
+
+state 196
+
+    (47) _paramlistcall -> COMMA paramlistcall .
+
+    RPAREN          reduce using rule 47 (_paramlistcall -> COMMA paramlistcall .)
+
+
+state 197
+
+    (41) __atribstat -> LPAREN numexpression RPAREN term_line numexpression_line . _expression
+    (67) _expression -> . LESS_THAN numexpression
+    (68) _expression -> . GREATER_THAN numexpression
+    (69) _expression -> . LESS_EQUAL_THAN numexpression
+    (70) _expression -> . GREATER_EQUAL_THAN numexpression
+    (71) _expression -> . EQUAL_TO numexpression
+    (72) _expression -> . NOT_EQUAL_TO numexpression
+    (73) _expression -> . empty
+    (95) empty -> .
+
+    LESS_THAN       shift and go to state 85
+    GREATER_THAN    shift and go to state 86
+    LESS_EQUAL_THAN shift and go to state 87
+    GREATER_EQUAL_THAN shift and go to state 88
+    EQUAL_TO        shift and go to state 89
+    NOT_EQUAL_TO    shift and go to state 90
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _expression                    shift and go to state 204
+    empty                          shift and go to state 91
+
+state 198
+
+    (63) allocexpression_line -> LBRACKET numexpression RBRACKET . _allocexpression_line
+    (64) _allocexpression_line -> . allocexpression_line
+    (65) _allocexpression_line -> . empty
+    (63) allocexpression_line -> . LBRACKET numexpression RBRACKET _allocexpression_line
+    (95) empty -> .
+
+    LBRACKET        shift and go to state 157
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    RPAREN          reduce using rule 95 (empty -> .)
+
+    _allocexpression_line          shift and go to state 205
+    allocexpression_line           shift and go to state 206
+    empty                          shift and go to state 207
+
+state 199
+
+    (53) _ifstat -> ELSE statement .
+
+    ELSE            reduce using rule 53 (_ifstat -> ELSE statement .)
+    $end            reduce using rule 53 (_ifstat -> ELSE statement .)
+    LBRACES         reduce using rule 53 (_ifstat -> ELSE statement .)
+    BREAK           reduce using rule 53 (_ifstat -> ELSE statement .)
+    SEMICOLON       reduce using rule 53 (_ifstat -> ELSE statement .)
+    INT             reduce using rule 53 (_ifstat -> ELSE statement .)
+    FLOAT           reduce using rule 53 (_ifstat -> ELSE statement .)
+    STRING          reduce using rule 53 (_ifstat -> ELSE statement .)
+    PRINT           reduce using rule 53 (_ifstat -> ELSE statement .)
+    READ            reduce using rule 53 (_ifstat -> ELSE statement .)
+    RETURN          reduce using rule 53 (_ifstat -> ELSE statement .)
+    IF              reduce using rule 53 (_ifstat -> ELSE statement .)
+    FOR             reduce using rule 53 (_ifstat -> ELSE statement .)
+    IDENT           reduce using rule 53 (_ifstat -> ELSE statement .)
+    RBRACES         reduce using rule 53 (_ifstat -> ELSE statement .)
+
+
+state 200
+
+    (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat . RPAREN statement
+
+    RPAREN          shift and go to state 208
+
+
+state 201
+
+    (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist . RBRACES
+
+    RBRACES         shift and go to state 209
+
+
+state 202
+
+    (12) _paramlist -> COMMA paramlist .
+
+    RPAREN          reduce using rule 12 (_paramlist -> COMMA paramlist .)
+
+
+state 203
+
+    (35) _atribstat_help -> IDENT lvalue_line term_line numexpression_line _expression .
+
+    SEMICOLON       reduce using rule 35 (_atribstat_help -> IDENT lvalue_line term_line numexpression_line _expression .)
+    RPAREN          reduce using rule 35 (_atribstat_help -> IDENT lvalue_line term_line numexpression_line _expression .)
+
+
+state 204
+
+    (41) __atribstat -> LPAREN numexpression RPAREN term_line numexpression_line _expression .
+
+    SEMICOLON       reduce using rule 41 (__atribstat -> LPAREN numexpression RPAREN term_line numexpression_line _expression .)
+    RPAREN          reduce using rule 41 (__atribstat -> LPAREN numexpression RPAREN term_line numexpression_line _expression .)
+
+
+state 205
+
+    (63) allocexpression_line -> LBRACKET numexpression RBRACKET _allocexpression_line .
+
+    SEMICOLON       reduce using rule 63 (allocexpression_line -> LBRACKET numexpression RBRACKET _allocexpression_line .)
+    RPAREN          reduce using rule 63 (allocexpression_line -> LBRACKET numexpression RBRACKET _allocexpression_line .)
+
+
+state 206
+
+    (64) _allocexpression_line -> allocexpression_line .
+
+    SEMICOLON       reduce using rule 64 (_allocexpression_line -> allocexpression_line .)
+    RPAREN          reduce using rule 64 (_allocexpression_line -> allocexpression_line .)
+
+
+state 207
+
+    (65) _allocexpression_line -> empty .
+
+    SEMICOLON       reduce using rule 65 (_allocexpression_line -> empty .)
+    RPAREN          reduce using rule 65 (_allocexpression_line -> empty .)
+
+
+state 208
+
+    (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN . statement
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
+
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
+
+    atribstat                      shift and go to state 7
+    statement                      shift and go to state 210
+    vardecl                        shift and go to state 5
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
+
+state 209
+
+    (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES .
+
+    DEFINE          reduce using rule 7 (funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES .)
+    $end            reduce using rule 7 (funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES .)
+
+
+state 210
+
+    (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .
+
+    $end            reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    LBRACES         reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    BREAK           reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    SEMICOLON       reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    INT             reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    FLOAT           reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    STRING          reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    PRINT           reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    READ            reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    RETURN          reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    IF              reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    FOR             reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    IDENT           reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    RBRACES         reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+    ELSE            reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ELSE in state 165 resolved as shift
