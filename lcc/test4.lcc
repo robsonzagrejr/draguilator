@@ -1,12 +1,18 @@
-int a = 1;
-int b = 2;
-int c = a;
-a = 3;
-print a;
-c = b;
-c = c + 2;
-print c;
-print b;
+
+def abc() {
+    int a;
+    a = 1;
+    int b;
+    b = 2;
+    int c;
+    c = a;
+    a = 3;
+    print a;
+    c = b;
+    c = c + 2;
+    print c;
+    print b;
+}
 
 def max(int x, int y)
 {
@@ -14,11 +20,13 @@ def max(int x, int y)
     if (x > y)
     {
         returnMessage = x + "is greater than " + y;
-        return returnMessage;
+        print returnMessage;
+        return;
     }
 
     returnMessage = y + "is greater than " + x;
-    return returnMessage;
+    print returnMessage;
+    return;
 }
 
 def min(int x, int y)
@@ -27,23 +35,37 @@ def min(int x, int y)
     if (x > y)
     {
         returnMessage = x + "is greater than " + y;
-        return y;
+        print y;
+        return;
     }
 
     returnMessage = y + "is greater than " + x;
-    return x;
+    print x;
+    return;
 }
 
-max(a, b);
-max(b, c);
-max(a, c);
-min(a, b);
-min(b, c);
-min(a, c);
+def maxmin(int a, int b, int c) {
+  int d;
+  int e;
+  int f;
+  d = max(a, b);
+  e = max(b, c);
+  f = max(a, c);
+  print d;
+  print e;
+  print f;
+  d = min(a, b);
+  e = min(b, c);
+  f = min(a, c);
+  print d;
+  print e;
+  print f;
+}
 
 def iterativeSum(int a, int b)
 {
-    for (int i = 0; i < b; b = b + 1)
+    int i;
+    for (i = 0; i < b; b = b + 1)
     {
         a = a + 1;
     }
@@ -51,50 +73,46 @@ def iterativeSum(int a, int b)
     string returnMessage;
     returnMessage = "The result is: ";
     returnMessage = returnMessage + a;
-    return returnMessage;
+    print returnMessage;
+    return;
 }
 
-iterativeSum(a, b);
-iterativeSum(a, c);
-iterativeSum(b, c);
+def results(int a, int b, int c) {
+    int d;
+    int e;
+    int f;
+    d = iterativeSum(a, b);
+    e = iterativeSum(a, c);
+    f = iterativeSum(b, c);
+    return;
+}
 
-string k;
-k = "a";
-k = k + "b";
-k = k + "c";
-k = k + "d";
-k = k + "e";
-k = "a" + k;
-k = "b" + k;
-k = "c" + k;
-k = "d" + k;
-k = "e" + k;
-print k;
+def k_func() {
+    string k;
+    k = "a";
+    k = k + "b";
+    k = k + "c";
+    k = k + "d";
+    k = k + "e";
+    k = "a" + k;
+    k = "b" + k;
+    k = "c" + k;
+    k = "d" + k;
+    k = "e" + k;
+    print k;
+}
 
-int array = 10;
-int z[array];
-z[0] = 1;
-z[1] = 2;
-z[2] = 3;
-z[3] = 4;
-z[4] = 5;
-z[5] = 6;
-z[6] = 7;
-z[7] = 8;
-z[8] = 7;
-z[9] = 10;
-print z[6];
-
-for (int i = 0; i < array; i = i + 1)
-{
-    int q = i + 1;
-    if (z[i] != q)
-    {
-        string returnMessage;
-        returnMessage = "error at index ";
-        returnMessage = returnMessage + i;
-        returnMessage = returnMessage + " of array z";
-
-        print returnMessage;
-    }
+def z_func() {
+    int z[10];
+    z[0] = 1;
+    z[1] = 2;
+    z[2] = 3;
+    z[3] = 4;
+    z[4] = 5;
+    z[5] = 6;
+    z[6] = 7;
+    z[7] = 8;
+    z[8] = 7;
+    z[9] = 10;
+    print z[6];
 }

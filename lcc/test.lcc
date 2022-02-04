@@ -1,7 +1,7 @@
 def factorial(int i)
 {
     int ret;
-    ret = 1
+    ret = 1;
     if (i < 0)
     {
         string errorMessage;
@@ -10,7 +10,8 @@ def factorial(int i)
         return;
     }
     int k;
-    for (int j = 1; j < i, j = j + 1)
+    int j;
+    for (j = 1; j < i; j = j + 1)
     {
         k = j + 1;
         ret = ret * k;
@@ -56,7 +57,8 @@ def helloWorld()
 
 def areaCircle(float radius)
 {
-    float pi = 3.141593;
+    float pi;
+    pi = 3.141593;
     float area;
     area = radius;
     area = area * area;
@@ -68,34 +70,32 @@ def areaCircle(float radius)
     return;
 }
 
-factorial();
-int s;
-s = 555555;
-int r;
-r = 24;
-getRandomNumber(s, r);
-float d;
-d = 46.478;
-float rad;
-rad = d / 2;
-areaCircle(rad);
-helloWorld();
-int size;
-size = 4;
-int z[size];
-z[0] = 2;
-z[1] = 3;
-z[2] = 5;
-z[3] = 7;
-int y;
-for (y = 0; y < size; y = y + 1)
-{
-    if (y > 0)
+def operations() {
+    int s;
+    s = 555555;
+    int r;
+    r = 24;
+    float d;
+    d = 46.478;
+    float rad;
+    rad = d / 2;
+    int size;
+    size = 4;
+    int z[4];
+    z[0] = 2;
+    z[1] = 3;
+    z[2] = 5;
+    z[3] = 7;
+    int y;
+    for (y = 0; y < size; y = y + 1)
     {
-        print "y is greater than zero";
-    }
-    else
-    {
-        print "y is less than zero";
+        if (y > 0)
+        {
+            print "y is greater than zero";
+        }
+        else
+        {
+            print "y is less than zero";
+        }
     }
 }

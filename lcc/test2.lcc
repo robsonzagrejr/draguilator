@@ -68,33 +68,36 @@ def howToNotTestPrimes(int n)
     }
 }
 
-int a;
-int b;
-int c;
-int d;
-int e;
-int f;
-int g;
-int h;
-int i;
-int j;
-a = -5;
-b = -1;
-c = 0;
-d = 1;
-e = 2;
-f = 3;
-g = 4;
-h = 13;
-i = 14;
-j = 20;
-howToNotTestPrimes(a);
-howToNotTestPrimes(b);
-howToNotTestPrimes(c);
-howToNotTestPrimes(d);
-howToNotTestPrimes(e);
-howToNotTestPrimes(f);
-howToNotTestPrimes(g);
-howToNotTestPrimes(h);
-howToNotTestPrimes(i);
-howToNotTestPrimes(j);
+
+def driver() {
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+    int i;
+    int j;
+    a = -5;
+    b = -1;
+    c = 0;
+    d = 1;
+    e = 2;
+    f = 3;
+    g = 4;
+    h = 13;
+    i = 14;
+    j = 20;
+    a = howToNotTestPrimes(a);
+    b = howToNotTestPrimes(b);
+    c = howToNotTestPrimes(c);
+    d = howToNotTestPrimes(d);
+    e = howToNotTestPrimes(e);
+    f = howToNotTestPrimes(f);
+    g =howToNotTestPrimes(g);
+    h = howToNotTestPrimes(h);
+    i = howToNotTestPrimes(i);
+    j = howToNotTestPrimes(j);
+}
