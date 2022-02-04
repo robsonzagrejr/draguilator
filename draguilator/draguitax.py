@@ -60,7 +60,7 @@ def p_statement(p):
                 | readstat SEMICOLON
                 | returnstat SEMICOLON
                 | ifstat
-                | forstat 
+                | forstat
                 | LBRACES statelist RBRACES
                 | BREAK SEMICOLON
                 | SEMICOLON
@@ -162,20 +162,20 @@ def p_returnstat(p):
 
 
 def p_ifstat(p):
-    '''ifstat : IF LPAREN expression RPAREN LBRACES statement RBRACES _ifstat
+    '''ifstat : IF LPAREN expression RPAREN statement _ifstat
     '''
     pass
 
 
 def p__ifstat(p):
-    '''_ifstat : ELSE LBRACES statement RBRACES
+    '''_ifstat : ELSE statement
               | empty
     '''
     pass
 
 
 def p_forstat(p):
-    '''forstat : FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN LBRACES statement RBRACES
+    '''forstat : FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN  statement
     '''
     pass
 
@@ -233,6 +233,7 @@ def p__expression(p):
                   | GREATER_EQUAL_THAN numexpression
                   | EQUAL_TO numexpression
                   | NOT_EQUAL_TO numexpression
+                  | empty
     '''
     pass
 
@@ -252,22 +253,22 @@ def p_numexpression_line(p):
 
 
 def p_term(p):
-    '''term : unaryexpre term_line
+    '''term : unaryexpr term_line
     '''
     pass
 
 
 def p_term_line(p):
-    '''term_line : TIMES unaryexpre term_line
-                | DIVIDE unaryexpre term_line
-                | MODULO unaryexpre term_line
+    '''term_line : TIMES unaryexpr term_line
+                | DIVIDE unaryexpr term_line
+                | MODULO unaryexpr term_line
                 | empty
     '''
     pass
 
 
 def p_unaryexpr(p):
-    '''unaryexpre : factor
+    '''unaryexpr : factor
                  | PLUS factor
                  | MINUS factor
     '''
@@ -299,7 +300,7 @@ def p_lvalue_line(p):
 
 
 def p_empty(p):
-    'empty :'
+    '''empty :'''
     pass
 
 
@@ -323,4 +324,3 @@ def p_error(p):
 
 # Build the parser
 parser = yacc.yacc()
-
