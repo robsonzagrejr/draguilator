@@ -105,7 +105,8 @@ if __name__ == '__main__':
 
     
     syntax_title = ("="*(max_characters//2)) + "SYNTAX CHECK" + ("="*(max_characters//2))
+    print(syntax_title)
     result = parser.parse(text_input, lexer=lexer)
     if not result:
-        print('Syntax of program ok')
+        print('Syntax of program ok\n')
 
