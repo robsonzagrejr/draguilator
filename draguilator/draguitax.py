@@ -162,7 +162,7 @@ def p_returnstat(p):
 
 
 def p_ifstat(p):
-    '''ifstat : IF LPAREN expression RPAREN statement _ifstat
+    '''ifstat : IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
     '''
     pass
 
@@ -306,21 +306,11 @@ def p_empty(p):
 
 # Error rule for syntax errors
 def p_error(p):
-    breakpoint()
-    print(f"Syntax error in input! {p}")
-    print(parser.productions[parser.state])
-    breakpoint()
-    #raise SyntaxError
-    return p
+    print(f"Syntax error in input: {p.value} ({p.type})")
+    print("Current sentence form")
+    print(f"{parser.symstack} \n\n")
+    raise SyntaxError
 
-
-"""
-def p_error(p):
-    if p:
-        print("Syntax error at '%s'" % p.value)
-    else:
-        print("Syntax error at EOF")
-"""
 
 # Build the parser
 parser = yacc.yacc()

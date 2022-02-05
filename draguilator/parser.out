@@ -58,7 +58,7 @@ Rule 48    _paramlistcall -> empty
 Rule 49    printstat -> PRINT expression
 Rule 50    readstat -> READ lvalue
 Rule 51    returnstat -> RETURN
-Rule 52    ifstat -> IF LPAREN expression RPAREN statement _ifstat
+Rule 52    ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
 Rule 53    _ifstat -> ELSE statement
 Rule 54    _ifstat -> empty
 Rule 55    forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
@@ -122,7 +122,7 @@ IDENT                : 7 8 9 10 24 25 26 33 35 44 45 92
 IF                   : 52
 INT                  : 8 24 60
 INT_CONSTANT         : 27 37 86
-LBRACES              : 7 21
+LBRACES              : 7 21 52
 LBRACKET             : 27 63 93
 LESS_EQUAL_THAN      : 69
 LESS_THAN            : 67
@@ -134,7 +134,7 @@ NOT_EQUAL_TO         : 72
 NULL                 : 40 89
 PLUS                 : 30 75 84
 PRINT                : 49
-RBRACES              : 7 21
+RBRACES              : 7 21 52
 RBRACKET             : 27 63 93
 READ                 : 50
 RETURN               : 51
@@ -180,8 +180,8 @@ printstat            : 16
 program              : 0
 readstat             : 17
 returnstat           : 18
-statelist            : 7 21 57
-statement            : 1 52 53 55 56
+statelist            : 7 21 52 57
+statement            : 1 53 55 56
 term                 : 74 75 76
 term_line            : 35 37 38 39 40 41 42 78 79 80 81
 unaryexpr            : 78 79 80 81
@@ -215,7 +215,7 @@ state 0
     (49) printstat -> . PRINT expression
     (50) readstat -> . READ lvalue
     (51) returnstat -> . RETURN
-    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (52) ifstat -> . IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
     (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
     (7) funcdef -> . DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES
     (92) lvalue -> . IDENT lvalue_line
@@ -301,7 +301,6 @@ state 6
     FOR             reduce using rule 23 (statement -> SEMICOLON .)
     IDENT           reduce using rule 23 (statement -> SEMICOLON .)
     RBRACES         reduce using rule 23 (statement -> SEMICOLON .)
-    ELSE            reduce using rule 23 (statement -> SEMICOLON .)
 
 
 state 7
@@ -350,7 +349,6 @@ state 11
     FOR             reduce using rule 19 (statement -> ifstat .)
     IDENT           reduce using rule 19 (statement -> ifstat .)
     RBRACES         reduce using rule 19 (statement -> ifstat .)
-    ELSE            reduce using rule 19 (statement -> ifstat .)
 
 
 state 12
@@ -371,7 +369,6 @@ state 12
     FOR             reduce using rule 20 (statement -> forstat .)
     IDENT           reduce using rule 20 (statement -> forstat .)
     RBRACES         reduce using rule 20 (statement -> forstat .)
-    ELSE            reduce using rule 20 (statement -> forstat .)
 
 
 state 13
@@ -395,7 +392,7 @@ state 13
     (49) printstat -> . PRINT expression
     (50) readstat -> . READ lvalue
     (51) returnstat -> . RETURN
-    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (52) ifstat -> . IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
     (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
     (92) lvalue -> . IDENT lvalue_line
 
@@ -553,7 +550,7 @@ state 23
 
 state 24
 
-    (52) ifstat -> IF . LPAREN expression RPAREN statement _ifstat
+    (52) ifstat -> IF . LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
 
     LPAREN          shift and go to state 59
 
@@ -590,7 +587,6 @@ state 27
     FOR             reduce using rule 14 (statement -> vardecl SEMICOLON .)
     IDENT           reduce using rule 14 (statement -> vardecl SEMICOLON .)
     RBRACES         reduce using rule 14 (statement -> vardecl SEMICOLON .)
-    ELSE            reduce using rule 14 (statement -> vardecl SEMICOLON .)
 
 
 state 28
@@ -611,7 +607,6 @@ state 28
     FOR             reduce using rule 15 (statement -> atribstat SEMICOLON .)
     IDENT           reduce using rule 15 (statement -> atribstat SEMICOLON .)
     RBRACES         reduce using rule 15 (statement -> atribstat SEMICOLON .)
-    ELSE            reduce using rule 15 (statement -> atribstat SEMICOLON .)
 
 
 state 29
@@ -632,7 +627,6 @@ state 29
     FOR             reduce using rule 16 (statement -> printstat SEMICOLON .)
     IDENT           reduce using rule 16 (statement -> printstat SEMICOLON .)
     RBRACES         reduce using rule 16 (statement -> printstat SEMICOLON .)
-    ELSE            reduce using rule 16 (statement -> printstat SEMICOLON .)
 
 
 state 30
@@ -653,7 +647,6 @@ state 30
     FOR             reduce using rule 17 (statement -> readstat SEMICOLON .)
     IDENT           reduce using rule 17 (statement -> readstat SEMICOLON .)
     RBRACES         reduce using rule 17 (statement -> readstat SEMICOLON .)
-    ELSE            reduce using rule 17 (statement -> readstat SEMICOLON .)
 
 
 state 31
@@ -674,7 +667,6 @@ state 31
     FOR             reduce using rule 18 (statement -> returnstat SEMICOLON .)
     IDENT           reduce using rule 18 (statement -> returnstat SEMICOLON .)
     RBRACES         reduce using rule 18 (statement -> returnstat SEMICOLON .)
-    ELSE            reduce using rule 18 (statement -> returnstat SEMICOLON .)
 
 
 state 32
@@ -708,7 +700,7 @@ state 33
     (49) printstat -> . PRINT expression
     (50) readstat -> . READ lvalue
     (51) returnstat -> . RETURN
-    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (52) ifstat -> . IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
     (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
     (92) lvalue -> . IDENT lvalue_line
 
@@ -757,7 +749,6 @@ state 34
     FOR             reduce using rule 22 (statement -> BREAK SEMICOLON .)
     IDENT           reduce using rule 22 (statement -> BREAK SEMICOLON .)
     RBRACES         reduce using rule 22 (statement -> BREAK SEMICOLON .)
-    ELSE            reduce using rule 22 (statement -> BREAK SEMICOLON .)
 
 
 state 35
@@ -1205,7 +1196,7 @@ state 58
 
 state 59
 
-    (52) ifstat -> IF LPAREN . expression RPAREN statement _ifstat
+    (52) ifstat -> IF LPAREN . expression RPAREN LBRACES statelist RBRACES _ifstat
     (66) expression -> . numexpression _expression
     (74) numexpression -> . term numexpression_line
     (78) term -> . unaryexpr term_line
@@ -1272,7 +1263,6 @@ state 62
     FOR             reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
     IDENT           reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
     RBRACES         reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
-    ELSE            reduce using rule 21 (statement -> LBRACES statelist RBRACES .)
 
 
 state 63
@@ -2035,7 +2025,7 @@ state 103
 
 state 104
 
-    (52) ifstat -> IF LPAREN expression . RPAREN statement _ifstat
+    (52) ifstat -> IF LPAREN expression . RPAREN LBRACES statelist RBRACES _ifstat
 
     RPAREN          shift and go to state 137
 
@@ -2521,50 +2511,10 @@ state 136
 
 state 137
 
-    (52) ifstat -> IF LPAREN expression RPAREN . statement _ifstat
-    (14) statement -> . vardecl SEMICOLON
-    (15) statement -> . atribstat SEMICOLON
-    (16) statement -> . printstat SEMICOLON
-    (17) statement -> . readstat SEMICOLON
-    (18) statement -> . returnstat SEMICOLON
-    (19) statement -> . ifstat
-    (20) statement -> . forstat
-    (21) statement -> . LBRACES statelist RBRACES
-    (22) statement -> . BREAK SEMICOLON
-    (23) statement -> . SEMICOLON
-    (24) vardecl -> . INT IDENT vardecl_line
-    (25) vardecl -> . FLOAT IDENT vardecl_line
-    (26) vardecl -> . STRING IDENT vardecl_line
-    (29) atribstat -> . lvalue ASSIGN _atribstat
-    (49) printstat -> . PRINT expression
-    (50) readstat -> . READ lvalue
-    (51) returnstat -> . RETURN
-    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
-    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
-    (92) lvalue -> . IDENT lvalue_line
+    (52) ifstat -> IF LPAREN expression RPAREN . LBRACES statelist RBRACES _ifstat
 
-    LBRACES         shift and go to state 13
-    BREAK           shift and go to state 14
-    SEMICOLON       shift and go to state 6
-    INT             shift and go to state 16
-    FLOAT           shift and go to state 18
-    STRING          shift and go to state 19
-    PRINT           shift and go to state 21
-    READ            shift and go to state 22
-    RETURN          shift and go to state 23
-    IF              shift and go to state 24
-    FOR             shift and go to state 25
-    IDENT           shift and go to state 17
+    LBRACES         shift and go to state 165
 
-    statement                      shift and go to state 165
-    vardecl                        shift and go to state 5
-    atribstat                      shift and go to state 7
-    printstat                      shift and go to state 8
-    readstat                       shift and go to state 9
-    returnstat                     shift and go to state 10
-    ifstat                         shift and go to state 11
-    forstat                        shift and go to state 12
-    lvalue                         shift and go to state 20
 
 state 138
 
@@ -3003,45 +2953,65 @@ state 164
 
 state 165
 
-    (52) ifstat -> IF LPAREN expression RPAREN statement . _ifstat
-    (53) _ifstat -> . ELSE statement
-    (54) _ifstat -> . empty
-    (95) empty -> .
+    (52) ifstat -> IF LPAREN expression RPAREN LBRACES . statelist RBRACES _ifstat
+    (56) statelist -> . statement _statelist
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
 
-  ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 185
-    $end            reduce using rule 95 (empty -> .)
-    LBRACES         reduce using rule 95 (empty -> .)
-    BREAK           reduce using rule 95 (empty -> .)
-    SEMICOLON       reduce using rule 95 (empty -> .)
-    INT             reduce using rule 95 (empty -> .)
-    FLOAT           reduce using rule 95 (empty -> .)
-    STRING          reduce using rule 95 (empty -> .)
-    PRINT           reduce using rule 95 (empty -> .)
-    READ            reduce using rule 95 (empty -> .)
-    RETURN          reduce using rule 95 (empty -> .)
-    IF              reduce using rule 95 (empty -> .)
-    FOR             reduce using rule 95 (empty -> .)
-    IDENT           reduce using rule 95 (empty -> .)
-    RBRACES         reduce using rule 95 (empty -> .)
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
 
-  ! ELSE            [ reduce using rule 95 (empty -> .) ]
-
-    _ifstat                        shift and go to state 184
-    empty                          shift and go to state 186
+    statelist                      shift and go to state 184
+    statement                      shift and go to state 33
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
 
 state 166
 
     (55) forstat -> FOR LPAREN atribstat SEMICOLON expression . SEMICOLON atribstat RPAREN statement
 
-    SEMICOLON       shift and go to state 187
+    SEMICOLON       shift and go to state 185
 
 
 state 167
 
     (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN . LBRACES statelist RBRACES
 
-    LBRACES         shift and go to state 188
+    LBRACES         shift and go to state 186
 
 
 state 168
@@ -3051,11 +3021,11 @@ state 168
     (13) _paramlist -> . empty
     (95) empty -> .
 
-    COMMA           shift and go to state 190
+    COMMA           shift and go to state 188
     RPAREN          reduce using rule 95 (empty -> .)
 
-    _paramlist                     shift and go to state 189
-    empty                          shift and go to state 191
+    _paramlist                     shift and go to state 187
+    empty                          shift and go to state 189
 
 state 169
 
@@ -3064,11 +3034,11 @@ state 169
     (13) _paramlist -> . empty
     (95) empty -> .
 
-    COMMA           shift and go to state 190
+    COMMA           shift and go to state 188
     RPAREN          reduce using rule 95 (empty -> .)
 
-    _paramlist                     shift and go to state 192
-    empty                          shift and go to state 191
+    _paramlist                     shift and go to state 190
+    empty                          shift and go to state 189
 
 state 170
 
@@ -3077,11 +3047,11 @@ state 170
     (13) _paramlist -> . empty
     (95) empty -> .
 
-    COMMA           shift and go to state 190
+    COMMA           shift and go to state 188
     RPAREN          reduce using rule 95 (empty -> .)
 
-    _paramlist                     shift and go to state 193
-    empty                          shift and go to state 191
+    _paramlist                     shift and go to state 191
+    empty                          shift and go to state 189
 
 state 171
 
@@ -3109,7 +3079,7 @@ state 172
     SEMICOLON       reduce using rule 95 (empty -> .)
     RPAREN          reduce using rule 95 (empty -> .)
 
-    numexpression_line             shift and go to state 194
+    numexpression_line             shift and go to state 192
     empty                          shift and go to state 95
 
 state 173
@@ -3133,7 +3103,7 @@ state 173
     SEMICOLON       reduce using rule 95 (empty -> .)
     RPAREN          reduce using rule 95 (empty -> .)
 
-    _expression                    shift and go to state 195
+    _expression                    shift and go to state 193
     empty                          shift and go to state 91
 
 state 174
@@ -3161,7 +3131,7 @@ state 176
     IDENT           shift and go to state 149
     RPAREN          reduce using rule 95 (empty -> .)
 
-    paramlistcall                  shift and go to state 196
+    paramlistcall                  shift and go to state 194
     empty                          shift and go to state 150
 
 state 177
@@ -3222,106 +3192,24 @@ state 182
     SEMICOLON       reduce using rule 95 (empty -> .)
     RPAREN          reduce using rule 95 (empty -> .)
 
-    numexpression_line             shift and go to state 197
+    numexpression_line             shift and go to state 195
     empty                          shift and go to state 95
 
 state 183
 
     (63) allocexpression_line -> LBRACKET numexpression . RBRACKET _allocexpression_line
 
-    RBRACKET        shift and go to state 198
+    RBRACKET        shift and go to state 196
 
 
 state 184
 
-    (52) ifstat -> IF LPAREN expression RPAREN statement _ifstat .
+    (52) ifstat -> IF LPAREN expression RPAREN LBRACES statelist . RBRACES _ifstat
 
-    $end            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    LBRACES         reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    BREAK           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    SEMICOLON       reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    INT             reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    FLOAT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    STRING          reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    PRINT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    READ            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    RETURN          reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    IF              reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    FOR             reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    IDENT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    RBRACES         reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
-    ELSE            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN statement _ifstat .)
+    RBRACES         shift and go to state 197
 
 
 state 185
-
-    (53) _ifstat -> ELSE . statement
-    (14) statement -> . vardecl SEMICOLON
-    (15) statement -> . atribstat SEMICOLON
-    (16) statement -> . printstat SEMICOLON
-    (17) statement -> . readstat SEMICOLON
-    (18) statement -> . returnstat SEMICOLON
-    (19) statement -> . ifstat
-    (20) statement -> . forstat
-    (21) statement -> . LBRACES statelist RBRACES
-    (22) statement -> . BREAK SEMICOLON
-    (23) statement -> . SEMICOLON
-    (24) vardecl -> . INT IDENT vardecl_line
-    (25) vardecl -> . FLOAT IDENT vardecl_line
-    (26) vardecl -> . STRING IDENT vardecl_line
-    (29) atribstat -> . lvalue ASSIGN _atribstat
-    (49) printstat -> . PRINT expression
-    (50) readstat -> . READ lvalue
-    (51) returnstat -> . RETURN
-    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
-    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
-    (92) lvalue -> . IDENT lvalue_line
-
-    LBRACES         shift and go to state 13
-    BREAK           shift and go to state 14
-    SEMICOLON       shift and go to state 6
-    INT             shift and go to state 16
-    FLOAT           shift and go to state 18
-    STRING          shift and go to state 19
-    PRINT           shift and go to state 21
-    READ            shift and go to state 22
-    RETURN          shift and go to state 23
-    IF              shift and go to state 24
-    FOR             shift and go to state 25
-    IDENT           shift and go to state 17
-
-    statement                      shift and go to state 199
-    vardecl                        shift and go to state 5
-    atribstat                      shift and go to state 7
-    printstat                      shift and go to state 8
-    readstat                       shift and go to state 9
-    returnstat                     shift and go to state 10
-    ifstat                         shift and go to state 11
-    forstat                        shift and go to state 12
-    lvalue                         shift and go to state 20
-
-state 186
-
-    (54) _ifstat -> empty .
-
-    ELSE            reduce using rule 54 (_ifstat -> empty .)
-    $end            reduce using rule 54 (_ifstat -> empty .)
-    LBRACES         reduce using rule 54 (_ifstat -> empty .)
-    BREAK           reduce using rule 54 (_ifstat -> empty .)
-    SEMICOLON       reduce using rule 54 (_ifstat -> empty .)
-    INT             reduce using rule 54 (_ifstat -> empty .)
-    FLOAT           reduce using rule 54 (_ifstat -> empty .)
-    STRING          reduce using rule 54 (_ifstat -> empty .)
-    PRINT           reduce using rule 54 (_ifstat -> empty .)
-    READ            reduce using rule 54 (_ifstat -> empty .)
-    RETURN          reduce using rule 54 (_ifstat -> empty .)
-    IF              reduce using rule 54 (_ifstat -> empty .)
-    FOR             reduce using rule 54 (_ifstat -> empty .)
-    IDENT           reduce using rule 54 (_ifstat -> empty .)
-    RBRACES         reduce using rule 54 (_ifstat -> empty .)
-
-
-state 187
 
     (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON . atribstat RPAREN statement
     (29) atribstat -> . lvalue ASSIGN _atribstat
@@ -3329,10 +3217,10 @@ state 187
 
     IDENT           shift and go to state 17
 
-    atribstat                      shift and go to state 200
+    atribstat                      shift and go to state 198
     lvalue                         shift and go to state 20
 
-state 188
+state 186
 
     (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES . statelist RBRACES
     (56) statelist -> . statement _statelist
@@ -3353,7 +3241,7 @@ state 188
     (49) printstat -> . PRINT expression
     (50) readstat -> . READ lvalue
     (51) returnstat -> . RETURN
-    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (52) ifstat -> . IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
     (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
     (92) lvalue -> . IDENT lvalue_line
 
@@ -3370,7 +3258,7 @@ state 188
     FOR             shift and go to state 25
     IDENT           shift and go to state 17
 
-    statelist                      shift and go to state 201
+    statelist                      shift and go to state 199
     statement                      shift and go to state 33
     vardecl                        shift and go to state 5
     atribstat                      shift and go to state 7
@@ -3381,14 +3269,14 @@ state 188
     forstat                        shift and go to state 12
     lvalue                         shift and go to state 20
 
-state 189
+state 187
 
     (8) paramlist -> INT IDENT _paramlist .
 
     RPAREN          reduce using rule 8 (paramlist -> INT IDENT _paramlist .)
 
 
-state 190
+state 188
 
     (12) _paramlist -> COMMA . paramlist
     (8) paramlist -> . INT IDENT _paramlist
@@ -3402,31 +3290,31 @@ state 190
     STRING          shift and go to state 142
     RPAREN          reduce using rule 95 (empty -> .)
 
-    paramlist                      shift and go to state 202
+    paramlist                      shift and go to state 200
     empty                          shift and go to state 143
 
-state 191
+state 189
 
     (13) _paramlist -> empty .
 
     RPAREN          reduce using rule 13 (_paramlist -> empty .)
 
 
-state 192
+state 190
 
     (9) paramlist -> FLOAT IDENT _paramlist .
 
     RPAREN          reduce using rule 9 (paramlist -> FLOAT IDENT _paramlist .)
 
 
-state 193
+state 191
 
     (10) paramlist -> STRING IDENT _paramlist .
 
     RPAREN          reduce using rule 10 (paramlist -> STRING IDENT _paramlist .)
 
 
-state 194
+state 192
 
     (35) _atribstat_help -> IDENT lvalue_line term_line numexpression_line . _expression
     (67) _expression -> . LESS_THAN numexpression
@@ -3447,10 +3335,10 @@ state 194
     SEMICOLON       reduce using rule 95 (empty -> .)
     RPAREN          reduce using rule 95 (empty -> .)
 
-    _expression                    shift and go to state 203
+    _expression                    shift and go to state 201
     empty                          shift and go to state 91
 
-state 195
+state 193
 
     (42) ___atribstat -> lvalue_line term_line numexpression_line _expression .
 
@@ -3458,14 +3346,14 @@ state 195
     RPAREN          reduce using rule 42 (___atribstat -> lvalue_line term_line numexpression_line _expression .)
 
 
-state 196
+state 194
 
     (47) _paramlistcall -> COMMA paramlistcall .
 
     RPAREN          reduce using rule 47 (_paramlistcall -> COMMA paramlistcall .)
 
 
-state 197
+state 195
 
     (41) __atribstat -> LPAREN numexpression RPAREN term_line numexpression_line . _expression
     (67) _expression -> . LESS_THAN numexpression
@@ -3486,10 +3374,10 @@ state 197
     SEMICOLON       reduce using rule 95 (empty -> .)
     RPAREN          reduce using rule 95 (empty -> .)
 
-    _expression                    shift and go to state 204
+    _expression                    shift and go to state 202
     empty                          shift and go to state 91
 
-state 198
+state 196
 
     (63) allocexpression_line -> LBRACKET numexpression RBRACKET . _allocexpression_line
     (64) _allocexpression_line -> . allocexpression_line
@@ -3501,53 +3389,58 @@ state 198
     SEMICOLON       reduce using rule 95 (empty -> .)
     RPAREN          reduce using rule 95 (empty -> .)
 
-    _allocexpression_line          shift and go to state 205
-    allocexpression_line           shift and go to state 206
-    empty                          shift and go to state 207
+    _allocexpression_line          shift and go to state 203
+    allocexpression_line           shift and go to state 204
+    empty                          shift and go to state 205
 
-state 199
+state 197
 
-    (53) _ifstat -> ELSE statement .
+    (52) ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES . _ifstat
+    (53) _ifstat -> . ELSE statement
+    (54) _ifstat -> . empty
+    (95) empty -> .
 
-    ELSE            reduce using rule 53 (_ifstat -> ELSE statement .)
-    $end            reduce using rule 53 (_ifstat -> ELSE statement .)
-    LBRACES         reduce using rule 53 (_ifstat -> ELSE statement .)
-    BREAK           reduce using rule 53 (_ifstat -> ELSE statement .)
-    SEMICOLON       reduce using rule 53 (_ifstat -> ELSE statement .)
-    INT             reduce using rule 53 (_ifstat -> ELSE statement .)
-    FLOAT           reduce using rule 53 (_ifstat -> ELSE statement .)
-    STRING          reduce using rule 53 (_ifstat -> ELSE statement .)
-    PRINT           reduce using rule 53 (_ifstat -> ELSE statement .)
-    READ            reduce using rule 53 (_ifstat -> ELSE statement .)
-    RETURN          reduce using rule 53 (_ifstat -> ELSE statement .)
-    IF              reduce using rule 53 (_ifstat -> ELSE statement .)
-    FOR             reduce using rule 53 (_ifstat -> ELSE statement .)
-    IDENT           reduce using rule 53 (_ifstat -> ELSE statement .)
-    RBRACES         reduce using rule 53 (_ifstat -> ELSE statement .)
+    ELSE            shift and go to state 207
+    $end            reduce using rule 95 (empty -> .)
+    LBRACES         reduce using rule 95 (empty -> .)
+    BREAK           reduce using rule 95 (empty -> .)
+    SEMICOLON       reduce using rule 95 (empty -> .)
+    INT             reduce using rule 95 (empty -> .)
+    FLOAT           reduce using rule 95 (empty -> .)
+    STRING          reduce using rule 95 (empty -> .)
+    PRINT           reduce using rule 95 (empty -> .)
+    READ            reduce using rule 95 (empty -> .)
+    RETURN          reduce using rule 95 (empty -> .)
+    IF              reduce using rule 95 (empty -> .)
+    FOR             reduce using rule 95 (empty -> .)
+    IDENT           reduce using rule 95 (empty -> .)
+    RBRACES         reduce using rule 95 (empty -> .)
 
+    _ifstat                        shift and go to state 206
+    empty                          shift and go to state 208
 
-state 200
+state 198
 
     (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat . RPAREN statement
 
-    RPAREN          shift and go to state 208
+    RPAREN          shift and go to state 209
 
 
-state 201
+state 199
 
     (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist . RBRACES
 
-    RBRACES         shift and go to state 209
+    RBRACES         shift and go to state 210
 
 
-state 202
+state 200
 
     (12) _paramlist -> COMMA paramlist .
 
     RPAREN          reduce using rule 12 (_paramlist -> COMMA paramlist .)
 
 
-state 203
+state 201
 
     (35) _atribstat_help -> IDENT lvalue_line term_line numexpression_line _expression .
 
@@ -3555,7 +3448,7 @@ state 203
     RPAREN          reduce using rule 35 (_atribstat_help -> IDENT lvalue_line term_line numexpression_line _expression .)
 
 
-state 204
+state 202
 
     (41) __atribstat -> LPAREN numexpression RPAREN term_line numexpression_line _expression .
 
@@ -3563,7 +3456,7 @@ state 204
     RPAREN          reduce using rule 41 (__atribstat -> LPAREN numexpression RPAREN term_line numexpression_line _expression .)
 
 
-state 205
+state 203
 
     (63) allocexpression_line -> LBRACKET numexpression RBRACKET _allocexpression_line .
 
@@ -3571,7 +3464,7 @@ state 205
     RPAREN          reduce using rule 63 (allocexpression_line -> LBRACKET numexpression RBRACKET _allocexpression_line .)
 
 
-state 206
+state 204
 
     (64) _allocexpression_line -> allocexpression_line .
 
@@ -3579,7 +3472,7 @@ state 206
     RPAREN          reduce using rule 64 (_allocexpression_line -> allocexpression_line .)
 
 
-state 207
+state 205
 
     (65) _allocexpression_line -> empty .
 
@@ -3587,7 +3480,94 @@ state 207
     RPAREN          reduce using rule 65 (_allocexpression_line -> empty .)
 
 
+state 206
+
+    (52) ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .
+
+    $end            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    LBRACES         reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    BREAK           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    SEMICOLON       reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    INT             reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    FLOAT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    STRING          reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    PRINT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    READ            reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    RETURN          reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    IF              reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    FOR             reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    IDENT           reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+    RBRACES         reduce using rule 52 (ifstat -> IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat .)
+
+
+state 207
+
+    (53) _ifstat -> ELSE . statement
+    (14) statement -> . vardecl SEMICOLON
+    (15) statement -> . atribstat SEMICOLON
+    (16) statement -> . printstat SEMICOLON
+    (17) statement -> . readstat SEMICOLON
+    (18) statement -> . returnstat SEMICOLON
+    (19) statement -> . ifstat
+    (20) statement -> . forstat
+    (21) statement -> . LBRACES statelist RBRACES
+    (22) statement -> . BREAK SEMICOLON
+    (23) statement -> . SEMICOLON
+    (24) vardecl -> . INT IDENT vardecl_line
+    (25) vardecl -> . FLOAT IDENT vardecl_line
+    (26) vardecl -> . STRING IDENT vardecl_line
+    (29) atribstat -> . lvalue ASSIGN _atribstat
+    (49) printstat -> . PRINT expression
+    (50) readstat -> . READ lvalue
+    (51) returnstat -> . RETURN
+    (52) ifstat -> . IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
+    (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
+    (92) lvalue -> . IDENT lvalue_line
+
+    LBRACES         shift and go to state 13
+    BREAK           shift and go to state 14
+    SEMICOLON       shift and go to state 6
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 18
+    STRING          shift and go to state 19
+    PRINT           shift and go to state 21
+    READ            shift and go to state 22
+    RETURN          shift and go to state 23
+    IF              shift and go to state 24
+    FOR             shift and go to state 25
+    IDENT           shift and go to state 17
+
+    statement                      shift and go to state 211
+    vardecl                        shift and go to state 5
+    atribstat                      shift and go to state 7
+    printstat                      shift and go to state 8
+    readstat                       shift and go to state 9
+    returnstat                     shift and go to state 10
+    ifstat                         shift and go to state 11
+    forstat                        shift and go to state 12
+    lvalue                         shift and go to state 20
+
 state 208
+
+    (54) _ifstat -> empty .
+
+    $end            reduce using rule 54 (_ifstat -> empty .)
+    LBRACES         reduce using rule 54 (_ifstat -> empty .)
+    BREAK           reduce using rule 54 (_ifstat -> empty .)
+    SEMICOLON       reduce using rule 54 (_ifstat -> empty .)
+    INT             reduce using rule 54 (_ifstat -> empty .)
+    FLOAT           reduce using rule 54 (_ifstat -> empty .)
+    STRING          reduce using rule 54 (_ifstat -> empty .)
+    PRINT           reduce using rule 54 (_ifstat -> empty .)
+    READ            reduce using rule 54 (_ifstat -> empty .)
+    RETURN          reduce using rule 54 (_ifstat -> empty .)
+    IF              reduce using rule 54 (_ifstat -> empty .)
+    FOR             reduce using rule 54 (_ifstat -> empty .)
+    IDENT           reduce using rule 54 (_ifstat -> empty .)
+    RBRACES         reduce using rule 54 (_ifstat -> empty .)
+
+
+state 209
 
     (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN . statement
     (14) statement -> . vardecl SEMICOLON
@@ -3607,7 +3587,7 @@ state 208
     (49) printstat -> . PRINT expression
     (50) readstat -> . READ lvalue
     (51) returnstat -> . RETURN
-    (52) ifstat -> . IF LPAREN expression RPAREN statement _ifstat
+    (52) ifstat -> . IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
     (55) forstat -> . FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement
     (92) lvalue -> . IDENT lvalue_line
 
@@ -3625,7 +3605,7 @@ state 208
     IDENT           shift and go to state 17
 
     atribstat                      shift and go to state 7
-    statement                      shift and go to state 210
+    statement                      shift and go to state 212
     vardecl                        shift and go to state 5
     printstat                      shift and go to state 8
     readstat                       shift and go to state 9
@@ -3634,7 +3614,7 @@ state 208
     forstat                        shift and go to state 12
     lvalue                         shift and go to state 20
 
-state 209
+state 210
 
     (7) funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES .
 
@@ -3642,7 +3622,27 @@ state 209
     $end            reduce using rule 7 (funcdef -> DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES .)
 
 
-state 210
+state 211
+
+    (53) _ifstat -> ELSE statement .
+
+    $end            reduce using rule 53 (_ifstat -> ELSE statement .)
+    LBRACES         reduce using rule 53 (_ifstat -> ELSE statement .)
+    BREAK           reduce using rule 53 (_ifstat -> ELSE statement .)
+    SEMICOLON       reduce using rule 53 (_ifstat -> ELSE statement .)
+    INT             reduce using rule 53 (_ifstat -> ELSE statement .)
+    FLOAT           reduce using rule 53 (_ifstat -> ELSE statement .)
+    STRING          reduce using rule 53 (_ifstat -> ELSE statement .)
+    PRINT           reduce using rule 53 (_ifstat -> ELSE statement .)
+    READ            reduce using rule 53 (_ifstat -> ELSE statement .)
+    RETURN          reduce using rule 53 (_ifstat -> ELSE statement .)
+    IF              reduce using rule 53 (_ifstat -> ELSE statement .)
+    FOR             reduce using rule 53 (_ifstat -> ELSE statement .)
+    IDENT           reduce using rule 53 (_ifstat -> ELSE statement .)
+    RBRACES         reduce using rule 53 (_ifstat -> ELSE statement .)
+
+
+state 212
 
     (55) forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .
 
@@ -3660,9 +3660,4 @@ state 210
     FOR             reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
     IDENT           reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
     RBRACES         reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
-    ELSE            reduce using rule 55 (forstat -> FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN statement .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for ELSE in state 165 resolved as shift

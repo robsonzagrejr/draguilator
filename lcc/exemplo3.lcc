@@ -1,5 +1,5 @@
 def a(){
     int a;
-    a = 10 * 10;
+    a = 1;
     return ;
 }
