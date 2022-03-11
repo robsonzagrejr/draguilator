@@ -102,11 +102,6 @@ def close_scope(is_loop=False):
         def make_dependence_tree(scope, n=0):
             tree = ""
             childrens = sorted(list(set(scope_items[scope]["childrens"])))
-            #if childrens:
-                #tree += f"{branch*n}{tee}{scope}\n"
-            print(scope)
-            print(childrens)
-            print(n)
             for children in childrens[:-1]:
                 tree += f"{branch}{space*(n-1)}{tee}{children}\n"
                 tree += make_dependence_tree(children, n+1)
