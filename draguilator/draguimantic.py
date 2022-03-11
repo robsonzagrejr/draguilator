@@ -8,19 +8,22 @@ Implementation of a Compiler for INE5426 - UFSC Authors:
 
 import ply.yacc as yacc
 from draguilexer import tokens
+from draguifunc import *
 
-
+#==========================
 def p_program(p):
-    '''program : statement
-              | funclist
-              | empty
+    '''program : make_scope statement close_scope
+              | make_scope funclist close_scope
+              | make_scope empty close_scope
     '''
+    print("-----Program")
     pass
 
 
 def p_funclist(p):
     '''funclist : funcdef _funclist
     '''
+    print("-----FUNCLIST")
     pass
 
 
@@ -32,8 +35,10 @@ def p__funclist(p):
 
 
 def p_funcdef(p):
-    '''funcdef : DEFINE IDENT LPAREN paramlist RPAREN LBRACES statelist RBRACES
+    '''funcdef : DEFINE IDENT make_scope LPAREN paramlist RPAREN LBRACES statelist RBRACES close_scope
     '''
+    if p[1]:
+        put_in_scope(("funcdef", p[2], p.lineno(2)))
     pass
 
 
@@ -43,6 +48,8 @@ def p_paramlist(p):
                 | STRING IDENT _paramlist
                 | empty
     '''
+    if p[1]:
+        put_in_scope(("paramlist", p[1], p[2], p.lineno(2)))
     pass
 
 
@@ -61,10 +68,11 @@ def p_statement(p):
                 | returnstat SEMICOLON
                 | ifstat
                 | forstat
-                | LBRACES statelist RBRACES
-                | BREAK SEMICOLON
+                | LBRACES statelist RBRACES 
+                | check_loop_scope BREAK SEMICOLON
                 | SEMICOLON
     '''
+    print("----STATEMENT")
     pass
 
 
@@ -73,6 +81,8 @@ def p_vardecl(p):
               | FLOAT IDENT vardecl_line
               | STRING IDENT vardecl_line
     '''
+    print("-----VARDECL")
+    put_in_scope(("vardecl", p[2], p[1], p.lineno(2)))
     pass
 
 
@@ -86,6 +96,7 @@ def p_vardecl_line(p):
 def p_atribstat(p):
     '''atribstat : lvalue ASSIGN _atribstat
     '''
+    print("-----ATRIBSTAT")
     pass
 
 
@@ -96,6 +107,9 @@ def p__atribstat(p):
                  | IDENT ___atribstat
                  | allocexpression
     '''
+    print("-----_ATRIBSTAT")
+    if p[1] and p[1] not in ["+", "-"]:
+        put_in_scope(("ident_use", p[1], p.lineno(1)))
     pass
 
 
@@ -103,6 +117,8 @@ def p__atribstat_help(p):
     '''_atribstat_help : IDENT lvalue_line term_line numexpression_line _expression
                       | __atribstat
     '''
+    if p[1] and p[1] not in ["int_constant", "float_constant", "string_constant", "null", "("]:
+        put_in_scope(("ident_use", p[1], p.lineno(1)))
     pass
 
 
@@ -125,14 +141,16 @@ def p____atribstat(p):
 def p_funccall(p):
     '''funccall : IDENT LPAREN paramlistcall RPAREN
     '''
+    put_in_scope(("funccall", p[1], p.lineno(1)))
     pass
-    #p[0] = "ident()"
 
 
 def p_paramlistcall(p):
     '''paramlistcall : IDENT _paramlistcall
 			         | empty
     '''
+    if p[1] and p[1] not in ["int_constant", "float_constant", "string_constant", "null", "("]:
+        put_in_scope(("paramlistcall", p[1], p.lineno(1)))
     pass
 
 
@@ -162,27 +180,31 @@ def p_returnstat(p):
 
 
 def p_ifstat(p):
-    '''ifstat : IF LPAREN expression RPAREN LBRACES statelist RBRACES _ifstat
+    '''ifstat : IF make_scope LPAREN expression RPAREN LBRACES statelist RBRACES close_scope _ifstat
     '''
+    print("----IFSTAT")
     pass
 
 
 def p__ifstat(p):
-    '''_ifstat : ELSE statement
+    '''_ifstat : make_scope ELSE statement close_scope
               | empty
     '''
     pass
 
 
 def p_forstat(p):
-    '''forstat : FOR LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN  statement
+    '''forstat : FOR make_loop_scope LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN  statement close_scope
     '''
+    scope_stack.append("forstat")
+    print(scope_stack)
     pass
 
 
 def p_statelist(p):
     '''statelist : statement _statelist
     '''
+    print("----STATELIST")
     pass
 
 
@@ -289,6 +311,8 @@ def p_factor(p):
 def p_lvalue(p):
     '''lvalue : IDENT lvalue_line
     '''
+    print("--LVALUE")
+    put_in_scope(("ident_use", p[1], p.lineno(1)))
     pass
 
 
@@ -299,22 +323,41 @@ def p_lvalue_line(p):
     pass
 
 
+#============Actions============
+
+def p_make_scope(p):
+    '''make_scope :'''
+    make_scope()
+    pass
+
+
+def p_make_loop_scope(p):
+    '''make_loop_scope :'''
+    make_scope(True)
+    pass
+
+
+def p_check_loop_scope(p):
+    '''check_loop_scope :'''
+    check_in_loop_scope(p.lineno(p[0]))
+    pass
+
+
+def p_close_scope(p):
+    '''close_scope :'''
+    close_scope()
+    pass
+
+
 def p_empty(p):
     '''empty :'''
     pass
 
 
-# Error rule for syntax errors
-def p_error(p):
-    print(f"Syntax error in input: {p.value} ({p.type})")
-    print("Current sentence form")
-    print(f"{parser.symstack} \n\n")
-    raise SyntaxError
-
-
 # Build the parser
-parser = yacc.yacc()
+semantic = yacc.yacc()
 
-def syntax_analysis(text_input, lexer):
-    return parser.parse(text_input, lexer=lexer)
+def semantic_analysis(text_input, lexer):
+    result = semantic.parse(text_input, lexer=lexer)
+    return result, symbol_tables
 

@@ -1,4 +1,4 @@
-file?=lcc/exemplo1.lcc
+file?=lcc/exemplo4.lcc
 
 install_local:
 	pip install -r requirements.txt

@@ -48,69 +48,50 @@ def make_lexer_symbol_table(tokens):
     return symbol_table
     
 
-def make_symbol_tables_text(symbol_tables):
+def make_symbol_table_text(symbol_table):
 
-    def _mk_symbol_table(name, symbol_table):
-        print(symbol_table)
-        if not symbol_table:
-            return ""
+    if not symbol_table:
+        return ""
 
-        def find_max_length(item, values):
-            values = [len(k) for k in values if k]
-            if values:
-                max_length_item = max(values)
-                return max([max_length_item, len(item)])
-            return len(item)
-            
-        def print_item(values, max_length_item):
-            values = values if values else ""
-            return '| ' + values+ (' '*((max_length_item - len(values)) + 1))
+    def find_max_length(item, values):
+        max_length_item = max([len(k) for k in values if k])
+        return max([max_length_item, len(item)])
+        
+    def print_item(values, max_length_item):
+        return '| ' + values+ (' '*((max_length_item - len(values)) + 1))
 
-        max_lengths = {}
-        symbol_table_text = ""
-        # Size 
-        for items in symbol_table.values():
-            for item in items.keys():
-                values = [k.get(item) for k in symbol_table.values()]
-                max_length_item = find_max_length(item, values)
-                if max_length_item > max_lengths.get(item, 0):
-                    max_lengths[item] = max_length_item
-        max_length = sum(max_lengths.values()) + 2 + (2*len(max_lengths.keys()))
+    max_lengths = {}
+    # Size 
+    for items in symbol_table.values():
+        for item in items.keys():
+            values = [k.get(item) for k in symbol_table.values()]
+            max_length_item = find_max_length(item, values)
+            if max_length_item > max_lengths.get(item, 0):
+                max_lengths[item] = max_length_item
+    max_length = sum(max_lengths.values()) + 2 + (2*len(max_lengths.keys()))
 
-        # Title
-        symbol_table_text += '+' + '-'*(max_length) + '+\n'
-        symbol_table_text += print_item(name, max_length-2)
-        symbol_table_text += '|\n'
+    # Header 
+    middle_symbol_table_text = ""
+    max_key = sorted([(len(v.keys()), k) for k,v in symbol_table.items()])[-1]
+    items = symbol_table[max_key[1]]
+    for item, _ in items.items():
+        item_text = print_item(item, max_lengths[item])
+        middle_symbol_table_text += item_text
+    symbol_table_text = '+' + '-'*(max_length) + '+\n'
+    middle_symbol_table_text += "|\n"
 
-        # Header 
-        middle_symbol_table_text = ""
-        max_key = sorted([(len(v.keys()), k) for k,v in symbol_table.items()])[-1]
-        items = symbol_table[max_key[1]]
-        for item, _ in items.items():
-            item_text = print_item(item, max_lengths[item])
+    # Body
+    for items_values in symbol_table.values():
+        for item in items.keys():
+            values = items_values.get(item, "")
+            item_text = print_item(values, max_lengths[item])
             middle_symbol_table_text += item_text
         middle_symbol_table_text += "|\n"
-        middle_symbol_table_text += '+' + '-'*(max_length) + '+\n'
 
-        # Body
-        for items_values in symbol_table.values():
-            for item in items.keys():
-                values = items_values.get(item, "")
-                if values:
-                    values = "; ".join(values) if isinstance(values, list) else values
-                item_text = print_item(values, max_lengths[item])
-                middle_symbol_table_text += item_text
-            middle_symbol_table_text += "|\n"
+    symbol_table_text = '+' + '-'*(max_length) + '+\n'
+    symbol_table_text += middle_symbol_table_text
+    symbol_table_text += '+' + '-'*(max_length) + '+\n'
 
-        symbol_table_text += '+' + '-'*(max_length) + '+\n'
-        symbol_table_text += middle_symbol_table_text
-        symbol_table_text += '+' + '-'*(max_length) + '+\n'
-
-        return symbol_table_text
-    symbol_table_text = ""
-    for table, content in symbol_tables.items():
-        symbol_table_text += _mk_symbol_table(table, content)
-        symbol_table_text += "\n"
     return symbol_table_text
 
 
@@ -154,12 +135,12 @@ if __name__ == '__main__':
 
     semantic_title = ("="*(max_characters//2)) + "SEMANTIC CHECK" + ("="*(max_characters//2))
     print(semantic_title)
-    result, symbol_tables = semantic_analysis(text_input, get_lexer())
+    result, symbol_table = semantic_analysis(text_input, get_lexer())
     if not result:
         print('Semantic of program ok\n')
 
     symbol_title = ("="*(max_characters//2)) + "SYMBOL TABLE" + ("="*(max_characters//2))
-    symbol_table_text = make_symbol_tables_text(symbol_tables)
+    symbol_table_text = make_symbol_table_text(symbol_table)
 
     print(symbol_title)
     print(symbol_table_text)

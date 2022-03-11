@@ -113,5 +113,6 @@ def t_error(t):
     raise Exception(f"Illegal character '{t.value[0]}' at line {t.lexer.lineno}")
 
 
-lexer = lex.lex()
+def get_lexer():
+    return lex.lex()
 
