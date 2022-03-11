@@ -14,6 +14,7 @@ from draguifunc import (
     put_in_scope,
     check_in_loop_scope,
     symbol_tables,
+    get_dependence_symbol_table
 )
 
 
@@ -365,5 +366,5 @@ semantic = yacc.yacc()
 
 def semantic_analysis(text_input, lexer):
     result = semantic.parse(text_input, lexer=lexer)
-    return result, symbol_tables
+    return result, symbol_tables, get_dependence_symbol_table()
 

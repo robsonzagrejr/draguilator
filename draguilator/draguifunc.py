@@ -10,6 +10,7 @@ import ply.yacc as yacc
 from draguilexer import tokens
 
 symbol_tables = {}
+dependence_symbol_tables = ""
 symbol_item = {
     "ident": None,
     "type": None,
@@ -24,6 +25,7 @@ scope_items = {}
 scope_item = {
     "is_loop": None,
     "parents": [],
+    "childrens": [],
     "items": [],
 }
 
@@ -79,7 +81,10 @@ def make_scope(is_loop=False):
     scope_items[name] = scope_item.copy()
     scope_items[name]["is_loop"] = is_loop
     scope_items[name]["parents"] = opens_scopes.copy()
+    scope_items[name]["childrens"] = []
     scope_items[name]["items"] = []
+    if opens_scopes:
+        scope_items[opens_scopes[-1]]["childrens"] += [name]
     opens_scopes.append(name)
     scope_number += 1
     symbol_tables[name] = {}
@@ -87,6 +92,38 @@ def make_scope(is_loop=False):
 
 def close_scope(is_loop=False):
     closed_scope = opens_scopes.pop()
+    if not opens_scopes:
+        # prefix components:
+        space =  '    '
+        branch = '│   '
+        # pointers:
+        tee =    '├── '
+        last =   '└── '
+        def make_dependence_tree(scope, n=0):
+            tree = ""
+            childrens = sorted(list(set(scope_items[scope]["childrens"])))
+            #if childrens:
+                #tree += f"{branch*n}{tee}{scope}\n"
+            print(scope)
+            print(childrens)
+            print(n)
+            for children in childrens[:-1]:
+                tree += f"{branch}{space*(n-1)}{tee}{children}\n"
+                tree += make_dependence_tree(children, n+1)
+
+            if childrens:
+                tree += f"{branch*n}{last}{childrens[-1]}\n"
+                tree += make_dependence_tree(childrens[-1], n+1)
+            return tree
+        tree = ""
+        tree += f"{branch*0}{tee}{closed_scope}\n"
+        tree += make_dependence_tree(closed_scope, 1)
+        global dependence_symbol_tables
+        dependence_symbol_tables = tree
+
+
+def get_dependence_symbol_table():
+    return dependence_symbol_tables
 
 
 def put_in_scope(item):

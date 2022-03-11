@@ -109,7 +109,6 @@ def make_symbol_tables_text(symbol_tables):
     symbol_table_text = ""
     for table, content in symbol_tables.items():
         symbol_table_text += _mk_symbol_table(table, content)
-        symbol_table_text += "\n"
     return symbol_table_text
 
 
@@ -153,7 +152,7 @@ if __name__ == '__main__':
 
     semantic_title = ("="*(max_characters//2)) + "SEMANTIC CHECK" + ("="*(max_characters//2))
     print(semantic_title)
-    result, symbol_tables = semantic_analysis(text_input, get_lexer())
+    result, symbol_tables, dependence_symbol_tables = semantic_analysis(text_input, get_lexer())
     if not result:
         print('Semantic of program ok\n')
 
@@ -162,4 +161,5 @@ if __name__ == '__main__':
 
     print(symbol_title)
     print(symbol_table_text)
+    print(dependence_symbol_tables)
 
