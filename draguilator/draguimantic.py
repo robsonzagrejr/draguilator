@@ -13,8 +13,11 @@ from draguifunc import (
     close_scope,
     put_in_scope,
     check_in_loop_scope,
+    make_expression_tree,
+    close_expression_tree,
+    put_node_expression_tree,
     symbol_tables,
-    get_dependence_symbol_table
+    get_dependence_symbol_table,
 )
 
 
@@ -269,7 +272,7 @@ def p__expression(p):
 
 
 def p_numexpression(p):
-    '''numexpression : term numexpression_line
+    '''numexpression : make_expression_tree term numexpression_line close_expression_tree
     '''
     pass
 
@@ -313,6 +316,8 @@ def p_factor(p):
              | lvalue
              | LPAREN numexpression RPAREN
     '''
+    if p[1] not in [None, "("]:
+        pass
     pass
 
 
@@ -353,6 +358,18 @@ def p_check_loop_scope(p):
 def p_close_scope(p):
     '''close_scope :'''
     close_scope()
+    pass
+
+
+def p_make_expression_tree(p):
+    '''make_expression_tree :'''
+    make_expression_tree()
+    pass
+
+
+def p_close_expression_tree(p):
+    '''close_expression_tree :'''
+    close_expression_tree()
     pass
 
 

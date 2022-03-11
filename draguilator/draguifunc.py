@@ -34,6 +34,71 @@ last_n_param=0
 last_call_n_param=0
 
 #==========================
+# Expression Tree
+expression_trees = {}
+opens_trees = []
+tree_number = 0
+
+class Tree():
+    def __init__(self):
+        self.nodes = {}
+        self.parent = None
+        self.middle = []
+        self.leafs = []
+
+
+    def add_expression_node(self, ident, value, type, left_node, right_node):
+        if not left_node and not right_node:
+            self.leafs.append(ident)
+        if (ident not in middle) or (ident not in leafs):
+            self.parent = ident
+        if self.parent == left_node or self.parent == right_node:
+            self.middle.append(self.parent)
+            self.parent = ident
+
+        self.nodes[ident] = {
+            "value": value,
+            "type": type,
+            "left": left_node,
+            "right": right_node,
+            "her": None,
+            "sin": None,
+        }
+
+
+    def show(self):
+        print(self.nodes)
+        print(self.parent)
+        print(self.middle)
+        print(self.leafs)
+
+
+def make_expression_tree():
+    global tree_number
+    name = f"T{tree_number}"
+    opens_trees.append(name)
+    tree_number += 1 
+    expression_trees[name] = Tree()
+
+
+def close_expression_tree():
+    name = opens_trees.pop()
+    expression_trees[name].show()
+
+
+def put_node_expression_tree(ident, value, type, left_node, right_node):
+    name = opens_trees[-1]
+    expression_trees[name].add_expression_node(
+        ident,
+        value,
+        type,
+        left_node,
+        right_node
+    )
+
+
+
+#==========================
 # Erros
 
 class Semantic_Error(Exception):
@@ -66,7 +131,7 @@ class Ident_Used_Before_Declaration(Semantic_Error):
 class Func_With_Insuficient_Params(Semantic_Error):
     def __init__(self, line, ident, n_params, params_fouded):
         if params_fouded < n_params:
-            message=f"Function '{ident}' call don't has all the params {params_fouded} < {n_params}"
+            message=f"Function '{ident}' call doesn't have all the params needed {params_fouded} < {n_params}"
         else:
             message=f"Function '{ident}' call has more params than needed {n_params} < {params_fouded}"
         super().__init__(line, message)
@@ -211,21 +276,22 @@ def check_ident_is_declared(ident, line, is_func):
     scope = opens_scopes[-1]
     parents = scope_items[scope]["parents"]
     scopes = [scope] + list(reversed(parents))
-    n_params = 0
     def check_symbol(s):
         valid = False
+        n_params = 0
         for item, value in symbol_tables[s].items():
             if ident == item and value["is_func"] == is_func:
                 valid = True
                 if is_func:
                     n_params = value["n_params"]
                 break
-        return valid
+        return valid, n_params
 
     valid = False
+    n_params = 0
     used_scope = scope
     for s in scopes:
-        valid = check_symbol(s)
+        valid, n_params = check_symbol(s)
         if valid:
             used_scope = s
             break
