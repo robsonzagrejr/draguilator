@@ -51,7 +51,6 @@ def make_lexer_symbol_table(tokens):
 def make_symbol_tables_text(symbol_tables):
 
     def _mk_symbol_table(name, symbol_table):
-        print(symbol_table)
         if not symbol_table:
             return ""
 
@@ -71,11 +70,11 @@ def make_symbol_tables_text(symbol_tables):
         # Size 
         for items in symbol_table.values():
             for item in items.keys():
-                values = [k.get(item) for k in symbol_table.values()]
+                values = [str(k.get(item)) for k in symbol_table.values()]
                 max_length_item = find_max_length(item, values)
                 if max_length_item > max_lengths.get(item, 0):
                     max_lengths[item] = max_length_item
-        max_length = sum(max_lengths.values()) + 2 + (2*len(max_lengths.keys()))
+        max_length = sum(max_lengths.values()) - 1 + len(max_lengths.keys())+ (2*len(max_lengths.keys()))
 
         # Title
         symbol_table_text += '+' + '-'*(max_length) + '+\n'
@@ -97,7 +96,7 @@ def make_symbol_tables_text(symbol_tables):
             for item in items.keys():
                 values = items_values.get(item, "")
                 if values:
-                    values = "; ".join(values) if isinstance(values, list) else values
+                    values = ";".join([str(v) for v in values]) if isinstance(values, list) else str(values)
                 item_text = print_item(values, max_lengths[item])
                 middle_symbol_table_text += item_text
             middle_symbol_table_text += "|\n"

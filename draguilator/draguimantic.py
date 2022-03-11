@@ -8,22 +8,28 @@ Implementation of a Compiler for INE5426 - UFSC Authors:
 
 import ply.yacc as yacc
 from draguilexer import tokens
-from draguifunc import *
+from draguifunc import (
+    make_scope,
+    close_scope,
+    put_in_scope,
+    check_in_loop_scope,
+    symbol_tables,
+)
 
+
+is_funccall = False
 #==========================
 def p_program(p):
     '''program : make_scope statement close_scope
               | make_scope funclist close_scope
               | make_scope empty close_scope
     '''
-    print("-----Program")
     pass
 
 
 def p_funclist(p):
     '''funclist : funcdef _funclist
     '''
-    print("-----FUNCLIST")
     pass
 
 
@@ -72,7 +78,6 @@ def p_statement(p):
                 | check_loop_scope BREAK SEMICOLON
                 | SEMICOLON
     '''
-    print("----STATEMENT")
     pass
 
 
@@ -81,7 +86,6 @@ def p_vardecl(p):
               | FLOAT IDENT vardecl_line
               | STRING IDENT vardecl_line
     '''
-    print("-----VARDECL")
     put_in_scope(("vardecl", p[2], p[1], p.lineno(2)))
     pass
 
@@ -96,7 +100,6 @@ def p_vardecl_line(p):
 def p_atribstat(p):
     '''atribstat : lvalue ASSIGN _atribstat
     '''
-    print("-----ATRIBSTAT")
     pass
 
 
@@ -107,9 +110,12 @@ def p__atribstat(p):
                  | IDENT ___atribstat
                  | allocexpression
     '''
-    print("-----_ATRIBSTAT")
+    global is_funccall
     if p[1] and p[1] not in ["+", "-"]:
-        put_in_scope(("ident_use", p[1], p.lineno(1)))
+        if is_funccall:
+            put_in_scope(("funccall", p[1], p.lineno(1)))
+        else:
+            put_in_scope(("ident_use", p[1], p.lineno(1)))
     pass
 
 
@@ -135,13 +141,18 @@ def p____atribstat(p):
     '''___atribstat : lvalue_line term_line numexpression_line _expression
                   | LPAREN paramlistcall RPAREN
     '''
+    global is_funccall
+    if p[1]:
+        is_funccall = True
+    else:
+        is_funccall = False
+
     pass
 
 
 def p_funccall(p):
     '''funccall : IDENT LPAREN paramlistcall RPAREN
     '''
-    put_in_scope(("funccall", p[1], p.lineno(1)))
     pass
 
 
@@ -182,7 +193,6 @@ def p_returnstat(p):
 def p_ifstat(p):
     '''ifstat : IF make_scope LPAREN expression RPAREN LBRACES statelist RBRACES close_scope _ifstat
     '''
-    print("----IFSTAT")
     pass
 
 
@@ -196,15 +206,12 @@ def p__ifstat(p):
 def p_forstat(p):
     '''forstat : FOR make_loop_scope LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN  statement close_scope
     '''
-    scope_stack.append("forstat")
-    print(scope_stack)
     pass
 
 
 def p_statelist(p):
     '''statelist : statement _statelist
     '''
-    print("----STATELIST")
     pass
 
 
@@ -311,7 +318,6 @@ def p_factor(p):
 def p_lvalue(p):
     '''lvalue : IDENT lvalue_line
     '''
-    print("--LVALUE")
     put_in_scope(("ident_use", p[1], p.lineno(1)))
     pass
 
@@ -339,7 +345,7 @@ def p_make_loop_scope(p):
 
 def p_check_loop_scope(p):
     '''check_loop_scope :'''
-    check_in_loop_scope(p.lineno(p[0]))
+    check_in_loop_scope(p.lexer.lineno)
     pass
 
 
