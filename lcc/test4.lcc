@@ -16,14 +16,16 @@ def abc() {
 def max(int x, int y)
 {
     string returnMessage;
+    string x_s;
+    string y_s;
     if (x > y)
     {
-        returnMessage = x + "is greater than " + y;
+        returnMessage = x_s + "is greater than " + y_s;
         print returnMessage;
         return;
     }
 
-    returnMessage = y + "is greater than " + x;
+    returnMessage = y_s + "is greater than " + x_s;
     print returnMessage;
     return;
 }
@@ -31,14 +33,16 @@ def max(int x, int y)
 def min(int x, int y)
 {
     string returnMessage;
+    string x_s;
+    string y_s;
     if (x > y)
     {
-        returnMessage = x + "is greater than " + y;
+        returnMessage = x_s + "is greater than " + y_s;
         print y;
         return;
     }
 
-    returnMessage = y + "is greater than " + x;
+    returnMessage = y_s + "is greater than " + x_s;
     print x;
     return;
 }
@@ -71,7 +75,9 @@ def iterativeSum(int a, int b)
 
     string returnMessage;
     returnMessage = "The result is: ";
-    returnMessage = returnMessage + a;
+    string a_s;
+    a_s = a;
+    returnMessage = returnMessage + a_s;
     print returnMessage;
     return;
 }

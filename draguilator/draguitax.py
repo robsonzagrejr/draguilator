@@ -122,11 +122,12 @@ def p____atribstat(p):
     pass
 
 
+"""
 def p_funccall(p):
     '''funccall : IDENT LPAREN paramlistcall RPAREN
     '''
     pass
-    #p[0] = "ident()"
+"""
 
 
 def p_paramlistcall(p):

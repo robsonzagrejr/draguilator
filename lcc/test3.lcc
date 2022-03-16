@@ -1,107 +1,107 @@
 def fastSqrt(int n, int i)
 {
-	int currApprox;
-	int result;
-  result = 0;
-	int bitLength;
-  bitLength = 1;
-	int lastApprox;
-  lastApprox = 0;
-	int currBitSquared;
-  currBitSquared = 1;
+    int currApprox;
+    int result;
+    result = 0;
+    int bitLength;
+    bitLength = 1;
+    int lastApprox;
+    lastApprox = 0;
+    int currBitSquared;
+    currBitSquared = 1;
 
-  int k;
-  k = i;
-	int j;
-  for (j = 0; j != 1; j = 0)
-  {
-      currBitSquared = currBitSquared * 2;
-      k = k / 2;
-      if (k < 2)
-      {
-          break;
-      }
-   }
+    int k;
+    k = i;
+    int j;
+    for (j = 0; j != 1; j = 0)
+    {
+        currBitSquared = currBitSquared * 2;
+        k = k / 2;
+        if (k < 2)
+        {
+            break;
+        }
+    }
 
-  for (j = 0; j != 1; j = 0)
-  {
-      if (currBitSquared < n)
-      {
-          if (currBitSquared * 4 != 0)
-          {
-              break;
-          }
-      }
-      bitLength = bitLength + 1;
-		  currBitSquared = currBitSquared * 4;
-      if (currBitSquared < 0)
-	    {
-	        currBitSquared = 0;
-	    }
-  }
+    for (j = 0; j != 1; j = 0)
+    {
+        if (currBitSquared < n)
+        {
+            if (currBitSquared * 4 != 0)
+            {
+                break;
+            }
+        }
+        bitLength = bitLength + 1;
+        currBitSquared = currBitSquared * 4;
+        if (currBitSquared < 0)
+        {
+            currBitSquared = 0;
+        }
+    }
 
-  int currBit;
-  k = currBitSquared + (i - 1);
-  for (j = 0; j != 1; j = 0)
-  {
-      currBit = currBit * 2;
-      k = k / 2;
-      if (k < 2)
-      {
-          break;
-      }
-  }
+    int currBit;
+    k = currBitSquared + (i - 1);
+    for (j = 0; j != 1; j = 0)
+    {
+        currBit = currBit * 2;
+        k = k / 2;
+        if (k < 2)
+        {
+            break;
+        }
+    }
 
-	for (j = 0; j != 1; j = 0)
-  {
-		  currApprox = result;
-      k = bitLength;
-			int l;
-      for (l = 0; l != 1; l = 0)
-      {
-          currApprox = result * 2;
-          k = k / 2;
-          if (k < 2)
-          {
-              break;
-          }
-      }
+    for (j = 0; j != 1; j = 0)
+    {
+        currApprox = result;
+        k = bitLength;
+        int l;
+        for (l = 0; l != 1; l = 0)
+        {
+            currApprox = result * 2;
+            k = k / 2;
+            if (k < 2)
+            {
+                break;
+            }
+        }
 
-		  currApprox = currApprox + lastApprox + currBitSquared;
+        currApprox = currApprox + lastApprox + currBitSquared;
 
-	  	if (currApprox <= n) {
-					result = result + currBit;
-					lastApprox = currApprox;
-      }
+        if (currApprox <= n) {
+            result = result + currBit;
+            lastApprox = currApprox;
+        }
 
-		  currBit = currBit / 2;
-			currBitSquared = currBitSquared / 4;
-			bitLength = bitLength - 1;
+        currBit = currBit / 2;
+        currBitSquared = currBitSquared / 4;
+        bitLength = bitLength - 1;
 
-      if (currBitSquared != 0)
-      {
-          break;
-      }
-	}
+        if (currBitSquared != 0)
+        {
+            break;
+        }
+    }
 
-	return;
+    return;
 }
 
 
 def driver() {
-		int a;
-		a = 100;
-		int b;
-		b = 0;
-		int c;
-		c = 4;
-		int d;
-		d = 10;
-		int e;
-		e = 748342;
-		a = fastSqrt(a, b);
-		b = fastSqrt(b, b);
-		c = fastSqrt(c, b);
-		d = fastSqrt(d, b);
-		e = fastSqrt(e, b);
+    int a;
+    a = 100;
+    int b;
+    b = 0;
+    int c;
+    c = 4;
+    int d;
+    d = 10;
+    int e;
+    e = 748342;
+    a = fastSqrt(a, b);
+    b = fastSqrt(b, b);
+    c = fastSqrt(c, b);
+    d = fastSqrt(d, b);
+    e = fastSqrt(e, b);
 }

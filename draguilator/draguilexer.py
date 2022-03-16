@@ -49,7 +49,7 @@ tokens = (
         'ASSIGN',
         'COMMA',
         'SEMICOLON',
-        'COMMENT',
+        #'COMMENT',
         'LBRACKET',
         'RBRACKET',
         'LPAREN',

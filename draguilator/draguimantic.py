@@ -227,21 +227,22 @@ def p____atribstat(p):
             if p[2]['node']:
                 node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p[3]['node'].line)
             else:
-                ident = p[3]['node'].id
-                ident_type = p[3]['node'].type
-                node = Node(ident, None, None, p[3]['node'].line, type=ident_type)
+                node = p[3]['node']
                 upper_id = p[3]['upper_id']
         else:
             node = p[2]['node']
+            upper_id = p[2]['upper_id']
     p[0] = {"node": node, "value":p[0], "upper_id": upper_id}
 
     pass
 
 
+""" 
 def p_funccall(p):
     '''funccall : IDENT LPAREN paramlistcall RPAREN
     '''
     pass
+""" 
 
 
 def p_paramlistcall(p):
@@ -398,12 +399,14 @@ def p_numexpression_line(p):
 def p_term(p):
     '''term : unaryexpr term_line
     '''
+    upper_id = None
     if p[2]['upper_id']:
         node = Node(p[2]['upper_id'], p[1]['node'], p[2]['node'], p[2]['node'].line)
     else:
+        upper_id = p[2]['upper_id']
         node = p[1]['node']
 
-    p[0] = {"node": node, "upper_id": None, "value": p[1]}
+    p[0] = {"node": node, "upper_id": upper_id, "value": p[1]}
     pass
 
 
@@ -549,6 +552,9 @@ def p_empty(p):
     '''empty :'''
     pass
 
+
+def p_error(p):
+    pass
 
 # Build the parser
 semantic = yacc.yacc()

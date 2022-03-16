@@ -124,6 +124,13 @@ if __name__ == '__main__':
 
     if file_path.split('.')[-1] != 'lcc':
         raise Exception("We only acceept .lcc files")
+    
+    deep_print = False
+    try:
+        if argv[2] == '-d':
+            deep_print = True
+    except Exception as e:
+        pass
 
     text_input = ''
     try:
@@ -166,7 +173,10 @@ if __name__ == '__main__':
     symbol_table_text = make_symbol_tables_text(symbol_tables)
 
     for tree in expression_trees:
-        print(f"___{tree.tree()}___")
+        if not deep_print:
+            if not tree.left and not tree.right:
+                continue
+        print(f"{tree.line}:___{tree.tree()}___")
         print(tree.print_tree())
     print(symbol_title)
     print(symbol_table_text)
