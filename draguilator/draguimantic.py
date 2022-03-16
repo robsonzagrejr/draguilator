@@ -139,7 +139,8 @@ def p__atribstat(p):
     
             if not isinstance(p[1], dict):
                 if p[2]['upper_id']:
-                    p_node = Node(p[1], None, None, p.lineno(1))
+                    ident_type = get_ident_type(p[1])
+                    p_node = Node(p[1], None, None, p.lineno(1), type=ident_type)
                     node = Node(p[2]['upper_id'], p_node, p[2]['node'], p.lineno(1))
                 else:
                     node = Node(p[1], None, p[2]['node'], p.lineno(1))
@@ -159,7 +160,7 @@ def p__atribstat_help(p):
                       | __atribstat
     '''
     node = None
-    if p[1] and p[1] not in ["int_constant", "float_constant", "string_constant", "null", "("]:
+    if p[1] and not isinstance(p[1], dict):
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         put_in_scope(("ident_use", value, p.lineno(1)))
         ident_type = get_ident_type(value)
@@ -224,7 +225,9 @@ def p____atribstat(p):
             if p[2]['node']:
                 node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p[3]['node'].line)
             else:
-                node = Node(p[3]['node'].id, None, None, p[3]['node'].line)
+                ident = p[3]['node'].id
+                ident_type = p[3]['node'].type
+                node = Node(ident, None, None, p[3]['node'].line, type=ident_type)
                 upper_id = p[3]['upper_id']
         else:
             node = p[2]['node']

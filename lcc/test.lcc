@@ -17,9 +17,13 @@ def factorial(int i)
         ret = ret * k;
     }
     string successMessage;
-    successMessage = "The factorial of " + i;
+    string ks;
+    string is; 
+    is = i;
+    ks = k;
+    successMessage = "The factorial of number " + is;
     successMessage = successMessage + " is ";
-    successMessage = successMessage + k;
+    successMessage = successMessage + ks;
     print successMessage;
     return;
 }

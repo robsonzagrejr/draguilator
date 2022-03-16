@@ -3,7 +3,9 @@ def howToNotTestPrimes(int n)
     string returnMessage;
     if (n == 2)
     {
-        returnMessage = n + " is prime!";
+        string ns;
+        ns = n;
+        returnMessage = ns + " is prime!";
         print returnMessage;
         return;
     }
@@ -11,7 +13,9 @@ def howToNotTestPrimes(int n)
     {
         if (n == 3)
         {
-            returnMessage = n + " is prime!";
+            string ns;
+            ns = n;
+            returnMessage = ns + " is prime!";
             print returnMessage;
             return;
         }
@@ -19,7 +23,9 @@ def howToNotTestPrimes(int n)
         {
             if (n == 5)
             {
-                returnMessage = n + " is prime!";
+                string ns;
+                ns = n;
+                returnMessage = ns + " is prime!";
                 print returnMessage;
                 return;
             }
@@ -27,7 +33,9 @@ def howToNotTestPrimes(int n)
             {
                 if (n == 7)
                 {
-                    returnMessage = n + " is prime!";
+                    string ns;
+                    ns = n;
+                    returnMessage = ns + " is prime!";
                     print returnMessage;
                     return;
                 }
@@ -35,7 +43,9 @@ def howToNotTestPrimes(int n)
                 {
                     if (n == 11)
                     {
-                        returnMessage = n + " is prime!";
+                        string ns;
+                        ns = n;
+                        returnMessage = ns + " is prime!";
                         print returnMessage;
                         return;
                     }
@@ -43,7 +53,9 @@ def howToNotTestPrimes(int n)
                     {
                         if (n == 13)
                         {
-                            returnMessage = n + " is prime!";
+                            string ns;
+                            ns = n;
+                            returnMessage = ns + " is prime!";
                             print returnMessage;
                             return;
                         }
@@ -51,12 +63,16 @@ def howToNotTestPrimes(int n)
                         {
                             if (n > 13)
                             {
-                                returnMessage = n + " is probably not prime.";
+                                string ns;
+                                ns = n;
+                                returnMessage = ns + " is probably not prime.";
                                 print returnMessage;
                             }
                             else
                             {
-                                returnMessage = n + " is not prime.";
+                                string ns;
+                                ns = n;
+                                returnMessage = ns + " is not prime.";
                                 print returnMessage;
                                 return;
                             }
