@@ -1,14 +1,14 @@
 def a(){
     int b;
     b = 1;
-    int a;
+    string a;
     if (b == 1) {
-        int a1;
+        int a;
         a = 2;
         string b;
         b = "kaka";
     }
-    b = 2 + 2 * (b-1/a);
+    b = 2 + 2 + (b-1/2);
     return;
 }
 

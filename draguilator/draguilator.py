@@ -152,13 +152,16 @@ if __name__ == '__main__':
 
     semantic_title = ("="*(max_characters//2)) + "SEMANTIC CHECK" + ("="*(max_characters//2))
     print(semantic_title)
-    result, symbol_tables, dependence_symbol_tables = semantic_analysis(text_input, get_lexer())
+    result, symbol_tables, dependence_symbol_tables, expression_trees = semantic_analysis(text_input, get_lexer())
     if not result:
         print('Semantic of program ok\n')
 
     symbol_title = ("="*(max_characters//2)) + "SYMBOL TABLE" + ("="*(max_characters//2))
     symbol_table_text = make_symbol_tables_text(symbol_tables)
 
+    for tree in expression_trees:
+        print(f"___{tree.tree()}___")
+        print(tree.print_tree())
     print(symbol_title)
     print(symbol_table_text)
     print(dependence_symbol_tables)

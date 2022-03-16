@@ -34,11 +34,6 @@ last_n_param=0
 last_call_n_param=0
 
 #==========================
-# Expression Tree
-expression_trees = {}
-opens_trees = []
-tree_number = 0
-#==========================
 # Erros
 
 class Semantic_Error(Exception):
@@ -84,8 +79,11 @@ class Func_With_Insuficient_Params(Semantic_Error):
         super().__init__(line, message)
 
 
+#==========================
+# Expression Tree
+expression_trees = []
 class Node():
-    def __init__(self, id, left, right, line, type=None, operator=None):
+    def __init__(self, id, left, right, line, type=None):
         self.id = id 
         self.left = left
         self.right = right
@@ -97,16 +95,13 @@ class Node():
             self.type = self._check_expression_types(line)
         else:
             self.type = type
-        self.her = self
-        self.sin = self
-        self.operator = operator
+        self.line = line
 
 
     def tree(self):
-        text = ""
+        text = self.id if self.id else ""
         if self.left:
             text += self.left.tree()
-        text += self.id if self.id else ""
         if self.right:
             text += self.right.tree()
         return text
@@ -131,6 +126,10 @@ class Node():
             )
         else:
             return self.left.type
+
+def get_expressions_tree():
+    global expression_trees
+    return expression_trees
 
 
 #==========================
@@ -230,7 +229,7 @@ def add_symbol(ident, line, type=None, is_func=False, n_params=0, label=None):
     scope = opens_scopes[-1]
     symbol_tables[scope][ident] = {}
     symbol_tables[scope][ident]["ident"] = ident
-    symbol_tables[scope][ident]["types"] = type
+    symbol_tables[scope][ident]["type"] = type
     symbol_tables[scope][ident]["lines"] = [line] 
     symbol_tables[scope][ident]["is_func"] = is_func
     symbol_tables[scope][ident]["n_params"] = n_params
@@ -241,7 +240,18 @@ def update_symbol(ident, line, n_params=0, scope=None):
     scope = scope if scope else opens_scopes[-1]
     symbol_tables[scope][ident]["lines"] += [line] 
     symbol_tables[scope][ident]["n_params"] +=  n_params
-    
+
+
+def get_ident_type(ident):
+    scope = opens_scopes[-1]
+    parents = scope_items[scope]["parents"]
+    scopes = [scope] + list(reversed(parents))
+    for s in scopes:
+        s_table = symbol_tables[s]
+        if s_table.get(ident, None):
+            return s_table[ident]['type']
+    return None
+
 
 #==========================
 # Checkers

@@ -14,6 +14,9 @@ from draguifunc import (
     put_in_scope,
     check_in_loop_scope,
     Node,
+    get_ident_type,
+    expression_trees,
+    get_expressions_tree,
     symbol_tables,
     get_dependence_symbol_table,
 )
@@ -125,13 +128,11 @@ def p__atribstat(p):
     
             if not isinstance(p[1], dict):
                 node = Node(p[1], None, p[2]['node'], p.lineno(1))
-                print(node.print_tree())
-                print(node.tree())
+                expression_trees.append(node)
 
     elif isinstance(p[1], dict):
         node = p[1]['node']
-        print(node.print_tree())
-        print(node.tree())
+        expression_trees.append(node)
     pass
 
 
@@ -143,8 +144,8 @@ def p__atribstat_help(p):
     if p[1] and p[1] not in ["int_constant", "float_constant", "string_constant", "null", "("]:
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         put_in_scope(("ident_use", value, p.lineno(1)))
-
-        left_node = Node(p[1], None, None, p.lineno(1), 'int') #FIXME
+        ident_type = get_ident_type(value)
+        left_node = Node(p[1], None, None, p.lineno(1), ident_type)
         if p[3] and p[3]['upper_id']:
             left_node = Node(p[3]["upper_id"], left_node, p[3]['node'], p.lineno(1))
 
@@ -177,10 +178,11 @@ def p___atribstat(p):
         value = p[1]
 
     if p[term_id] and p[term_id]['upper_id']:
-        left_node = Node(p[term_id]["upper_id"], left_node, p[term_id]['node'], p.lineno(1))
+        left_node = Node(p[term_id]["upper_id"], left_node, p[term_id]['node'],
+                p[1]['node'].line)
 
     if p[num_id] and p[num_id]['upper_id']:
-        node = Node(p[num_id]['upper_id'], left_node, p[num_id]['node'], p.lineno(1))
+        node = Node(p[num_id]['upper_id'], left_node, p[num_id]['node'], p[1]['node'].line)
     else:
         node = left_node
 
@@ -200,7 +202,7 @@ def p____atribstat(p):
         node = None
     elif not p[1]:
         if p[3] and p[3]['upper_id']:
-            node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p.lineno(1))
+            node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p[3]['node'].line)
         else:
             node = p[2]['node']
     p[0] = {"node": node, "value":p[0]}
@@ -330,11 +332,11 @@ def p_numexpression(p):
     '''numexpression : term numexpression_line
     '''
     if p[2]['upper_id']:
-        node = Node(p[2]['upper_id'], p[1]['node'], p[2]['node'], p.lineno(1))
+        node = Node(p[2]['upper_id'], p[1]['node'], p[2]['node'], p[2]['node'].line)
     else:
         node = p[1]['node']
+    expression_trees.append(node)
     p[0] = {"node": node, "value":p[0]}
-    print(p[0]["node"].print_tree())
     pass
 
 
@@ -359,7 +361,7 @@ def p_term(p):
     '''term : unaryexpr term_line
     '''
     if p[2]['upper_id']:
-        node = Node(p[2]['upper_id'], p[1]['node'], p[2]['node'], p.lineno(1))
+        node = Node(p[2]['upper_id'], p[1]['node'], p[2]['node'], p[2]['node'].line)
     else:
         node = p[1]['node']
 
@@ -455,7 +457,8 @@ def p_lvalue(p):
     '''lvalue : IDENT lvalue_line
     '''
     put_in_scope(("ident_use", p[1], p.lineno(1)))
-    node = Node(p[1], None, None, p.lineno(1), 'int') #FIXME
+    ident_type = get_ident_type(p[1])
+    node = Node(p[1], None, None, p.lineno(1), ident_type)
 
     p[0] = {'node':node, "value":p[1]}
     pass
@@ -504,5 +507,5 @@ semantic = yacc.yacc()
 
 def semantic_analysis(text_input, lexer):
     result = semantic.parse(text_input, lexer=lexer)
-    return result, symbol_tables, get_dependence_symbol_table()
+    return result, symbol_tables, get_dependence_symbol_table(), get_expressions_tree()
 
