@@ -137,16 +137,18 @@ def p__atribstat(p):
         else:
             put_in_scope(("ident_use", value, p.lineno(1)))
     
-            if not isinstance(p[1], dict):
-                if p[2]['upper_id']:
-                    ident_type = get_ident_type(p[1])
-                    p_node = Node(p[1], None, None, p.lineno(1), type=ident_type)
-                    node = Node(p[2]['upper_id'], p_node, p[2]['node'], p.lineno(1))
-                else:
-                    node = Node(p[1], None, p[2]['node'], p.lineno(1))
-                t = node.t
-                expression_trees.append(node)
-
+            if p[2]['upper_id']:
+                ident_type = get_ident_type(p[1])
+                p_node = Node(p[1], None, None, p.lineno(1), type=ident_type)
+                node = Node(p[2]['upper_id'], p_node, p[2]['node'], p.lineno(1))
+            else:
+                node = Node(p[1], None, p[2]['node'], p.lineno(1))
+            t = node.t
+            expression_trees.append(node)
+    elif not isinstance(p[1], dict) and p[1] in ["+", "-"]:
+        node = Node(p[1], None, p[2]['node'], p.lineno(1))
+        t = node.t
+        expression_trees.append(node)
     elif isinstance(p[1], dict):
         node = p[1]['node']
         t = node.t

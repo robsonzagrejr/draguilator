@@ -46,7 +46,9 @@ def getRandomNumber(int seed, int range)
     randomNumber = randomNumber % range;
     string returnMessage;
     returnMessage = "Your random number is ";
-    returnMessage = returnMessage + randomNumber;
+    string randomNumber_s;
+    randomNumber_s = randomNumber;
+    returnMessage = returnMessage + randomNumber_s;
     print randomNumber;
     return;
 }
@@ -69,7 +71,9 @@ def areaCircle(float radius)
     area = area * pi;
     string result;
     result = "The area of your circle is ";
-    result = result + area;
+    string area_s;
+    area_s = area;
+    result = result + area_s;
     print result;
     return;
 }
