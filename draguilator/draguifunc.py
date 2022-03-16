@@ -35,6 +35,7 @@ last_call_n_param=0
 
 obj_code = ""
 t_count = 0
+ident = 0
 #==========================
 # Erros
 
@@ -101,19 +102,23 @@ class Node():
         self.line = line
         self.t = None
 
+        spaces = ' ' * ident
         if left and right:
-            obj_code += f"t{t_count} = {left.t} {id} {right.t}\n"
+            obj_code += f"{spaces}t{t_count} = {left.t} {id} {right.t}\n"
             self.t = f"t{t_count}"
             t_count += 1
         elif left:
-            obj_code += f"t{t_count} = {id} {left.t}\n"
+            obj_code += f"{spaces}t{t_count} = {id} {left.t}\n"
             self.t = f"t{t_count}"
             t_count += 1
         elif right:
-            obj_code += f"t{t_count} = {id} {right.t}\n"
+            obj_code += f"{spaces}t{t_count} = {id} {right.t}\n"
             self.t = f"t{t_count}"
             t_count += 1
         else:
+            item, scope = get_ident(id)
+            if scope:
+                id = f"{scope}.{id}"
             self.t = id
 
 
@@ -262,7 +267,7 @@ def update_symbol(ident, line, n_params=0, scope=None):
 
 
 def get_ident_type(ident):
-    return get_ident(ident)['type']
+    return get_ident(ident)[0]['type']
 
 
 def get_ident(ident):
@@ -272,8 +277,8 @@ def get_ident(ident):
     for s in scopes:
         s_table = symbol_tables[s]
         if s_table.get(ident, None):
-            return s_table[ident]
-    return None
+            return s_table[ident], s
+    return {}, None
 
 
 #==========================
@@ -341,19 +346,60 @@ def check_func_has_params(ident, line, n_params, params_fouded):
 #==========================
 # GCI
 paramlistcall_cache = []
-def add_obj_code(type, ident, temp=None):
-    global obj_code, paramlistcall_cache
+loop_labels = []
+def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None):
+    global obj_code, paramlistcall_cache, ident
+    spaces = ' ' * ident
+    if id1:
+        item, scope = get_ident(id1)
+        if scope:
+            id1 = f"{scope}.{id1}"
+    if id2:
+        item, scope = get_ident(id2)
+        if scope:
+            id2 = f"{scope}.{id2}"
+        n_p = item.get("n_params", None)
     if type == "attrib":
-        obj_code += f"{ident} = {temp}\n"
+        obj_code += f"{spaces}{id1} = {id2}\n"
     elif type == "callfunc":
-        n_p = get_ident(temp)['n_params']
+        #n_p = get_ident(id2)[0]['n_params']
         paramlistcall_cache = reversed(paramlistcall_cache)
         for p in paramlistcall_cache:
-            obj_code += f"param {p}\n"
+            obj_code += f"{spaces}param {p}\n"
         paramlistcall_cache = []
-        obj_code += f"{ident} = call {temp}, {n_p}\n"
+        obj_code += f"{spaces}{id1} = call {id2}, {n_p}\n"
     elif type == "paramlistcall":
-        paramlistcall_cache.append(ident)
+        paramlistcall_cache.append(id1)
+    elif type == "relop":
+        cond = ""
+        if relop:
+            cond = f"{id1} {relop} {id2}"
+        label = opens_scopes[-1]
+        obj_code += f"{spaces}if False {cond} goto {label}_end\n"
+    elif type == "break":
+        label = loop_labels[-1]
+        obj_code += f"{spaces}goto {label}_end\n"
+    elif type == "label":
+        if id1:
+            label = id1
+        else:
+            label = opens_scopes[-1]
+        obj_code += f"{spaces}{label}:\n"
+        if is_loop:
+            loop_labels.append(label)
+        ident += 4
+    elif type == "labelloop":
+        label = loop_labels[-1]
+        obj_code += f"{spaces}{label}_loop:\n"
+    elif type == "closelabel":
+        label = opens_scopes[-1]
+        if loop_labels and label == loop_labels[-1]:
+            loop_labels.pop(-1)
+            obj_code += f"{spaces}goto {label}_loop:\n"
+        ident -= 4
+        spaces = ' '*ident
+        label = label + "_end"
+        obj_code += f"{spaces}{label}:\n"
 
 
 def get_obj_code():

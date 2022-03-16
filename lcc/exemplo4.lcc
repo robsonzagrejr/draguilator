@@ -2,7 +2,7 @@ def a(){
     int b;
     b = 1;
     string a;
-    if (b == 1) {
+    if ((b+3+1) == (5-4)) {
         int a;
         a = 2;
         string b;
@@ -22,6 +22,10 @@ def ca(int a, string b){
         } else {
             if (d == 3){
                 string d;
+                int j;
+                for (j = 0; j < 4; j = j + 2) {
+                    break;
+                }
                 break;
             }
         }

@@ -126,7 +126,7 @@ def p__atribstat(p):
     '''
     global is_funccall
     node = None
-    t = 'undifined'
+    t = 'undefined'
     is_func = False
     if not isinstance(p[1], dict) and p[1] not in ["+", "-"]:
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
@@ -289,7 +289,7 @@ def p__ifstat(p):
 
 
 def p_forstat(p):
-    '''forstat : FOR make_loop_scope LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN  statement close_scope
+    '''forstat : FOR make_loop_scope LPAREN atribstat SEMICOLON make_loop_label expression SEMICOLON atribstat RPAREN  statement close_scope
     '''
     pass
 
@@ -337,6 +337,8 @@ def p__allocexpression_line(p):
 def p_expression(p):
     '''expression : numexpression _expression
     '''
+
+    add_obj_code("relop", p[1]['t'], p[2]['t'], p[2]['relop'])
     pass
 
 
@@ -349,6 +351,12 @@ def p__expression(p):
                   | NOT_EQUAL_TO numexpression
                   | empty
     '''
+    t = None
+    relop = None
+    if p[1]:
+        t = p[2]['t']
+        relop = p[1]
+    p[0] = {"t": t, "relop": relop}
     pass
 
 
@@ -359,8 +367,9 @@ def p_numexpression(p):
         node = Node(p[2]['upper_id'], p[1]['node'], p[2]['node'], p[2]['node'].line)
     else:
         node = p[1]['node']
+    t = node.t
     expression_trees.append(node)
-    p[0] = {"node": node, "value":p[0]}
+    p[0] = {"node": node, "value":p[0], "t": t}
     pass
 
 
@@ -500,23 +509,33 @@ def p_lvalue_line(p):
 def p_make_scope(p):
     '''make_scope :'''
     make_scope()
+    add_obj_code("label")
     pass
 
 
 def p_make_loop_scope(p):
     '''make_loop_scope :'''
     make_scope(True)
+    add_obj_code("label", is_loop=True)
+    pass
+
+
+def p_make_loop_label(p):
+    '''make_loop_label :'''
+    add_obj_code("labelloop", is_loop=True)
     pass
 
 
 def p_check_loop_scope(p):
     '''check_loop_scope :'''
     check_in_loop_scope(p.lexer.lineno)
+    add_obj_code("break")
     pass
 
 
 def p_close_scope(p):
     '''close_scope :'''
+    add_obj_code("closelabel")
     close_scope()
     pass
 
