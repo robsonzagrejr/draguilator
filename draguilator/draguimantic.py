@@ -204,11 +204,15 @@ def p____atribstat(p):
     if p[1]:
         print("LPAREM")
         is_funccall = True
-        node = Node(None, None, None, p.lineno(1))
+        node = None
     elif not p[1]:
         print("LVALUELINE")
         if p[3] and p[3]['upper_id']:
             print("UPPER ID")
+            if p[3]['node']:
+                print(p[3]['node'].id)
+            if p[2]['node']:
+                print(p[2]['node'].id)
             node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p.lineno(1))
         else:
             print("Node")
@@ -355,7 +359,7 @@ def p_numexpression_line(p):
                          | MINUS term numexpression_line
                          | empty
     '''
-    node = Node(None, None, None, None)
+    node = None
     upper_id = None
     if p[1]:
         upper_id = p[1]
@@ -366,7 +370,8 @@ def p_numexpression_line(p):
             print("LOLOLO")
             node = p[2]['node']
     print("NUMEXPRESION")
-    print(node.id)
+    if node:
+        print(node.id)
     p[0] = {"node": node, "upper_id": upper_id, "value":p[0]}
     pass
 
@@ -390,7 +395,7 @@ def p_term_line(p):
                 | MODULO unaryexpr term_line
                 | empty
     '''
-    node = Node(None, None, None, None)
+    node = None
     upper_id = None
     if p[1]:
         upper_id = p[1]
@@ -399,7 +404,8 @@ def p_term_line(p):
         else:
             node = p[2]['node']
     print("TermLine")
-    print(node.id)
+    if node:
+        print(node.id)
     p[0] = {"node": node, "upper_id":upper_id, "value": p[0]}
     pass
 
