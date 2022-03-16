@@ -104,7 +104,6 @@ def p_vardecl_line(p):
 def p_atribstat(p):
     '''atribstat : lvalue ASSIGN _atribstat
     '''
-    print("Atribstat")
     pass
 
 
@@ -118,24 +117,21 @@ def p__atribstat(p):
     global is_funccall
     node = None
     if not isinstance(p[1], dict) and p[1] not in ["+", "-"]:
-        print("_Atribstat")
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         if is_funccall:
-            print("FUNCALL")
             put_in_scope(("funccall", value, p.lineno(1)))
         else:
-            print("NOT FUNCALL")
-            print(value)
             put_in_scope(("ident_use", value, p.lineno(1)))
     
-    if not isinstance(p[1], dict):
-        node = Node(p[1], p[2]['node'], None, p.lineno(1))
-        print(node.tree())
+            if not isinstance(p[1], dict):
+                node = Node(p[1], None, p[2]['node'], p.lineno(1))
+                print(node.print_tree())
+                print(node.tree())
 
     elif isinstance(p[1], dict):
         node = p[1]['node']
+        print(node.print_tree())
         print(node.tree())
-
     pass
 
 
@@ -145,7 +141,6 @@ def p__atribstat_help(p):
     '''
     node = None
     if p[1] and p[1] not in ["int_constant", "float_constant", "string_constant", "null", "("]:
-        print("_Atribstat_HELP")
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         put_in_scope(("ident_use", value, p.lineno(1)))
 
@@ -198,24 +193,15 @@ def p____atribstat(p):
                   | LPAREN paramlistcall RPAREN
     '''
     global is_funccall
-    print("___Atribstat")
     is_funccall = False
     node = None
     if p[1]:
-        print("LPAREM")
         is_funccall = True
         node = None
     elif not p[1]:
-        print("LVALUELINE")
         if p[3] and p[3]['upper_id']:
-            print("UPPER ID")
-            if p[3]['node']:
-                print(p[3]['node'].id)
-            if p[2]['node']:
-                print(p[2]['node'].id)
             node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p.lineno(1))
         else:
-            print("Node")
             node = p[2]['node']
     p[0] = {"node": node, "value":p[0]}
 
@@ -233,7 +219,6 @@ def p_paramlistcall(p):
 			         | empty
     '''
     if p[1] and p[1] not in ["int_constant", "float_constant", "string_constant", "null", "("]:
-        print("Paramlistcall")
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         put_in_scope(("paramlistcall", value, p.lineno(1)))
     pass
@@ -280,7 +265,6 @@ def p__ifstat(p):
 def p_forstat(p):
     '''forstat : FOR make_loop_scope LPAREN atribstat SEMICOLON expression SEMICOLON atribstat RPAREN  statement close_scope
     '''
-    print("PASSEI FOR")
     pass
 
 
@@ -350,7 +334,7 @@ def p_numexpression(p):
     else:
         node = p[1]['node']
     p[0] = {"node": node, "value":p[0]}
-    print(p[0]["node"].tree())
+    print(p[0]["node"].print_tree())
     pass
 
 
@@ -364,14 +348,9 @@ def p_numexpression_line(p):
     if p[1]:
         upper_id = p[1]
         if p[3]['upper_id']:
-            print("KKK")
             node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p.lineno(1))
         else:
-            print("LOLOLO")
             node = p[2]['node']
-    print("NUMEXPRESION")
-    if node:
-        print(node.id)
     p[0] = {"node": node, "upper_id": upper_id, "value":p[0]}
     pass
 
@@ -380,7 +359,6 @@ def p_term(p):
     '''term : unaryexpr term_line
     '''
     if p[2]['upper_id']:
-        print("TERM")
         node = Node(p[2]['upper_id'], p[1]['node'], p[2]['node'], p.lineno(1))
     else:
         node = p[1]['node']
@@ -403,9 +381,6 @@ def p_term_line(p):
             node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p.lineno(1))
         else:
             node = p[2]['node']
-    print("TermLine")
-    if node:
-        print(node.id)
     p[0] = {"node": node, "upper_id":upper_id, "value": p[0]}
     pass
 
@@ -418,7 +393,6 @@ def p_unaryexpr(p):
     upper_id = None
     if not isinstance(p[1],dict):
         upper_id = p[1]
-        print("FACTOR")
         if p[2]['upper_id']:
             node = Node(p[2]['upper_id'], p[2]['node'], None, p.lineno(1))
         else:
@@ -440,11 +414,9 @@ def p_factor(p):
     '''
     upper_id = None
     if not isinstance(p[1], dict):
-        print("FACTOR LVALUE")
         upper_id = None
         node = p[2]['node']
     else:
-        print("FACTOR NUM")
         node = p[1]['node']
 
     p[0] = {"node": node, "value":p[0]}
@@ -454,7 +426,6 @@ def p_factor(p):
 def p__node_int_constant(p):
     '''_node_int_constant : INT_CONSTANT
     '''
-    print("INT")
     p[0] = {"node": Node(p[1], None, None, p.lineno(1), 'int'), "value":p[1]}
     pass
 

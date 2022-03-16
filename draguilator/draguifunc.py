@@ -110,7 +110,17 @@ class Node():
         if self.right:
             text += self.right.tree()
         return text
-            
+
+
+    def print_tree(self, level=0):
+        text = ''
+        if self.left:
+            text += self.left.print_tree(level + 1)
+        text += ' ' * 4 * level + '-> ' + self.id + '\n'
+        if self.right:
+            text += self.right.print_tree(level + 1)
+        return text
+                
     
     def _check_expression_types(self, line):
         if self.left.type != self.right.type:
