@@ -38,66 +38,6 @@ last_call_n_param=0
 expression_trees = {}
 opens_trees = []
 tree_number = 0
-
-class Tree():
-    def __init__(self):
-        self.nodes = {}
-        self.parent = None
-        self.middle = []
-        self.leafs = []
-
-
-    def add_expression_node(self, ident, value, type, left_node, right_node):
-        if not left_node and not right_node:
-            self.leafs.append(ident)
-        if (ident not in middle) or (ident not in leafs):
-            self.parent = ident
-        if self.parent == left_node or self.parent == right_node:
-            self.middle.append(self.parent)
-            self.parent = ident
-
-        self.nodes[ident] = {
-            "value": value,
-            "type": type,
-            "left": left_node,
-            "right": right_node,
-            "her": None,
-            "sin": None,
-        }
-
-
-    def show(self):
-        print(self.nodes)
-        print(self.parent)
-        print(self.middle)
-        print(self.leafs)
-
-
-def make_expression_tree():
-    global tree_number
-    name = f"T{tree_number}"
-    opens_trees.append(name)
-    tree_number += 1 
-    expression_trees[name] = Tree()
-
-
-def close_expression_tree():
-    name = opens_trees.pop()
-    expression_trees[name].show()
-
-
-def put_node_expression_tree(ident, value, type, left_node, right_node):
-    name = opens_trees[-1]
-    expression_trees[name].add_expression_node(
-        ident,
-        value,
-        type,
-        left_node,
-        right_node
-    )
-
-
-
 #==========================
 # Erros
 
@@ -109,6 +49,13 @@ class Semantic_Error(Exception):
 
     def __str__(self):
         return f"Semantic error in line {self.line}: {self.message}"
+
+
+class Differents_Types_In_Aritimetic_Expression(Semantic_Error):
+    def __init__(self, line, left_node, left_type, right_node, right_type):
+        message=f"Operation with diferent types in line {line}: {left_node}"
+        message+=f"({left_type}) != {right_node}({right_type})"
+        super().__init__(line, message)
 
 
 class Break_Out_Of_Loop(Semantic_Error):
@@ -135,6 +82,45 @@ class Func_With_Insuficient_Params(Semantic_Error):
         else:
             message=f"Function '{ident}' call has more params than needed {n_params} < {params_fouded}"
         super().__init__(line, message)
+
+
+class Node():
+    def __init__(self, id, left, right, line, type=None, operator=None):
+        self.id = id 
+        self.left = left
+        self.right = right
+        if left and not right:
+            self.type = left.type
+        elif not left and right:
+            self.type = right.type
+        elif left and right:
+            self.type = self._check_expression_types(line)
+        else:
+            self.type = type
+        self.her = self
+        self.sin = self
+        self.operator = operator
+
+
+    def tree(self):
+        text = ""
+        if self.left:
+            text += self.left.tree()
+        text += self.id if self.id else ""
+        if self.right:
+            text += self.right.tree()
+        return text
+            
+    
+    def _check_expression_types(self, line):
+        if self.left.type != self.right.type:
+            raise Differents_Types_In_Aritimetic_Expression(
+                line,
+                self.left.tree(), self.left.type,
+                self.right.tree(), self.right.type
+            )
+        else:
+            return self.left.type
 
 
 #==========================
