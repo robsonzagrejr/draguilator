@@ -26,17 +26,21 @@ def ca(int a, string b){
             }
         }
     }
+    return ;
 }
 
 def principal(int k)
 {
     int C;
-    int D;
+    string D;
     int R;
+    int RC;
     C = 4;
     if (C == 4) {
         C = 5;
     }
+    D = 6;
     R = a();
+    RC = ca(C, D);
     return;
 }

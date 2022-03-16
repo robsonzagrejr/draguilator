@@ -19,6 +19,8 @@ from draguifunc import (
     get_expressions_tree,
     symbol_tables,
     get_dependence_symbol_table,
+    add_obj_code,
+    get_obj_code
 )
 
 
@@ -107,6 +109,11 @@ def p_vardecl_line(p):
 def p_atribstat(p):
     '''atribstat : lvalue ASSIGN _atribstat
     '''
+    if p[3]['is_func']:
+        type = "callfunc"
+    else:
+        type = "attrib"
+    add_obj_code(type, p[1]['node'].id, p[3]['t'])
     pass
 
 
@@ -119,10 +126,14 @@ def p__atribstat(p):
     '''
     global is_funccall
     node = None
+    t = 'undifined'
+    is_func = False
     if not isinstance(p[1], dict) and p[1] not in ["+", "-"]:
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         if is_funccall:
             put_in_scope(("funccall", value, p.lineno(1)))
+            t = value
+            is_func = True
         else:
             put_in_scope(("ident_use", value, p.lineno(1)))
     
@@ -132,11 +143,14 @@ def p__atribstat(p):
                     node = Node(p[2]['upper_id'], p_node, p[2]['node'], p.lineno(1))
                 else:
                     node = Node(p[1], None, p[2]['node'], p.lineno(1))
+                t = node.t
                 expression_trees.append(node)
 
     elif isinstance(p[1], dict):
         node = p[1]['node']
+        t = node.t
         expression_trees.append(node)
+    p[0] = {'t': t, 'is_func': is_func}
     pass
 
 
@@ -232,6 +246,7 @@ def p_paramlistcall(p):
     if p[1] and p[1] not in ["int_constant", "float_constant", "string_constant", "null", "("]:
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         put_in_scope(("paramlistcall", value, p.lineno(1)))
+        add_obj_code("paramlistcall", p[1])
     pass
 
 
@@ -516,5 +531,11 @@ semantic = yacc.yacc()
 
 def semantic_analysis(text_input, lexer):
     result = semantic.parse(text_input, lexer=lexer)
-    return result, symbol_tables, get_dependence_symbol_table(), get_expressions_tree()
+    return (
+        result,
+        symbol_tables,
+        get_dependence_symbol_table(),
+        get_expressions_tree(),
+        get_obj_code()
+    )
 

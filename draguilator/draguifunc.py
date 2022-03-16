@@ -33,6 +33,8 @@ scope_number = 0
 last_n_param=0
 last_call_n_param=0
 
+obj_code = ""
+t_count = 0
 #==========================
 # Erros
 
@@ -84,6 +86,7 @@ class Func_With_Insuficient_Params(Semantic_Error):
 expression_trees = []
 class Node():
     def __init__(self, id, left, right, line, type=None):
+        global obj_code, t_count
         self.id = id 
         self.left = left
         self.right = right
@@ -96,6 +99,22 @@ class Node():
         else:
             self.type = type
         self.line = line
+        self.t = None
+
+        if left and right:
+            obj_code += f"t{t_count} = {left.t} {id} {right.t}\n"
+            self.t = f"t{t_count}"
+            t_count += 1
+        elif left:
+            obj_code += f"t{t_count} = {id} {left.t}\n"
+            self.t = f"t{t_count}"
+            t_count += 1
+        elif right:
+            obj_code += f"t{t_count} = {id} {right.t}\n"
+            self.t = f"t{t_count}"
+            t_count += 1
+        else:
+            self.t = id
 
 
     def tree(self):
@@ -243,13 +262,17 @@ def update_symbol(ident, line, n_params=0, scope=None):
 
 
 def get_ident_type(ident):
+    return get_ident(ident)['type']
+
+
+def get_ident(ident):
     scope = opens_scopes[-1]
     parents = scope_items[scope]["parents"]
     scopes = [scope] + list(reversed(parents))
     for s in scopes:
         s_table = symbol_tables[s]
         if s_table.get(ident, None):
-            return s_table[ident]['type']
+            return s_table[ident]
     return None
 
 
@@ -313,5 +336,27 @@ def check_func_has_params(ident, line, n_params, params_fouded):
         pass
     else:
         raise Func_With_Insuficient_Params(line, ident, n_params, params_fouded)
+
+
+#==========================
+# GCI
+paramlistcall_cache = []
+def add_obj_code(type, ident, temp=None):
+    global obj_code, paramlistcall_cache
+    if type == "attrib":
+        obj_code += f"{ident} = {temp}\n"
+    elif type == "callfunc":
+        n_p = get_ident(temp)['n_params']
+        paramlistcall_cache = reversed(paramlistcall_cache)
+        for p in paramlistcall_cache:
+            obj_code += f"param {p}\n"
+        paramlistcall_cache = []
+        obj_code += f"{ident} = call {temp}, {n_p}\n"
+    elif type == "paramlistcall":
+        paramlistcall_cache.append(ident)
+
+
+def get_obj_code():
+    return obj_code
 
 
