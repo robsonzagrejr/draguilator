@@ -127,7 +127,11 @@ def p__atribstat(p):
             put_in_scope(("ident_use", value, p.lineno(1)))
     
             if not isinstance(p[1], dict):
-                node = Node(p[1], None, p[2]['node'], p.lineno(1))
+                if p[2]['upper_id']:
+                    p_node = Node(p[1], None, None, p.lineno(1))
+                    node = Node(p[2]['upper_id'], p_node, p[2]['node'], p.lineno(1))
+                else:
+                    node = Node(p[1], None, p[2]['node'], p.lineno(1))
                 expression_trees.append(node)
 
     elif isinstance(p[1], dict):
@@ -197,15 +201,20 @@ def p____atribstat(p):
     global is_funccall
     is_funccall = False
     node = None
+    upper_id = None
     if p[1]:
         is_funccall = True
         node = None
     elif not p[1]:
         if p[3] and p[3]['upper_id']:
-            node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p[3]['node'].line)
+            if p[2]['node']:
+                node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p[3]['node'].line)
+            else:
+                node = Node(p[3]['node'].id, None, None, p[3]['node'].line)
+                upper_id = p[3]['upper_id']
         else:
             node = p[2]['node']
-    p[0] = {"node": node, "value":p[0]}
+    p[0] = {"node": node, "value":p[0], "upper_id": upper_id}
 
     pass
 
