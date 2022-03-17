@@ -86,7 +86,7 @@ def operations() {
     float d;
     d = 46.478;
     float rad;
-    rad = d / 2;
+    rad = d / 2.0;
     int size;
     size = 4;
     int z[4];

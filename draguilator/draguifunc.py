@@ -362,7 +362,6 @@ def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None, alloc_type=
     if type == "attrib":
         obj_code += f"{spaces}{id1} = {id2}\n"
     elif type == "callfunc":
-        #n_p = get_ident(id2)[0]['n_params']
         paramlistcall_cache = reversed(paramlistcall_cache)
         for p in paramlistcall_cache:
             obj_code += f"{spaces}param {p}\n"
@@ -414,7 +413,8 @@ def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None, alloc_type=
     elif type == "newalloc":
         obj_code += f"{spaces}{id1} = alloc({alloc_type['alloc_type']}, {alloc_type['t']})\n"
     elif type == "uselloc":
-        obj_code += f"{spaces}{id1}_{t_count} = access({id1}, {alloc_type['t']})\n"
+        idx = id1.split(".")[-1]
+        obj_code += f"{spaces}{idx}_{t_count} = {id1}[{alloc_type['t']}]\n"
         t_count += 1
 
 

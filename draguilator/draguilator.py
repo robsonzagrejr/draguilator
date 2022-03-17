@@ -146,6 +146,7 @@ if __name__ == '__main__':
     token_text = make_token_text(tokens)
 
     max_characters = max([len(line) for line in token_text.split('\n')])
+    max_characters = min(max_characters, 75)
     tokens_title = ("="*(max_characters//2)) + "TOKENS" + ("="*(max_characters//2))
 
     print(tokens_title)
@@ -167,21 +168,30 @@ if __name__ == '__main__':
         object_code
     ) = semantic_analysis(text_input, get_lexer())
     if not result:
-        print('Semantic of program ok\n')
+        print('Semantic of program ok')
+        print("Expressions trees ok")
+        print("Scope declaratives variables ok")
+        print("Breaks inside loop ok")
 
-    symbol_title = ("="*(max_characters//2)) + "SYMBOL TABLE" + ("="*(max_characters//2))
-    symbol_table_text = make_symbol_tables_text(symbol_tables)
-
+    expression_trees_title = ("="*(max_characters//2)) + "EXPRESSIONS TREE" + ("="*(max_characters//2))
+    print(expression_trees_title)
     for tree in expression_trees:
         if not deep_print:
             if not tree.left and not tree.right:
                 continue
-        print(f"{tree.line}:___{tree.tree()}___")
+        print(f"line {tree.line}:___{tree.tree()}___")
         print(tree.print_tree())
+
+
+    symbol_table_text = make_symbol_tables_text(symbol_tables)
+
+    symbol_title = ("="*(max_characters//2)) + "SYMBOL TABLE" + ("="*(max_characters//2))
+    
     print(symbol_title)
     print(symbol_table_text)
     print(dependence_symbol_tables)
 
-    print("=======Codigo Objeto=======")
+    intermeiate_code_title = ("="*(max_characters//2)) + "INTERMEDIATE CODE" + ("="*(max_characters//2))
+    print(intermeiate_code_title)
     print(object_code)
 

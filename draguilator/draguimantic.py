@@ -137,7 +137,6 @@ def p__atribstat(p):
         else:
             put_in_scope(("ident_use", value, p.lineno(1)))
             if p[2]['usealloc']:
-                print(p[2])
                 add_obj_code("uselloc", p[1], alloc_type=p[2]['usealloc'])
                 t_account = get_last_t_count()
                 value = f"{p[1]}_{t_account}"
