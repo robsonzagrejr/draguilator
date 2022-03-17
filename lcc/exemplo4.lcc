@@ -45,6 +45,8 @@ def principal(int k)
         C = 5;
     }
     D = 6;
+    read D;
+    print C+2 < 3;
     R = a();
     RC = ca(C, D);
     return;

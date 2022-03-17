@@ -370,12 +370,17 @@ def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None):
         obj_code += f"{spaces}{id1} = call {id2}, {n_p}\n"
     elif type == "paramlistcall":
         paramlistcall_cache.append(id1)
-    elif type == "relop":
+    elif type == "expression_goto":
         cond = ""
         if relop:
             cond = f"{id1} {relop} {id2}"
         label = opens_scopes[-1]
         obj_code += f"{spaces}if False {cond} goto {label}_end\n"
+    elif type == "print":
+        cond = ""
+        if relop:
+            cond = f"{id1} {relop} {id2}"
+        obj_code += f"{spaces}print {cond}\n"
     elif type == "break":
         label = loop_labels[-1]
         obj_code += f"{spaces}goto {label}_end\n"
@@ -390,16 +395,22 @@ def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None):
         ident += 4
     elif type == "labelloop":
         label = loop_labels[-1]
+        spaces = ' '*(ident-4)
         obj_code += f"{spaces}{label}_loop:\n"
     elif type == "closelabel":
         label = opens_scopes[-1]
         if loop_labels and label == loop_labels[-1]:
             loop_labels.pop(-1)
-            obj_code += f"{spaces}goto {label}_loop:\n"
+            obj_code += f"{spaces}goto {label}_loop\n"
         ident -= 4
         spaces = ' '*ident
         label = label + "_end"
         obj_code += f"{spaces}{label}:\n"
+    elif type == "read":
+        obj_code += f"{spaces}read {id1}\n"
+    elif type == "return":
+        label = opens_scopes[-1]
+        obj_code += f"{spaces}goto {label}_end:\n"
 
 
 def get_obj_code():

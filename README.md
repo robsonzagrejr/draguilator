@@ -65,7 +65,10 @@ To compile a file (In this first version there are only the lexical step) you ca
 make run file={path/to/file.lcc}
 ```
 Please note that this is a compiler for CC-2021-2 grammar that is represent with `.lcc` extension.
-Obs: If a file isn't specified, by default the `lcc/example1.lcc` will be executed.
+Obs: If a file isn't specified, by default the `lcc/example4.lcc` will be executed.
+
+```run_soft``` will remove the ```-d``` flag thats tell the compiler to print
+all information
 
 Currently there are some examples and test codes implemented in CC-2021-2 that are located in `lcc` directory. 
 

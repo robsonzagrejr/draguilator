@@ -237,12 +237,10 @@ def p____atribstat(p):
     pass
 
 
-""" 
-def p_funccall(p):
-    '''funccall : IDENT LPAREN paramlistcall RPAREN
-    '''
-    pass
-""" 
+#def p_funccall(p):
+#    '''funccall : IDENT LPAREN paramlistcall RPAREN
+#    '''
+#    pass
 
 
 def p_paramlistcall(p):
@@ -266,23 +264,26 @@ def p__paramlistcall(p):
 def p_printstat(p):
     '''printstat : PRINT expression
     '''
+    add_obj_code("print", p[2]['t1'], p[2]['t2'], p[2]['relop'])
     pass
 
 
 def p_readstat(p):
     '''readstat : READ lvalue
     '''
+    add_obj_code("read", p[2]['node'].id)
     pass
 
 
 def p_returnstat(p):
     '''returnstat : RETURN
     '''
+    add_obj_code("return")
     pass
 
 
 def p_ifstat(p):
-    '''ifstat : IF make_scope LPAREN expression RPAREN LBRACES statelist RBRACES close_scope _ifstat
+    '''ifstat : IF make_scope LPAREN make_expression_goto RPAREN LBRACES statelist RBRACES close_scope _ifstat
     '''
     pass
 
@@ -295,7 +296,7 @@ def p__ifstat(p):
 
 
 def p_forstat(p):
-    '''forstat : FOR make_loop_scope LPAREN atribstat SEMICOLON make_loop_label expression SEMICOLON atribstat RPAREN  statement close_scope
+    '''forstat : FOR make_loop_scope LPAREN atribstat SEMICOLON make_loop_label make_expression_goto SEMICOLON atribstat RPAREN  statement close_scope
     '''
     pass
 
@@ -343,8 +344,8 @@ def p__allocexpression_line(p):
 def p_expression(p):
     '''expression : numexpression _expression
     '''
-
-    add_obj_code("relop", p[1]['t'], p[2]['t'], p[2]['relop'])
+    #add_obj_code("relop", p[1]['t'], p[2]['t'], p[2]['relop'])
+    p[0] = {'t1': p[1]['t'], 't2':p[2]['t'], 'relop':p[2]['relop']}
     pass
 
 
@@ -532,6 +533,10 @@ def p_make_loop_label(p):
     '''make_loop_label :'''
     add_obj_code("labelloop", is_loop=True)
     pass
+
+def p_make_expression_goto(p):
+    '''make_expression_goto : expression'''
+    add_obj_code("expression_goto", p[1]['t1'], p[1]['t2'], p[1]['relop'])
 
 
 def p_check_loop_scope(p):
