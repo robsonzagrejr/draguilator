@@ -347,8 +347,8 @@ def check_func_has_params(ident, line, n_params, params_fouded):
 # GCI
 paramlistcall_cache = []
 loop_labels = []
-def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None):
-    global obj_code, paramlistcall_cache, ident
+def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None, alloc_type=None):
+    global obj_code, paramlistcall_cache, ident, t_count
     spaces = ' ' * ident
     if id1:
         item, scope = get_ident(id1)
@@ -411,6 +411,16 @@ def add_obj_code(type, id1=None, id2=None, relop=None, is_loop=None):
     elif type == "return":
         label = opens_scopes[-1]
         obj_code += f"{spaces}goto {label}_end:\n"
+    elif type == "newalloc":
+        obj_code += f"{spaces}{id1} = alloc({alloc_type['alloc_type']}, {alloc_type['t']})\n"
+    elif type == "uselloc":
+        obj_code += f"{spaces}{id1}_{t_count} = access({id1}, {alloc_type['t']})\n"
+        t_count += 1
+
+
+def get_last_t_count():
+    global t_count
+    return t_count - 1
 
 
 def get_obj_code():

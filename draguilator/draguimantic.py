@@ -20,7 +20,8 @@ from draguifunc import (
     symbol_tables,
     get_dependence_symbol_table,
     add_obj_code,
-    get_obj_code
+    get_obj_code,
+    get_last_t_count,
 )
 
 
@@ -109,11 +110,9 @@ def p_vardecl_line(p):
 def p_atribstat(p):
     '''atribstat : lvalue ASSIGN _atribstat
     '''
-    if p[3]['is_func']:
-        type = "callfunc"
-    else:
-        type = "attrib"
-    add_obj_code(type, p[1]['node'].id, p[3]['t'])
+    assign_type = p[3]["assign_type"]
+    alloc_type = p[3]["alloc_type"]
+    add_obj_code(assign_type, p[1]['node'].id, p[3]['t'], alloc_type=alloc_type)
     pass
 
 
@@ -127,33 +126,43 @@ def p__atribstat(p):
     global is_funccall
     node = None
     t = 'undefined'
-    is_func = False
+    assign_type = "attrib"
+    alloc_type = None
     if not isinstance(p[1], dict) and p[1] not in ["+", "-"]:
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
         if is_funccall:
             put_in_scope(("funccall", value, p.lineno(1)))
             t = value
-            is_func = True
+            assign_type="callfunc"
         else:
             put_in_scope(("ident_use", value, p.lineno(1)))
+            if p[2]['usealloc']:
+                print(p[2])
+                add_obj_code("uselloc", p[1], alloc_type=p[2]['usealloc'])
+                t_account = get_last_t_count()
+                value = f"{p[1]}_{t_account}"
     
             if p[2]['upper_id']:
                 ident_type = get_ident_type(p[1])
-                p_node = Node(p[1], None, None, p.lineno(1), type=ident_type)
+                p_node = Node(value, None, None, p.lineno(1), type=ident_type)
                 node = Node(p[2]['upper_id'], p_node, p[2]['node'], p.lineno(1))
             else:
-                node = Node(p[1], None, p[2]['node'], p.lineno(1))
+                node = Node(value, None, p[2]['node'], p.lineno(1))
             t = node.t
             expression_trees.append(node)
     elif not isinstance(p[1], dict) and p[1] in ["+", "-"]:
         node = Node(p[1], None, p[2]['node'], p.lineno(1))
         t = node.t
         expression_trees.append(node)
-    elif isinstance(p[1], dict):
+    elif isinstance(p[1], dict) and ('alloc_type' not in p[1].keys()):
         node = p[1]['node']
         t = node.t
         expression_trees.append(node)
-    p[0] = {'t': t, 'is_func': is_func}
+    else:
+        assign_type = "newalloc"
+        alloc_type = p[1]
+
+    p[0] = {'t': t, 'assign_type': assign_type, 'alloc_type': alloc_type}
     pass
 
 
@@ -164,9 +173,14 @@ def p__atribstat_help(p):
     node = None
     if p[1] and not isinstance(p[1], dict):
         value = p[1] if not isinstance(p[1], dict) else p[1]['value']
-        put_in_scope(("ident_use", value, p.lineno(1)))
         ident_type = get_ident_type(value)
-        left_node = Node(p[1], None, None, p.lineno(1), ident_type)
+        put_in_scope(("ident_use", value, p.lineno(1)))
+        if p[2]:
+            add_obj_code("uselloc", p[1], alloc_type=p[2])
+            t_account = get_last_t_count()
+            value = f"{p[1]}_{t_account}"
+
+        left_node = Node(value, None, None, p.lineno(1), ident_type)
         if p[3] and p[3]['upper_id']:
             left_node = Node(p[3]["upper_id"], left_node, p[3]['node'], p.lineno(1))
 
@@ -219,10 +233,11 @@ def p____atribstat(p):
     is_funccall = False
     node = None
     upper_id = None
-    if p[1]:
+    if isinstance(p[1], str):
         is_funccall = True
         node = None
-    elif not p[1]:
+    #elif not p[1]:
+    else:
         if p[3] and p[3]['upper_id']:
             if p[2]['node']:
                 node = Node(p[3]['upper_id'], p[2]['node'], p[3]['node'], p[3]['node'].line)
@@ -232,7 +247,7 @@ def p____atribstat(p):
         else:
             node = p[2]['node']
             upper_id = p[2]['upper_id']
-    p[0] = {"node": node, "value":p[0], "upper_id": upper_id}
+    p[0] = {"node": node, "value":p[0], "upper_id": upper_id, 'usealloc':p[1]}
 
     pass
 
@@ -317,6 +332,7 @@ def p__statelist(p):
 def p_allocexpression(p):
     '''allocexpression : NEW _allocexpression
     '''
+    p[0] = p[2]
     pass
 
 
@@ -325,12 +341,18 @@ def p__allocexpression(p):
                        | FLOAT allocexpression_line
                        | STRING allocexpression_line
     '''
+    p[0] = {'t': p[2]['t'], 'alloc_type': p[1]}
     pass
 
 
 def p_allocexpression_line(p):
     '''allocexpression_line : LBRACKET numexpression RBRACKET _allocexpression_line
     '''
+    if p[4]:
+        node = Node('*', p[2]['node'], p[4]['node'], p.lineno(1))
+        p[0] = {'t': node.t, 'node': node}
+    else:
+        p[0] = {'t': p[2]['t'], 'node': p[2]['node']}
     pass
 
 
@@ -338,6 +360,8 @@ def p__allocexpression_line(p):
     '''_allocexpression_line : allocexpression_line
                             | empty
     '''
+    if p[1]:
+        p[0] = p[1]
     pass
 
 
@@ -500,7 +524,14 @@ def p_lvalue(p):
     '''
     put_in_scope(("ident_use", p[1], p.lineno(1)))
     ident_type = get_ident_type(p[1])
-    node = Node(p[1], None, None, p.lineno(1), ident_type)
+    if p[2]:
+        alloc_type = p[2]
+        add_obj_code("uselloc", p[1], alloc_type=alloc_type)
+        t_account = get_last_t_count()
+        idx = f"{p[1]}_{t_account}"
+        node = Node(idx, None, None, p.lineno(1), ident_type)
+    else:
+        node = Node(p[1], None, None, p.lineno(1), ident_type)
 
     p[0] = {'node':node, "value":p[1]}
     pass
@@ -510,6 +541,13 @@ def p_lvalue_line(p):
     '''lvalue_line : LBRACKET numexpression RBRACKET lvalue_line
                   | empty
     '''
+    if p[1]:
+        if p[4]:
+            node = Node('*', p[2]['node'], p[4]['node'], p.lineno(1))
+            p[0] = {'type': 'usealloc', 't': node.t, 'node': node}
+        else:
+            p[0] = {'type': 'usealloc', 't': p[2]['t'], 'node': p[2]['node']}
+    
     pass
 
 
